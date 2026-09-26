@@ -1,7 +1,5 @@
-import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
+// Initialize Supabase client using the global CDN object
+const SUPABASE_URL = 'YOUR_SUPABASE_URL';
+const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY';
 
-// Bond & Recovery Institute (BRI) - Supabase Production Connection
-const SUPABASE_URL = 'https://ijiletksbuevkirdkfaw.supabase.co'
-const SUPABASE_ANON_KEY = 'sb_publishable_cuMGIsnCN8v7RGdDQ1Ck5w_xOi5ORHA'
-
-export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
+const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
