@@ -3,74 +3,118 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student Dashboard - Bond & Recovery Institute</title>
+    <title>Bond & Recovery Institute - Student Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Supabase Client CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabaseClient.js"></script>
 </head>
-<body class="bg-slate-100 min-h-screen font-sans text-slate-800">
+<body class="bg-slate-900 min-h-screen font-sans text-slate-100 flex flex-col justify-between">
 
-    <!-- Top Navigation / Header -->
-    <header class="bg-indigo-950 text-white shadow-md py-4 px-6">
-        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+    <!-- Top Navigation Bar -->
+    <header class="bg-white text-slate-800 shadow-md border-b border-slate-200">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex flex-wrap justify-between items-center">
             <div>
-                <h1 class="text-lg font-extrabold tracking-wide uppercase">Bond & Recovery Institute</h1>
-                <p class="text-xs text-indigo-300">Professional Compliance & Surety Training</p>
+                <h1 class="text-lg font-extrabold tracking-wider text-[#1a365d] uppercase">Bond & Recovery Institute</h1>
+                <p class="text-xs text-slate-500 font-semibold uppercase">Professional Compliance & Surety Training</p>
             </div>
-            <div id="student-header-info" class="text-right text-xs text-indigo-200 flex items-center gap-2">
-                <span>Welcome, <strong id="header-name" class="text-white">[Student Name]</strong> (ID: <strong id="header-id" class="font-mono text-white">BRI-00000</strong>)</span>
-                <a href="transcript.html" class="bg-indigo-800 hover:bg-indigo-700 text-white font-semibold px-3 py-1.5 rounded transition shadow-sm ml-2">View Transcript</a>
+            
+            <div class="flex items-center gap-4">
+                <span id="user-welcome" class="text-xs font-bold text-slate-700 bg-slate-100 px-3 py-2 rounded-lg border border-slate-200">Loading User...</span>
+                
+                <!-- Admin Panel Link (Hidden by default unless admin) -->
+                <a id="admin-link" href="admin.html" class="hidden bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold px-3 py-2 rounded-lg transition uppercase tracking-wider shadow">
+                    Admin Panel
+                </a>
+
+                <button id="logout-btn" class="bg-red-600 hover:bg-red-700 text-white text-xs font-bold px-3 py-2 rounded-lg transition uppercase tracking-wider shadow">
+                    Sign Out
+                </button>
             </div>
         </div>
     </header>
 
     <!-- Main Content Container -->
-    <main class="max-w-7xl mx-auto p-6 space-y-6">
-
-        <!-- Curriculum Notice Banner -->
-        <div class="bg-white border border-slate-200 rounded-lg p-6 shadow-sm flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-            <div>
-                <h2 class="text-base font-bold text-indigo-950 uppercase">Your Enrolled Curriculum</h2>
-                <p class="text-sm text-slate-600 mt-0.5">Complete your active pre-licensing modules within your 30-day enrollment window.</p>
-            </div>
-            <div class="bg-emerald-50 border border-emerald-200 text-emerald-800 px-3 py-1 rounded text-xs font-bold uppercase tracking-wider">
-                Active Enrollee
-            </div>
-        </div>
-
-        <!-- Course Card Grid -->
-        <div class="grid grid-cols-1 gap-6">
-            <div class="bg-white border border-slate-200 rounded-lg shadow-sm p-6 flex flex-col justify-between">
+    <main class="max-w-7xl mx-auto px-6 py-8 flex-grow w-full">
+        
+        <!-- Enrolled Curriculum Card -->
+        <div class="bg-white text-slate-800 shadow-xl rounded-xl p-6 border border-slate-200 mb-8">
+            <div class="flex justify-between items-center border-b border-slate-200 pb-4 mb-6">
                 <div>
-                    <div class="flex justify-between items-start mb-3">
-                        <span class="bg-indigo-50 text-indigo-900 border border-indigo-200 text-xs font-mono font-bold px-2.5 py-1 rounded">MS-BB-101</span>
-                        <span class="bg-emerald-50 text-emerald-700 text-xs font-semibold px-2.5 py-1 rounded border border-emerald-200">Status: In Progress</span>
-                    </div>
-                    <h3 class="text-lg font-bold text-indigo-950 mb-2">Missouri Bail Bond & Surety Recovery Agent 101</h3>
-                    <p class="text-sm text-slate-600 mb-6">Comprehensive pre-licensing curriculum aligned with Missouri RSMo Chapters 374, 385, 544, and DCI regulatory standards.</p>
+                    <h2 class="text-xl font-extrabold text-[#1a365d] uppercase">Your Enrolled Curriculum</h2>
+                    <p class="text-xs text-slate-500 mt-1">Complete your active pre-licensing modules within your 30-day enrollment window.</p>
                 </div>
-                
-                <div class="border-t border-slate-100 pt-4 flex flex-col sm:flex-row justify-between items-center gap-4">
-                    <span class="text-xs text-slate-500 font-medium">Credits: 3.00 Units</span>
-                    <a href="player.html" class="w-full sm:w-auto bg-indigo-900 hover:bg-indigo-800 text-white font-bold px-5 py-2 rounded text-sm transition shadow text-center">Launch Course</a>
+                <span class="bg-emerald-100 text-emerald-800 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider border border-emerald-200">Active Enrollee</span>
+            </div>
+
+            <!-- Course Item -->
+            <div class="bg-slate-50 border border-slate-200 rounded-lg p-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                <div>
+                    <div class="flex items-center gap-2 mb-1">
+                        <span class="bg-[#1a365d] text-white text-[10px] font-bold px-2 py-0.5 rounded uppercase">MS-BB-101</span>
+                        <span class="text-xs font-semibold text-amber-600 uppercase tracking-wider">Status: In Progress</span>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-800">Missouri Bail Bond & Surety Recovery Agent 101</h3>
+                    <p class="text-xs text-slate-600 mt-1">Comprehensive pre-licensing curriculum aligned with Missouri RSMo Chapters 374, 385, 544, and DCI regulatory standards.</p>
+                    <p class="text-xs text-slate-400 mt-3 font-semibold">Credits: 3.00 Units</p>
+                </div>
+                <div>
+                    <a href="player.html" class="inline-block bg-[#1a365d] hover:bg-blue-900 text-white text-xs font-bold px-5 py-3 rounded-lg transition uppercase tracking-wider shadow text-center">
+                        Launch Course
+                    </a>
                 </div>
             </div>
         </div>
 
     </main>
 
-    <!-- Dashboard Session Hydration Script -->
-    <script type="module">
-        import { supabase } from './supabaseClient.js';
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-200 text-xs text-slate-500 py-4 text-center">
+        &copy; 2026 Bond & Recovery Institute. All rights reserved.
+    </footer>
 
-        // Retrieve stored student session details from registration
-        const studentId = localStorage.getItem('bri_student_id') || 'BRI-00000';
-        const studentName = localStorage.getItem('bri_student_name') || 'Student, Registered';
+    <!-- Dashboard Logic Script -->
+    <script>
+        window.addEventListener('DOMContentLoaded', async () => {
+            // 1. Check active session using window.supabaseClient
+            const { data: { session }, error: sessionError } = await window.supabaseClient.auth.getSession();
 
-        // Hydrate header elements with live session cache
-        const nameEl = document.getElementById('header-name');
-        const idEl = document.getElementById('header-id');
+            if (sessionError || !session) {
+                // Not logged in, redirect to login page
+                window.location.href = 'login.html';
+                return;
+            }
 
-        if (nameEl) nameEl.textContent = studentName;
-        if (idEl) idEl.textContent = studentId;
+            const user = session.user;
+
+            // 2. Fetch user profile data and role
+            const { data: profile, error: profileError } = await window.supabaseClient
+                .from('profiles')
+                .select('*')
+                .eq('id', user.id)
+                .single();
+
+            const welcomeEl = document.getElementById('user-welcome');
+            const adminLinkEl = document.getElementById('admin-link');
+
+            if (profile) {
+                const displayName = profile.full_name || user.email;
+                welcomeEl.textContent = `Welcome, ${displayName} (Role: ${profile.role})`;
+
+                // Show admin button if user has admin privileges
+                if (profile.role === 'admin' || profile.role === 'superadmin') {
+                    adminLinkEl.classList.remove('hidden');
+                }
+            } else {
+                welcomeEl.textContent = `Welcome, ${user.email}`;
+            }
+
+            // 3. Handle Sign Out
+            document.getElementById('logout-btn').addEventListener('click', async () => {
+                await window.supabaseClient.auth.signOut();
+                window.location.href = 'login.html';
+            });
+        });
     </script>
 </body>
 </html>
