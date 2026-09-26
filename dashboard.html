@@ -80,7 +80,6 @@
             const { data: { session }, error: sessionError } = await window.supabaseClient.auth.getSession();
 
             if (sessionError || !session) {
-                // Not logged in, redirect to login page
                 window.location.href = 'login.html';
                 return;
             }
@@ -99,7 +98,7 @@
 
             if (profile) {
                 const displayName = profile.full_name || user.email;
-                welcomeEl.textContent = `Welcome, ${displayName} (Role: ${profile.role})`;
+                welcomeEl.textContent = `Welcome, ${displayName}`;
 
                 // Show admin button if user has admin privileges
                 if (profile.role === 'admin' || profile.role === 'superadmin') {
