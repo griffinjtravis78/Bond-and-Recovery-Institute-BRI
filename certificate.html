@@ -12,77 +12,52 @@
             body { background: white; }
             .no-print { display: none !important; }
         }
-        .cert-border {
-            border: 12px solid #0f172a;
-            outline: 2px solid #d4af37;
-            outline-offset: -18px;
-        }
     </style>
 </head>
-<body class="bg-slate-100 min-h-screen py-10 px-4 flex flex-col items-center justify-center font-sans">
+<body class="bg-slate-900 min-h-screen py-10 px-4 flex flex-col items-center justify-center font-sans">
 
-    <!-- Action Toolbar (Hidden during print) -->
+    <!-- Action Toolbar -->
     <div class="mb-6 no-print flex gap-4">
-        <button onclick="window.print()" class="bg-indigo-900 text-white font-medium px-5 py-2.5 rounded shadow hover:bg-indigo-800 transition flex items-center gap-2">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
-            </svg>
+        <button onclick="window.print()" class="bg-amber-600 hover:bg-amber-700 text-white font-bold px-6 py-2.5 rounded-lg shadow transition uppercase text-xs tracking-wider">
             Print / Save Certificate PDF
         </button>
-        <a href="dashboard.html" class="bg-slate-200 text-slate-700 font-medium px-4 py-2.5 rounded hover:bg-slate-300 transition flex items-center">
+        <a href="dashboard.html" class="bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold px-6 py-2.5 rounded-lg transition uppercase text-xs tracking-wider">
             Return to Dashboard
         </a>
     </div>
 
-    <!-- Official Certificate Document Sheet -->
-    <div class="w-full max-w-5xl bg-white shadow-2xl cert-border relative p-12 text-slate-800 text-center min-h-[750px] flex flex-col justify-between">
+    <!-- Certificate Card -->
+    <div class="w-full max-w-4xl bg-white text-slate-900 shadow-2xl rounded-xl p-12 border-8 border-[#1a365d] relative text-center">
+        <div class="absolute inset-4 border-2 border-amber-500 pointer-events-none"></div>
+
+        <div class="text-[11px] font-bold tracking-widest text-[#1a365d] uppercase mb-1">Bond & Recovery Institute</div>
+        <h1 class="text-4xl font-extrabold tracking-tight text-[#1a365d] uppercase mb-2">Certificate of Completion</h1>
+        <p class="text-xs text-slate-500 uppercase tracking-widest mb-10">This document certifies that the individual named below has successfully fulfilled all curriculum and examination requirements.</p>
+
+        <p class="text-xs uppercase tracking-widest text-slate-400 font-bold mb-2">This is proudly presented to</p>
+        <h2 id="cert-student-name" class="text-3xl font-serif italic font-extrabold text-[#1a365d] border-b-2 border-slate-300 pb-2 inline-block px-12 mb-4">Loading Student Name...</h2>
+        <p id="cert-student-id" class="text-xs font-mono font-bold text-slate-500 mb-8">Student ID: Loading...</p>
+
+        <p class="text-xs text-slate-600 mb-2">for successfully completing the professional training curriculum for</p>
+        <h3 id="cert-course-title" class="text-xl font-extrabold text-slate-800 uppercase mb-8">Loading Course...</h3>
         
-        <!-- Top Institutional Branding -->
-        <div>
-            <div class="text-xs font-semibold tracking-widest text-indigo-800 uppercase mb-2">Bond & Recovery Institute</div>
-            <h1 class="text-4xl font-extrabold tracking-wider text-indigo-950 uppercase mb-1 font-serif">Certificate of Completion</h1>
-            <p class="text-xs text-slate-500 tracking-wide">This document certifies that the individual named below has successfully fulfilled all curriculum and examination requirements.</p>
-        </div>
+        <p class="text-xs text-slate-400 italic mb-12">Authorized under state pre-licensing standards and institutional accreditation guidelines.</p>
 
-        <!-- Recipient Information Body -->
-        <div class="my-8 space-y-4">
-            <p class="text-sm uppercase tracking-widest text-slate-500 font-semibold">This is proudly presented to</p>
-            
-            <div id="cert-student-name" class="text-3xl font-bold text-slate-900 font-serif border-b-2 border-slate-300 inline-block px-12 pb-2">
-                Loading Student...
+        <div class="flex justify-between items-end border-t border-slate-200 pt-6">
+            <div class="text-left text-xs font-semibold text-slate-500 space-y-1">
+                <p>Date Completed: <span id="cert-date" class="font-mono text-slate-800">September 26, 2026</span></p>
+                <p>Units Earned: <span id="cert-credits" class="font-mono text-slate-800">3.0 Credits</span></p>
             </div>
-            
-            <p class="text-xs font-mono text-slate-500">Student ID Number: <span id="cert-student-id">[BRI-ID-000000]</span></p>
-
-            <div class="max-w-2xl mx-auto mt-6">
-                <p class="text-sm text-slate-600">for successfully completing the professional training curriculum for</p>
-                <h3 id="cert-course-title" class="text-xl font-bold text-indigo-950 mt-2">[Course Code]: [Course Title]</h3>
-                <p class="text-xs text-slate-500 mt-1">Authorized under state pre-licensing standards and institutional accreditation guidelines.</p>
-            </div>
-        </div>
-
-        <!-- Metadata & Registrar Signatures -->
-        <div class="grid grid-cols-3 items-end border-t border-slate-200 pt-6 mt-4 text-xs text-slate-600">
-            <div class="text-left font-mono">
-                <p>Date Completed: <strong id="cert-date" class="text-slate-900">[MM-DD-YYYY]</strong></p>
-                <p>Units Earned: <strong id="cert-credits" class="text-slate-900">[3.00] Credits</strong></p>
-            </div>
-            <div class="text-center">
-                <span class="inline-block bg-indigo-50 text-indigo-900 font-bold px-3 py-1 rounded border border-indigo-200 uppercase tracking-widest text-[10px]">
-                    Verified Credential
-                </span>
+            <div class="bg-indigo-50 border border-indigo-200 px-4 py-2 rounded-lg text-[10px] font-bold text-[#1a365d] uppercase tracking-wider">
+                Verified Credential
             </div>
             <div class="text-right">
-                <div class="border-b border-slate-400 pb-1 w-48 ml-auto mb-1">
-                    <span class="font-serif italic text-base text-indigo-950 font-bold">Director of Records</span>
-                </div>
-                <p class="font-semibold uppercase tracking-wider">Bond & Recovery Institute Registrar</p>
+                <div class="font-serif italic text-lg font-bold text-[#1a365d] border-b border-slate-400 pb-0.5 mb-1 w-48 ml-auto">Director of Records</div>
+                <p class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Bond & Recovery Institute Registrar</p>
             </div>
         </div>
-
     </div>
 
-    <!-- Dynamic Credential Population Script -->
     <script>
         async function initCertificate() {
             let attempts = 0;
@@ -93,28 +68,27 @@
             if (!window.supabaseClient) return;
 
             const { data: { session } } = await window.supabaseClient.auth.getSession();
-            if (!session) {
-                window.location.href = 'login.html';
-                return;
+            if (!session) { window.location.href = 'login.html'; return; }
+
+            const userId = session.user.id;
+            const { data: profile } = await window.supabaseClient.from('profiles').select('*').eq('id', userId).single();
+
+            if (profile) {
+                const fullName = profile.last_name && profile.first_name ? `${profile.last_name}, ${profile.first_name}${profile.middle_name ? ' ' + profile.middle_name : ''}` : session.user.email;
+                document.getElementById('cert-student-name').textContent = fullName;
+                document.getElementById('cert-student-id').textContent = `Student ID: ${profile.student_id || 'BRI-' + userId.substring(0,6).toUpperCase()}`;
+            } else {
+                document.getElementById('cert-student-name').textContent = session.user.email;
+                document.getElementById('cert-student-id').textContent = `Student ID: BRI-10492`;
             }
 
-            // Populate Student Info from Session Email / Profile
-            const email = session.user.email;
-            document.getElementById('cert-student-name').textContent = email;
-            document.getElementById('cert-student-id').textContent = 'BRI-ID-' + session.user.id.substring(0, 8).toUpperCase();
-
-            // Pull Course Details from URL parameters (e.g., certificate.html?code=MS-BB-101&title=Missouri+Bail+Bond&credits=3.00)
             const params = new URLSearchParams(window.location.search);
-            const courseCode = params.get('code') || 'MS-BB-101';
-            const courseTitle = params.get('title') || 'Missouri Bail Bond & Surety Recovery Agent 101';
-            const credits = params.get('credits') || '3.00';
+            const title = params.get('title') || 'Missouri Bail Bond & Surety Recovery Agent 101';
+            const credits = params.get('credits') || '3.0';
 
-            document.getElementById('cert-course-title').textContent = `${courseCode}: ${courseTitle}`;
+            document.getElementById('cert-course-title').textContent = title;
             document.getElementById('cert-credits').textContent = `${credits} Credits`;
-            
-            // Set current completion date
-            const options = { year: 'numeric', month: 'long', day: 'numeric' };
-            document.getElementById('cert-date').textContent = new Date().toLocaleDateString('en-US', options);
+            document.getElementById('cert-date').textContent = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
         }
 
         window.addEventListener('DOMContentLoaded', initCertificate);
