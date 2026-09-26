@@ -3,18 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bond & Recovery Institute (BRI)</title>
+    <title>Bond & Recovery Institute - Professional Training & Compliance</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="supabaseClient.js"></script>
 </head>
-<body class="bg-slate-900 min-h-screen font-sans text-slate-100 flex flex-col justify-between">
+<body class="bg-slate-900 text-slate-100 min-h-screen font-sans flex flex-col justify-between">
 
+    <!-- Header / Navigation -->
     <header class="bg-white text-slate-800 shadow-md border-b border-slate-200">
         <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-            <div>
-                <h1 class="text-lg font-extrabold tracking-wider text-[#1a365d] uppercase">Bond & Recovery Institute</h1>
-                <p class="text-xs text-slate-500 font-semibold uppercase">Accredited Surety & Recovery Education</p>
+            <div class="flex items-center space-x-3">
+                <span class="bg-[#1a365d] text-white font-extrabold text-xs px-3 py-1.5 rounded uppercase tracking-wider">BRI</span>
+                <div>
+                    <h1 class="text-sm font-extrabold text-[#1a365d] uppercase tracking-wide">Bond & Recovery Institute</h1>
+                    <p class="text-[10px] text-slate-500 font-semibold uppercase">Accredited Surety & Recovery Education</p>
+                </div>
             </div>
             <div class="flex items-center gap-3">
                 <a href="store.html" class="bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-bold px-4 py-2 rounded-lg transition uppercase tracking-wider">Supply Store</a>
@@ -23,30 +27,31 @@
         </div>
     </header>
 
-    <main class="max-w-7xl mx-auto px-6 py-16 flex-grow flex flex-col justify-center items-center text-center">
-        <span class="bg-amber-600 text-white text-[10px] font-extrabold px-3 py-1 rounded-full uppercase tracking-widest mb-4 shadow">MO | KS | OK | AR Accredited</span>
-        <h2 class="text-4xl font-extrabold text-white uppercase tracking-wide mb-4 max-w-3xl">Professional Training & Compliance for Surety Recovery Agents</h2>
-        <p class="text-sm text-slate-300 max-w-2xl mb-8 leading-relaxed">
-            Authorized pre-licensing education, continuing education (CE) tracking, and tactical field equipment for professional recovery specialists across the four-state region.
+    <!-- Main Hero Section -->
+    <main class="max-w-5xl mx-auto px-6 py-20 text-center flex-grow flex flex-col justify-center items-center">
+        <span class="bg-amber-600 text-white text-[10px] font-extrabold px-3 py-1 rounded-full uppercase tracking-widest mb-4 shadow">MO | KS | OK | AR Regional Accredited</span>
+        <h2 class="text-4xl md:text-5xl font-extrabold text-white uppercase tracking-wide mb-6 leading-tight">Accredited Surety Recovery & Pre-Licensing Education</h2>
+        <p class="text-sm text-slate-300 max-w-2xl mb-10 leading-relaxed">
+            Authorized training, state continuing education (CE) compliance tracking, professional gear procurement, and multi-state operational management for licensed fugitive recovery and bail bond specialists.
         </p>
 
-        <div class="flex flex-wrap justify-center gap-4 mb-12">
-            <a href="register.html" class="bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs px-6 py-3 rounded-lg uppercase tracking-wider shadow-lg transition">Register New Student</a>
-            <a href="dashboard.html" class="bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 font-bold text-xs px-6 py-3 rounded-lg uppercase tracking-wider transition">Access Student Portal</a>
-            <!-- Live Missouri Enterprise Redirection Link -->
-            <a href="https://krystal-bail-bonds.vercel.app/" target="_blank" class="bg-blue-900 hover:bg-blue-800 text-white font-bold text-xs px-6 py-3 rounded-lg uppercase tracking-wider shadow transition">
+        <div class="flex flex-wrap justify-center gap-4 mb-16">
+            <a href="register.html" class="bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs px-6 py-3.5 rounded-lg uppercase tracking-wider shadow-lg transition">Register New Student</a>
+            <a href="dashboard.html" class="bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 font-bold text-xs px-6 py-3.5 rounded-lg uppercase tracking-wider transition">Access Student Portal</a>
+            <a href="https://krystal-bail-bonds.vercel.app/" target="_blank" class="bg-blue-900 hover:bg-blue-800 text-white font-bold text-xs px-6 py-3.5 rounded-lg uppercase tracking-wider shadow transition">
                 Live MO Enterprise Portal &rarr;
             </a>
         </div>
     </main>
 
+    <!-- Footer with Manual Link -->
     <footer class="bg-white border-t border-slate-200 py-6 text-center text-xs text-slate-500">
         <div class="max-w-7xl mx-auto px-6 flex flex-col sm:flex-row justify-between items-center gap-4">
             <p>&copy; 2026 Bond & Recovery Institute. All rights reserved.</p>
             <div class="flex gap-6">
                 <a href="index.html" class="hover:underline">Home</a>
                 <a href="store.html" class="hover:underline">Supply Store</a>
-                <a href="manual.html" target="_blank" class="text-amber-700 font-semibold hover:underline">System User Manual &rarr;</a>
+                <a href="manual.html" target="_blank" class="text-amber-700 font-semibold hover:underline">System User Manual & Test Guide &rarr;</a>
             </div>
         </div>
     </footer>
