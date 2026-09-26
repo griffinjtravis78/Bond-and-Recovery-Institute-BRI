@@ -5,77 +5,177 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bond & Recovery Institute - Professional Compliance & Surety Training</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabaseClient.js"></script>
     <style>
-        /* Dropdown hover behavior */
-        .dropdown:hover .dropdown-menu {
-            display: block;
-        }
+        .dropdown:hover .dropdown-menu { display: block; }
     </style>
 </head>
-<body class="bg-slate-900 min-h-screen font-sans text-slate-100 flex flex-col items-center justify-between py-8 px-4">
+<body class="bg-slate-900 min-h-screen font-sans text-slate-100 flex flex-col justify-between py-6 px-6">
 
     <!-- Top Navigation Bar -->
-    <nav class="w-full max-w-5xl bg-white text-slate-800 shadow-lg rounded-xl px-6 py-4 mb-8 flex flex-wrap justify-between items-center border border-slate-200">
-        <!-- Brand Title / Nav Left -->
+    <nav class="w-full max-w-7xl mx-auto bg-white text-slate-800 shadow-lg rounded-xl px-6 py-4 flex flex-wrap justify-between items-center border border-slate-200">
         <div class="flex items-center gap-3">
-            <span class="font-extrabold tracking-wider text-[#1a365d] uppercase text-sm">BRI Portal</span>
+            <a href="index.html" class="font-extrabold tracking-wider text-[#1a365d] uppercase text-sm">BRI Portal</a>
         </div>
 
-        <!-- Navigation Tabs -->
-        <div class="flex items-center gap-6 text-sm font-semibold">
-            <a href="home.html" class="text-[#1a365d] hover:text-amber-600 transition">Home</a>
+        <div class="flex items-center gap-5 text-xs font-bold uppercase tracking-wider">
+            <a href="index.html" class="text-[#1a365d] hover:text-amber-600 transition">Home</a>
+
+            <!-- Bail Bond Enterprises Dropdown -->
+            <div class="relative dropdown group py-2">
+                <button class="flex items-center gap-1 hover:text-amber-600 transition text-slate-800 focus:outline-none">
+                    Bail Bond Enterprises
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </button>
+                <div class="dropdown-menu absolute hidden bg-white shadow-xl rounded-lg py-2 mt-1 w-56 border border-slate-200 z-50">
+                    <a href="#" onclick="navigateToEnterprise('mo')" class="block px-4 py-2 text-[11px] text-slate-700 hover:bg-slate-100 transition">MO Bail Bond Enterprises</a>
+                    <a href="#" onclick="navigateToEnterprise('ks')" class="block px-4 py-2 text-[11px] text-slate-700 hover:bg-slate-100 transition">KS Bail Bond Enterprises</a>
+                    <a href="#" onclick="navigateToEnterprise('ok')" class="block px-4 py-2 text-[11px] text-slate-700 hover:bg-slate-100 transition">OK Bail Bond Enterprises</a>
+                    <a href="#" onclick="navigateToEnterprise('ar')" class="block px-4 py-2 text-[11px] text-slate-700 hover:bg-slate-100 transition">AR Bail Bond Enterprises</a>
+                </div>
+            </div>
 
             <!-- News Dropdown -->
             <div class="relative dropdown group py-2">
                 <button class="flex items-center gap-1 hover:text-amber-600 transition text-slate-800 focus:outline-none">
-                    News
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    News & Compliance
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                 </button>
                 <div class="dropdown-menu absolute hidden bg-white shadow-xl rounded-lg py-2 mt-1 w-48 border border-slate-200 z-50">
-                    <a href="news.html#arkansas" class="block px-4 py-2 text-xs text-slate-700 hover:bg-slate-100 transition">Arkansas</a>
-                    <a href="news.html#kansas" class="block px-4 py-2 text-xs text-slate-700 hover:bg-slate-100 transition">Kansas</a>
-                    <a href="news.html#missouri" class="block px-4 py-2 text-xs text-slate-700 hover:bg-slate-100 transition">Missouri</a>
-                    <a href="news.html#oklahoma" class="block px-4 py-2 text-xs text-slate-700 hover:bg-slate-100 transition">Oklahoma</a>
+                    <a href="news.html#missouri" class="block px-4 py-2 text-[11px] text-slate-700 hover:bg-slate-100 transition">Missouri (MO)</a>
+                    <a href="news.html#kansas" class="block px-4 py-2 text-[11px] text-slate-700 hover:bg-slate-100 transition">Kansas (KS)</a>
+                    <a href="news.html#oklahoma" class="block px-4 py-2 text-[11px] text-slate-700 hover:bg-slate-100 transition">Oklahoma (OK)</a>
+                    <a href="news.html#arkansas" class="block px-4 py-2 text-[11px] text-slate-700 hover:bg-slate-100 transition">Arkansas (AR)</a>
                 </div>
             </div>
 
-            <a href="login.html" class="text-[#1a365d] hover:text-amber-600 transition">Bond & Recovery Institute</a>
-            <a href="home.html#about" class="text-slate-800 hover:text-amber-600 transition">About Us</a>
-            <a href="store.html" class="text-slate-800 hover:text-amber-600 transition">Bond & Recovery Store</a>
+            <a href="dashboard.html" class="text-slate-800 hover:text-amber-600 transition">Student Dashboard</a>
+            <a href="store.html" class="text-slate-800 hover:text-amber-600 transition">Supply Store</a>
+        </div>
+
+        <!-- Upper-Right Compact SSO Card -->
+        <div class="flex items-center gap-2 bg-slate-100 border border-slate-200 px-3 py-1.5 rounded-lg shadow-sm">
+            <a href="login.html" class="bg-[#1a365d] hover:bg-blue-900 text-white text-[10px] font-bold px-3 py-1.5 rounded transition uppercase tracking-wider">
+                Sign In
+            </a>
+            <a href="register.html" class="bg-amber-600 hover:bg-amber-700 text-white text-[10px] font-bold px-3 py-1.5 rounded transition uppercase tracking-wider">
+                Register
+            </a>
         </div>
     </nav>
 
-    <!-- Hero Branding Card with Centered Logo -->
-    <div class="w-full max-w-3xl bg-white text-slate-800 shadow-2xl rounded-2xl p-10 flex flex-col items-center text-center border border-slate-200">
-        <!-- Official Crest Placeholder -->
-        <div class="w-28 h-28 bg-[#1a365d] rounded-full flex items-center justify-center mb-6 shadow-md border-4 border-amber-500">
-            <svg class="w-16 h-16 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5"></path>
-            </svg>
-        </div>
-
-        <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight text-[#1a365d] uppercase mb-2">
-            Bond & Recovery Institute
-        </h1>
-        <p class="text-xs md:text-sm font-semibold tracking-widest text-slate-500 uppercase mb-8">
-            Professional Compliance & Surety Training
-        </p>
-
-        <!-- Action Buttons -->
-        <div class="flex flex-col sm:flex-row gap-4 w-full justify-center">
-            <a href="login.html" class="bg-[#1a365d] hover:bg-blue-900 text-white font-bold py-3 px-8 rounded-xl shadow transition duration-200 uppercase text-sm tracking-wider">
-                Student Sign In
-            </a>
-            <a href="register.html" class="bg-amber-600 hover:bg-amber-700 text-white font-bold py-3 px-8 rounded-xl shadow transition duration-200 uppercase text-sm tracking-wider">
-                New Student Registration
-            </a>
-        </div>
+    <!-- Breaking Compliance Flash Ticker -->
+    <div class="w-full max-w-7xl mx-auto bg-amber-500 text-slate-950 font-bold text-xs px-4 py-2 rounded-lg shadow mb-6 flex items-center gap-3">
+        <span class="bg-slate-950 text-amber-400 text-[10px] px-2 py-0.5 rounded uppercase tracking-wider">Flash Bulletin</span>
+        <marquee scrollamount="4">Automated 7:00 AM & 11:00 AM scrapers active. Review state regulatory updates for Missouri, Kansas, Oklahoma, and Arkansas in the News Hub.</marquee>
     </div>
 
+    <!-- Main Hero & Highlight Section -->
+    <main class="w-full max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8 my-auto">
+        
+        <!-- Center/Left Hero Card (2 Columns) -->
+        <div class="lg:col-span-2 bg-white text-slate-800 shadow-2xl rounded-2xl p-10 flex flex-col justify-between border border-slate-200">
+            <div>
+                <div class="flex items-center gap-4 mb-6">
+                    <div class="w-16 h-16 bg-[#1a365d] rounded-full flex items-center justify-center shadow-md border-2 border-amber-500">
+                        <svg class="w-9 h-9 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5"></path>
+                        </svg>
+                    </div>
+                    <div>
+                        <h1 class="text-3xl font-extrabold tracking-tight text-[#1a365d] uppercase">Bond & Recovery Institute</h1>
+                        <p class="text-xs font-semibold tracking-widest text-slate-500 uppercase">Professional Compliance & Surety Training</p>
+                    </div>
+                </div>
+
+                <p class="text-xs text-slate-600 leading-relaxed mb-6">
+                    The premier educational and administrative hub for bail bond agents and fugitive recovery specialists across the four-state regional corridor. Access pre-licensing courses, CE license renewal tracking, E-commerce tactical gear, and state-specific compliance feeds.
+                </p>
+
+                <!-- Interactive Regional Corridor Quick-Access Grid -->
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
+                    <button onclick="navigateToEnterprise('mo')" class="bg-blue-50 hover:bg-blue-100 border border-blue-200 p-3 rounded-xl text-center transition">
+                        <span class="block text-xs font-extrabold text-[#1a365d]">MO Hub</span>
+                        <span class="text-[10px] text-slate-500">Missouri</span>
+                    </button>
+                    <button onclick="navigateToEnterprise('ks')" class="bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 p-3 rounded-xl text-center transition">
+                        <span class="block text-xs font-extrabold text-emerald-800">KS Hub</span>
+                        <span class="text-[10px] text-slate-500">Kansas</span>
+                    </button>
+                    <button onclick="navigateToEnterprise('ok')" class="bg-amber-50 hover:bg-amber-100 border border-amber-200 p-3 rounded-xl text-center transition">
+                        <span class="block text-xs font-extrabold text-amber-800">OK Hub</span>
+                        <span class="text-[10px] text-slate-500">Oklahoma</span>
+                    </button>
+                    <button onclick="navigateToEnterprise('ar')" class="bg-purple-50 hover:bg-purple-100 border border-purple-200 p-3 rounded-xl text-center transition">
+                        <span class="block text-xs font-extrabold text-purple-800">AR Hub</span>
+                        <span class="text-[10px] text-slate-500">Arkansas</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="flex flex-wrap gap-4 pt-4 border-t border-slate-200">
+                <a href="dashboard.html" class="bg-[#1a365d] hover:bg-blue-900 text-white font-bold py-3 px-6 rounded-xl shadow transition uppercase text-xs tracking-wider">
+                    Student Portal
+                </a>
+                <a href="store.html" class="bg-emerald-700 hover:bg-emerald-800 text-white font-bold py-3 px-6 rounded-xl shadow transition uppercase text-xs tracking-wider">
+                    Supply Store
+                </a>
+            </div>
+        </div>
+
+        <!-- Right Column Highlights & Sponsor Spotlights -->
+        <div class="space-y-6">
+            <div class="bg-white text-slate-800 shadow-xl rounded-2xl p-6 border border-slate-200">
+                <h3 class="text-xs font-extrabold text-[#1a365d] uppercase tracking-wider mb-3">Featured Surety Partners</h3>
+                <p class="text-[11px] text-slate-500 mb-4">Official underwriting partners providing nationwide surety bail bonds and agent support.</p>
+                <div class="space-y-2">
+                    <div class="bg-slate-50 border border-slate-200 p-3 rounded-lg text-xs font-bold text-slate-700 flex justify-between items-center">
+                        <span>Lexington National Surety</span>
+                        <span class="text-[9px] bg-blue-100 text-[#1a365d] px-2 py-0.5 rounded uppercase">Underwriter</span>
+                    </div>
+                    <div class="bg-slate-50 border border-slate-200 p-3 rounded-lg text-xs font-bold text-slate-700 flex justify-between items-center">
+                        <span>AIA / Golden Surety</span>
+                        <span class="text-[9px] bg-blue-100 text-[#1a365d] px-2 py-0.5 rounded uppercase">Underwriter</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white text-slate-800 shadow-xl rounded-2xl p-6 border border-slate-200">
+                <h3 class="text-xs font-extrabold text-emerald-800 uppercase tracking-wider mb-2">Equipment Spotlight</h3>
+                <p class="text-[11px] text-slate-500 mb-3">NIJ Level IIIA Tactical Vests and Duty Gear available in the Supply Store.</p>
+                <a href="store.html" class="block text-center bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-bold py-2 rounded-lg transition uppercase tracking-wider">
+                    Browse Tactical Store
+                </a>
+            </div>
+        </div>
+
+    </main>
+
     <!-- Footer -->
-    <footer class="text-xs text-slate-400 mt-8 text-center">
+    <footer class="w-full max-w-7xl mx-auto text-xs text-slate-400 mt-12 text-center border-t border-slate-800 pt-6">
         &copy; 2026 Bond & Recovery Institute. All rights reserved.
     </footer>
 
+    <script>
+        async function navigateToEnterprise(stateCode) {
+            if (!window.supabaseClient) {
+                alert(`Redirecting to ${stateCode.toUpperCase()} Bail Bond Enterprise portal...`);
+                return;
+            }
+
+            const { data } = await window.supabaseClient
+                .from('enterprise_urls')
+                .select('enterprise_url')
+                .eq('state_code', stateCode)
+                .single();
+
+            if (data && data.enterprise_url) {
+                window.location.href = data.enterprise_url;
+            } else {
+                alert(`The enterprise portal URL for ${stateCode.toUpperCase()} has not been configured yet by the system administrator.`);
+            }
+        }
+    </script>
 </body>
 </html>
