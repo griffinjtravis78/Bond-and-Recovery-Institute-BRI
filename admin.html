@@ -1,331 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BRI Admin Portal - Enterprise Management</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Supabase Client CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="supabaseClient.js"></script>
-</head>
-<body class="bg-slate-900 min-h-screen font-sans text-slate-100 flex flex-col justify-between">
-
-    <!-- Top Navigation Bar -->
-    <header class="bg-white text-slate-800 shadow-md border-b border-slate-200">
-        <div class="max-w-7xl mx-auto px-6 py-4 flex flex-wrap justify-between items-center">
-            <div>
-                <h1 class="text-lg font-extrabold tracking-wider text-[#1a365d] uppercase">BRI Admin Portal</h1>
-                <p class="text-xs text-slate-500 font-semibold uppercase">Enterprise Privilege & Security Management</p>
-            </div>
-            
-            <div class="flex items-center gap-4">
-                <a href="dashboard.html" class="bg-slate-200 hover:bg-slate-300 text-slate-800 text-xs font-bold px-3 py-2 rounded-lg transition uppercase tracking-wider">
-                    Student Dashboard
-                </a>
-                <button id="logout-btn" class="bg-red-600 hover:bg-red-700 text-white text-xs font-bold px-3 py-2 rounded-lg transition uppercase tracking-wider shadow">
-                    Sign Out
-                </button>
-            </div>
-        </div>
-    </header>
-
-    <!-- Main Content Container -->
-    <main class="max-w-7xl mx-auto px-6 py-8 flex-grow w-full">
-        
-        <!-- Welcome Banner & Hub Switcher -->
-        <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
-            <div>
-                <h2 class="text-2xl font-extrabold text-white uppercase tracking-wide">System Administration Dashboard</h2>
-                <p class="text-xs text-slate-400 mt-1">Select an administrative work area below to manage curriculum, e-commerce, or security access.</p>
-            </div>
-            <button onclick="switchAdminSection('hub')" id="back-to-hub" class="hidden bg-slate-700 hover:bg-slate-600 text-white text-xs font-bold px-4 py-2 rounded-lg transition uppercase tracking-wider">
-                &larr; Back to Admin Hub
-            </button>
-        </div>
-
-        <!-- Admin Work Area Cards Grid (Hub View) -->
-        <div id="admin-hub-grid" class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
-            
-            <!-- BRI Admin Card -->
-            <div onclick="switchAdminSection('bri')" class="bg-white text-slate-800 rounded-xl p-6 shadow-xl border border-slate-200 hover:border-[#1a365d] hover:shadow-2xl cursor-pointer transition transform hover:-translate-y-1">
-                <div class="bg-blue-50 text-[#1a365d] p-3 rounded-lg w-fit mb-4 font-bold text-sm uppercase">Curriculum Hub</div>
-                <h3 class="text-lg font-bold text-[#1a365d] mb-2">BRI Admin</h3>
-                <p class="text-xs text-slate-600 leading-relaxed">Upload SCORM packages, documents, videos, and images. Manage, edit, cancel, and archive active pre-licensing curriculum modules.</p>
-                <div class="mt-4 text-xs font-bold text-blue-700 uppercase tracking-wider flex items-center gap-1">Launch BRI Admin &rarr;</div>
-            </div>
-
-            <!-- Store Admin Card -->
-            <div onclick="switchAdminSection('store')" class="bg-white text-slate-800 rounded-xl p-6 shadow-xl border border-slate-200 hover:border-emerald-600 hover:shadow-2xl cursor-pointer transition transform hover:-translate-y-1">
-                <div class="bg-emerald-50 text-emerald-800 p-3 rounded-lg w-fit mb-4 font-bold text-sm uppercase">E-Commerce</div>
-                <h3 class="text-lg font-bold text-emerald-800 mb-2">Store Admin</h3>
-                <p class="text-xs text-slate-600 leading-relaxed">Multi-photo uploads, dynamic tactical gear/apparel attributes, expandable accordion bullet lists with hyperlink insertion tools.</p>
-                <div class="mt-4 text-xs font-bold text-emerald-700 uppercase tracking-wider flex items-center gap-1">Launch Store Admin &rarr;</div>
-            </div>
-
-            <!-- System Admin Card -->
-            <div onclick="switchAdminSection('system')" class="bg-white text-slate-800 rounded-xl p-6 shadow-xl border border-slate-200 hover:border-amber-600 hover:shadow-2xl cursor-pointer transition transform hover:-translate-y-1">
-                <div class="bg-amber-50 text-amber-800 p-3 rounded-lg w-fit mb-4 font-bold text-sm uppercase">Security & IAM</div>
-                <h3 class="text-lg font-bold text-amber-800 mb-2">System Admin</h3>
-                <p class="text-xs text-slate-600 leading-relaxed">Configure user security roles, database permissions, cryptographic transcript hashes, and administrative access privileges.</p>
-                <div class="mt-4 text-xs font-bold text-amber-700 uppercase tracking-wider flex items-center gap-1">Launch System Admin &rarr;</div>
-            </div>
-
-        </div>
-
-        <!-- Dynamic Work Area Section Container -->
-        <div id="work-area-container" class="bg-white text-slate-800 shadow-xl rounded-xl p-6 border border-slate-200 hidden">
-            
-            <!-- 1. BRI Admin Section -->
-            <div id="section-bri" class="admin-section hidden">
-                <div class="border-b border-slate-200 pb-4 mb-6">
-                    <h3 class="text-lg font-extrabold text-[#1a365d] uppercase">BRI Admin - Curriculum & Asset Management (LMS)</h3>
-                    <p class="text-xs text-slate-500 mt-1">Upload instructional assets (SCORM, PDF, MP4, Images) and manage active, canceled, or archived catalog modules.</p>
-                </div>
-
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                    <div class="bg-slate-50 p-6 rounded-lg border border-slate-200">
-                        <h4 id="lms-form-title" class="text-sm font-bold text-[#1a365d] uppercase mb-4">Publish New Course Module</h4>
-                        <div class="space-y-4">
-                            <input type="hidden" id="lms-edit-id" value="">
-                            <div>
-                                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Course Code</label>
-                                <input type="text" id="lms-code" placeholder="e.g., MS-BB-102" class="w-full bg-white border border-slate-300 rounded-lg px-4 py-2 text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#1a365d]">
-                            </div>
-                            <div>
-                                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Course Title</label>
-                                <input type="text" id="lms-title" placeholder="e.g., Fugitive Recovery Tactical Standards" class="w-full bg-white border border-slate-300 rounded-lg px-4 py-2 text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#1a365d]">
-                            </div>
-                            <div class="grid grid-cols-2 gap-4">
-                                <div>
-                                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Credit Units</label>
-                                    <input type="number" step="0.25" id="lms-credits" value="3.00" class="w-full bg-white border border-slate-300 rounded-lg px-4 py-2 text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#1a365d]">
-                                </div>
-                                <div>
-                                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Module Status</label>
-                                    <select id="lms-status-select" class="w-full bg-white border border-slate-300 rounded-lg px-4 py-2 text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#1a365d]">
-                                        <option value="Active">Active / In Progress</option>
-                                        <option value="Canceled">Canceled</option>
-                                        <option value="Archived">Archived</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div>
-                                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Course Description & Standards</label>
-                                <textarea id="lms-desc" rows="2" placeholder="Regulatory compliance alignment..." class="w-full bg-white border border-slate-300 rounded-lg px-4 py-2 text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#1a365d]"></textarea>
-                            </div>
-
-                            <div class="border-t border-slate-200 pt-4">
-                                <h5 class="text-xs font-bold text-[#1a365d] uppercase mb-3">Instructional Asset Ingestion</h5>
-                                <div class="grid grid-cols-2 gap-3 text-xs">
-                                    <div>
-                                        <label class="block font-semibold text-slate-600 mb-1">SCORM Package (.zip)</label>
-                                        <input type="file" id="asset-scorm" accept=".zip" class="w-full text-[11px] text-slate-500 file:mr-2 file:py-1 file:px-2 file:rounded file:border-0 file:text-[10px] file:font-bold file:bg-blue-50 file:text-[#1a365d]">
-                                    </div>
-                                    <div>
-                                        <label class="block font-semibold text-slate-600 mb-1">Document (.pdf, .docx)</label>
-                                        <input type="file" id="asset-doc" accept=".pdf,.doc,.docx" class="w-full text-[11px] text-slate-500 file:mr-2 file:py-1 file:px-2 file:rounded file:border-0 file:text-[10px] file:font-bold file:bg-blue-50 file:text-[#1a365d]">
-                                    </div>
-                                    <div>
-                                        <label class="block font-semibold text-slate-600 mb-1">Video (.mp4)</label>
-                                        <input type="file" id="asset-video" accept="video/mp4" class="w-full text-[11px] text-slate-500 file:mr-2 file:py-1 file:px-2 file:rounded file:border-0 file:text-[10px] file:font-bold file:bg-blue-50 file:text-[#1a365d]">
-                                    </div>
-                                    <div>
-                                        <label class="block font-semibold text-slate-600 mb-1">Thumbnail (.png, .jpg)</label>
-                                        <input type="file" id="asset-image" accept="image/*" class="w-full text-[11px] text-slate-500 file:mr-2 file:py-1 file:px-2 file:rounded file:border-0 file:text-[10px] file:font-bold file:bg-blue-50 file:text-[#1a365d]">
-                                    </div>
-                                </div>
-                            </div>
-
-                            <button id="publish-course-btn" class="w-full bg-[#1a365d] hover:bg-blue-900 text-white text-xs font-bold py-3 rounded-lg transition uppercase tracking-wider shadow">
-                                Publish / Save Module
-                            </button>
-                            <button id="cancel-edit-btn" onclick="resetLmsForm()" class="hidden w-full bg-slate-300 hover:bg-slate-400 text-slate-800 text-xs font-bold py-2 rounded-lg transition uppercase tracking-wider">
-                                Cancel Edit
-                            </button>
-                            <p id="lms-status" class="text-xs font-semibold text-center mt-2"></p>
-                        </div>
-                    </div>
-
-                    <div>
-                        <h4 class="text-sm font-bold text-slate-800 uppercase mb-4">Catalog Modules Management</h4>
-                        <div id="lms-catalog-list" class="space-y-3 max-h-[500px] overflow-y-auto pr-2"></div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 2. Store Admin Section -->
-            <div id="section-store" class="admin-section hidden">
-                <div class="border-b border-slate-200 pb-4 mb-6">
-                    <h3 class="text-lg font-extrabold text-emerald-800 uppercase">Store Admin - Inventory & Merchandise Control</h3>
-                    <p class="text-xs text-slate-500 mt-1">Upload multi-photo product catalogs, tactical gear attributes, expandable accordion bullets, and hyperlinks.</p>
-                </div>
-
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                    <div class="bg-slate-50 p-6 rounded-lg border border-slate-200 space-y-4">
-                        <h4 class="text-sm font-bold text-emerald-800 uppercase mb-2">Upload / Edit Store Merchandise</h4>
-                        
-                        <input type="hidden" id="store-edit-id" value="">
-
-                        <div>
-                            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Item Title</label>
-                            <input type="text" id="store-title" placeholder="e.g., Tactical Bail Recovery Vest & Rig" class="w-full bg-white border border-slate-300 rounded-lg px-4 py-2 text-xs text-slate-800 focus:ring-2 focus:ring-emerald-600">
-                        </div>
-
-                        <div class="grid grid-cols-3 gap-3">
-                            <div>
-                                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Price ($)</label>
-                                <input type="number" step="0.01" id="store-price" placeholder="129.99" class="w-full bg-white border border-slate-300 rounded-lg px-3 py-2 text-xs text-slate-800">
-                            </div>
-                            <div>
-                                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Stock</label>
-                                <input type="number" id="store-stock" placeholder="50" class="w-full bg-white border border-slate-300 rounded-lg px-3 py-2 text-xs text-slate-800">
-                            </div>
-                            <div>
-                                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Product Type</label>
-                                <select id="store-product-type" onchange="handleProductTypeChange()" class="w-full bg-white border border-slate-300 rounded-lg px-3 py-2 text-xs text-slate-800 font-semibold">
-                                    <option value="apparel">Clothing / Uniform</option>
-                                    <option value="tactical">Tactical Equipment</option>
-                                    <option value="safety">Safety Gear & Badges</option>
-                                    <option value="accessories">Accessories / Field Gear</option>
-                                    <option value="furniture">Office / Ref Furniture</option>
-                                    <option value="jewelry">Insignia / Jewelry</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div>
-                            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Product Photos (Multiple)</label>
-                            <input type="file" id="store-photos" accept="image/*" multiple class="w-full text-xs text-slate-500 file:mr-2 file:py-1 file:px-3 file:rounded file:border-0 file:text-xs file:font-bold file:bg-emerald-50 file:text-emerald-800">
-                        </div>
-
-                        <div id="dynamic-attributes-container" class="grid grid-cols-2 gap-3 bg-white p-3 rounded-lg border border-slate-200">
-                            <div>
-                                <label class="block text-[11px] font-bold text-slate-700 uppercase mb-1">Color Options</label>
-                                <input type="text" id="attr-colors" placeholder="Black, Ranger Green" class="w-full bg-slate-50 border border-slate-300 rounded px-3 py-1.5 text-xs text-slate-800">
-                            </div>
-                            <div id="attr-size-container">
-                                <label id="attr-size-label" class="block text-[11px] font-bold text-slate-700 uppercase mb-1">Size Options</label>
-                                <input type="text" id="attr-sizes" placeholder="S, M, L, XL" class="w-full bg-slate-50 border border-slate-300 rounded px-3 py-1.5 text-xs text-slate-800">
-                            </div>
-                        </div>
-
-                        <div>
-                            <div class="flex justify-between items-center mb-1">
-                                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider">Product Overview</label>
-                                <button type="button" onclick="insertHyperlink('store-desc')" class="text-[10px] bg-slate-200 hover:bg-slate-300 font-bold px-2 py-0.5 rounded text-slate-700 uppercase">🔗 Insert Hyperlink</button>
-                            </div>
-                            <textarea id="store-desc" rows="3" placeholder="Overview details..." class="w-full bg-white border border-slate-300 rounded-lg px-3 py-2 text-xs text-slate-800"></textarea>
-                        </div>
-
-                        <div class="space-y-3 border-t border-slate-200 pt-3">
-                            <h5 class="text-xs font-bold text-emerald-800 uppercase">Accordion Bullet Points</h5>
-                            
-                            <div class="bg-white p-3 rounded border border-slate-200">
-                                <div class="flex justify-between items-center mb-1">
-                                    <label class="text-[11px] font-bold text-slate-700 uppercase">Features</label>
-                                    <button type="button" onclick="addBulletField('features-list')" class="text-[10px] text-emerald-700 font-bold hover:underline">+ Add Feature</button>
-                                </div>
-                                <div id="features-list" class="space-y-2">
-                                    <div class="flex gap-2">
-                                        <input type="text" placeholder="e.g., Reinforced MOLLE webbing" class="w-full bg-slate-50 border border-slate-300 rounded px-2 py-1 text-xs">
-                                        <button type="button" onclick="this.parentElement.remove()" class="text-red-500 font-bold px-2">&times;</button>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="bg-white p-3 rounded border border-slate-200">
-                                <div class="flex justify-between items-center mb-1">
-                                    <label id="lbl-fit-dims" class="text-[11px] font-bold text-slate-700 uppercase">Fit / Dimensions</label>
-                                    <button type="button" onclick="addBulletField('fit-list')" class="text-[10px] text-emerald-700 font-bold hover:underline">+ Add Entry</button>
-                                </div>
-                                <div id="fit-list" class="space-y-2">
-                                    <div class="flex gap-2">
-                                        <input type="text" placeholder="e.g., Adjustable waist straps" class="w-full bg-slate-50 border border-slate-300 rounded px-2 py-1 text-xs">
-                                        <button type="button" onclick="this.parentElement.remove()" class="text-red-500 font-bold px-2">&times;</button>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="bg-white p-3 rounded border border-slate-200">
-                                <div class="flex justify-between items-center mb-1">
-                                    <label class="text-[11px] font-bold text-slate-700 uppercase">Materials & Care</label>
-                                    <button type="button" onclick="addBulletField('materials-list')" class="text-[10px] text-emerald-700 font-bold hover:underline">+ Add Entry</button>
-                                </div>
-                                <div id="materials-list" class="space-y-2">
-                                    <div class="flex gap-2">
-                                        <input type="text" placeholder="e.g., 1000D Ballistic Nylon" class="w-full bg-slate-50 border border-slate-300 rounded px-2 py-1 text-xs">
-                                        <button type="button" onclick="this.parentElement.remove()" class="text-red-500 font-bold px-2">&times;</button>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="bg-white p-3 rounded border border-slate-200">
-                                <div class="flex justify-between items-center mb-1">
-                                    <label class="text-[11px] font-bold text-slate-700 uppercase">Shipping & Returns</label>
-                                    <button type="button" onclick="addBulletField('shipping-list')" class="text-[10px] text-emerald-700 font-bold hover:underline">+ Add Entry</button>
-                                </div>
-                                <div id="shipping-list" class="space-y-2">
-                                    <div class="flex gap-2">
-                                        <input type="text" placeholder="e.g., Ships within 24 hours" class="w-full bg-slate-50 border border-slate-300 rounded px-2 py-1 text-xs">
-                                        <button type="button" onclick="this.parentElement.remove()" class="text-red-500 font-bold px-2">&times;</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <button id="save-product-btn" class="w-full bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-bold py-3 rounded-lg transition uppercase tracking-wider shadow">
-                            Upload Merchandise to Store
-                        </button>
-                        <p id="store-status" class="text-xs font-semibold text-center mt-2"></p>
-                    </div>
-
-                    <div>
-                        <h4 class="text-sm font-bold text-slate-800 uppercase mb-4">Current Store Inventory</h4>
-                        <div id="store-inventory-list" class="space-y-3 max-h-[600px] overflow-y-auto pr-2"></div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 3. System Admin Section -->
-            <div id="section-system" class="admin-section hidden">
-                <div class="border-b border-slate-200 pb-4 mb-6">
-                    <h3 class="text-lg font-extrabold text-amber-800 uppercase">System Administration - User Security Roles</h3>
-                    <p class="text-xs text-slate-500 mt-1">Assign or elevate user privilege levels across the institute platform.</p>
-                </div>
-
-                <div class="max-w-xl">
-                    <div class="mb-4">
-                        <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">User Email Address</label>
-                        <input type="email" id="target-email" placeholder="student@example.com" class="w-full bg-slate-50 border border-slate-300 rounded-lg px-4 py-3 text-xs text-slate-800 focus:ring-2 focus:ring-amber-600">
-                    </div>
-
-                    <div class="mb-6">
-                        <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Select Privilege Level</label>
-                        <select id="target-role" class="w-full bg-slate-50 border border-slate-300 rounded-lg px-4 py-3 text-xs text-slate-800">
-                            <option value="student">Student</option>
-                            <option value="instructor">Instructor</option>
-                            <option value="admin">Admin</option>
-                        </select>
-                    </div>
-
-                    <button id="update-role-btn" class="w-full bg-amber-700 hover:bg-amber-800 text-white text-xs font-bold py-3 rounded-lg transition uppercase tracking-wider shadow">
-                        Update User Privileges
-                    </button>
-                    <p id="status-message" class="text-xs font-semibold mt-4 text-center"></p>
-                </div>
-            </div>
-
-        </div>
-
-    </main>
-
-    <!-- Footer -->
-    <footer class="bg-white border-t border-slate-200 text-xs text-slate-500 py-4 text-center">
-        &copy; 2026 Bond & Recovery Institute. All rights reserved.
-    </footer>
-
-    <!-- Admin Portal Logic -->
+<!-- Admin Portal Logic -->
     <script>
         let lmsCatalog = [];
         let storeInventory = [];
@@ -468,6 +141,7 @@
         }
 
         async function fetchLmsCourses() {
+            if (!window.supabaseClient) return;
             const { data, error } = await window.supabaseClient
                 .from('lms_courses')
                 .select('*')
@@ -480,6 +154,7 @@
         }
 
         async function fetchStoreItems() {
+            if (!window.supabaseClient) return;
             const { data, error } = await window.supabaseClient
                 .from('store_items')
                 .select('*')
@@ -543,14 +218,23 @@
             }
         }
 
-        window.addEventListener('DOMContentLoaded', async () => {
+        // Safe initialization loop ensuring Supabase client is loaded
+        async function initApp() {
+            if (!window.supabaseClient) {
+                setTimeout(initApp, 100);
+                return;
+            }
+
             const { data: { session } } = await window.supabaseClient.auth.getSession();
-            if (!session) { window.location.href = 'login.html'; return; }
+            if (!session) { 
+                window.location.href = 'login.html'; 
+                return; 
+            }
 
             await fetchLmsCourses();
             await fetchStoreItems();
 
-            // Publish Course to Supabase with explicit onConflict
+            // Publish Course
             document.getElementById('publish-course-btn').addEventListener('click', async () => {
                 const editId = document.getElementById('lms-edit-id').value;
                 const code = document.getElementById('lms-code').value.trim();
@@ -590,18 +274,17 @@
                     }, { onConflict: 'id' });
 
                 if (error) {
-                    console.error('Supabase Publish Error:', error);
                     statusEl.textContent = 'Error: ' + error.message;
                     statusEl.className = 'text-xs font-semibold text-red-600';
                 } else {
-                    statusEl.textContent = `Course '${code}' successfully published to Supabase!`;
+                    statusEl.textContent = `Course '${code}' successfully published!`;
                     statusEl.className = 'text-xs font-semibold text-emerald-600';
                     await fetchLmsCourses();
                     resetLmsForm();
                 }
             });
 
-            // Save Store Merchandise to Supabase
+            // Save Store Item
             document.getElementById('save-product-btn').addEventListener('click', async () => {
                 const title = document.getElementById('store-title').value.trim();
                 const price = parseFloat(document.getElementById('store-price').value);
@@ -637,13 +320,13 @@
                     statusEl.textContent = 'Error: ' + error.message;
                     statusEl.className = 'text-xs font-semibold text-red-600';
                 } else {
-                    statusEl.textContent = `Item '${title}' saved to Supabase store!`;
+                    statusEl.textContent = `Item '${title}' saved to store!`;
                     statusEl.className = 'text-xs font-semibold text-emerald-600';
                     await fetchStoreItems();
                 }
             });
 
-            // Role Updates (System Admin)
+            // Role Updates
             document.getElementById('update-role-btn').addEventListener('click', async () => {
                 const email = document.getElementById('target-email').value.trim();
                 const newRole = document.getElementById('target-role').value;
@@ -667,7 +350,7 @@
                     statusEl.textContent = `Error: ${error.message}`;
                     statusEl.className = 'text-xs font-semibold mt-4 text-center text-red-600';
                 } else {
-                    statusEl.textContent = `Successfully updated role to '${newRole}' for ${email}!`;
+                    statusEl.textContent = `Successfully updated role to '${newRole}'!`;
                     statusEl.className = 'text-xs font-semibold mt-4 text-center text-emerald-600';
                 }
             });
@@ -676,7 +359,7 @@
                 await window.supabaseClient.auth.signOut();
                 window.location.href = 'login.html';
             });
-        });
+        }
+
+        window.addEventListener('DOMContentLoaded', initApp);
     </script>
-</body>
-</html>
