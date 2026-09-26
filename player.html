@@ -19,7 +19,7 @@
         <a href="dashboard.html" class="text-xs text-slate-300 hover:text-white transition font-semibold uppercase">&larr; Return to Dashboard</a>
     </div>
 
-    <!-- SCORM / Interactive Content Frame -->
+    <!-- Interactive Content Frame / SCORM Module Simulation -->
     <iframe id="course-frame" src="about:blank"></iframe>
 
     <script>
@@ -32,18 +32,15 @@
             if (!window.supabaseClient) return;
 
             const { data: { session } } = await window.supabaseClient.auth.getSession();
-            if (!session) {
-                window.location.href = 'login.html';
-                return;
-            }
+            if (!session) { window.location.href = 'login.html'; return; }
 
             const params = new URLSearchParams(window.location.search);
             const courseCode = params.get('code') || 'MS-BB-101';
             
             document.getElementById('player-course-title').textContent = `Course Module: ${courseCode}`;
             
-            // Set frame source to SCORM package or fallback interactive module
-            document.getElementById('course-frame').src = params.get('url') || '../public/course/index.html';
+            // Load interactive training module or fallback interactive shell
+            document.getElementById('course-frame').src = params.get('url') || 'https://example.com';
         }
 
         window.addEventListener('DOMContentLoaded', initPlayer);
