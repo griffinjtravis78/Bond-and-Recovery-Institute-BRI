@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Student Registration - Bond & Recovery Institute</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabaseClient.js"></script>
 </head>
 <body class="bg-slate-100 min-h-screen py-12 px-4 font-sans text-slate-800">
 
@@ -15,6 +17,22 @@
         </div>
 
         <form id="registration-form" class="space-y-6">
+            
+            <!-- Credentials / Auth Account -->
+            <div class="bg-slate-50 p-4 rounded-lg border border-slate-200 space-y-4">
+                <h3 class="text-xs font-bold uppercase text-indigo-950">Portal Account Credentials</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-semibold uppercase text-slate-700 mb-1">Email Address *</label>
+                        <input type="email" id="reg-email" required placeholder="agent@example.com" class="w-full border border-slate-300 rounded px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-900 outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold uppercase text-slate-700 mb-1">Password *</label>
+                        <input type="password" id="reg-password" required placeholder="••••••••" class="w-full border border-slate-300 rounded px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-900 outline-none font-mono">
+                    </div>
+                </div>
+            </div>
+
             <!-- Legal Name Section -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div>
@@ -45,10 +63,12 @@
                     <label class="block text-xs font-semibold uppercase text-slate-700 mb-1">DL Issuing State *</label>
                     <select id="dl-state" required class="w-full border border-slate-300 rounded px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-900 outline-none bg-white">
                         <option value="MO" selected>Missouri (MO)</option>
+                        <option value="KS">Kansas (KS)</option>
+                        <option value="OK">Oklahoma (OK)</option>
+                        <option value="AR">Arkansas (AR)</option>
                         <option value="AL">Alabama (AL)</option>
                         <option value="AK">Alaska (AK)</option>
                         <option value="AZ">Arizona (AZ)</option>
-                        <option value="AR">Arkansas (AR)</option>
                         <option value="CA">California (CA)</option>
                         <option value="CO">Colorado (CO)</option>
                         <option value="CT">Connecticut (CT)</option>
@@ -60,7 +80,6 @@
                         <option value="IL">Illinois (IL)</option>
                         <option value="IN">Indiana (IN)</option>
                         <option value="IA">Iowa (IA)</option>
-                        <option value="KS">Kansas (KS)</option>
                         <option value="KY">Kentucky (KY)</option>
                         <option value="LA">Louisiana (LA)</option>
                         <option value="ME">Maine (ME)</option>
@@ -79,7 +98,6 @@
                         <option value="NC">North Carolina (NC)</option>
                         <option value="ND">North Dakota (ND)</option>
                         <option value="OH">Ohio (OH)</option>
-                        <option value="OK">Oklahoma (OK)</option>
                         <option value="OR">Oregon (OR)</option>
                         <option value="PA">Pennsylvania (PA)</option>
                         <option value="RI">Rhode Island (RI)</option>
@@ -134,7 +152,7 @@
                 <label for="same-address-toggle" class="text-xs font-semibold text-slate-700 uppercase cursor-pointer">Physical and Mailing Addresses are the Same</label>
             </div>
 
-            <!-- Mailing Address (Hidden or shown based on toggle) -->
+            <!-- Mailing Address Section -->
             <div id="mailing-address-section" class="border-t border-slate-200 pt-4 hidden">
                 <h3 class="text-sm font-bold text-indigo-950 uppercase mb-3">Mailing Address</h3>
                 <div class="space-y-3">
@@ -159,14 +177,13 @@
                 </div>
             </div>
 
-            <button type="submit" class="w-full bg-indigo-900 hover:bg-indigo-800 text-white font-bold py-2.5 rounded shadow transition">Complete Registration & Generate Student ID</button>
+            <button type="submit" id="register-btn" class="w-full bg-indigo-900 hover:bg-indigo-800 text-white font-bold py-3 rounded shadow transition uppercase text-xs tracking-wider">Complete Registration & Generate Student ID</button>
+            <p id="reg-status" class="text-xs font-semibold text-center mt-2"></p>
         </form>
     </div>
 
     <!-- Registration Logic Script -->
-    <script type="module">
-        import { supabase } from './supabaseClient.js';
-
+    <script>
         const toggle = document.getElementById('same-address-toggle');
         const mailingSection = document.getElementById('mailing-address-section');
 
@@ -178,61 +195,93 @@
             }
         });
 
-        document.getElementById('registration-form').addEventListener('submit', async (e) => {
-            e.preventDefault();
-
-            // Generate unique Student ID (e.g., BRI-84920)
-            const randomNum = Math.floor(10000 + Math.random() * 90000);
-            const studentId = `BRI-${randomNum}`;
-
-            const isSame = toggle.checked;
-            const physStreet = document.getElementById('phys-street').value;
-            const physCity = document.getElementById('phys-city').value;
-            const physState = document.getElementById('phys-state').value;
-            const physZip = document.getElementById('phys-zip').value;
-
-            // Generate a secure UUID for the profile record ID
-            const tempUuid = crypto.randomUUID();
-
-            const profileData = {
-                id: tempUuid,
-                student_id: studentId,
-                first_name: document.getElementById('first-name').value,
-                middle_name: document.getElementById('middle-name').value || null,
-                last_name: document.getElementById('last-name').value,
-                date_of_birth: document.getElementById('dob').value,
-                drivers_license_number: document.getElementById('dl-number').value,
-                dl_state: document.getElementById('dl-state').value,
-                dl_expiration_date: document.getElementById('dl-expiration').value,
-                physical_street: physStreet,
-                physical_city: physCity,
-                physical_state: physState,
-                physical_zip: physZip,
-                mailing_street: isSame ? physStreet : document.getElementById('mail-street').value,
-                mailing_city: isSame ? physCity : document.getElementById('mail-city').value,
-                mailing_state: isSame ? physState : document.getElementById('mail-state').value,
-                mailing_zip: isSame ? physZip : document.getElementById('mail-zip').value,
-                is_same_address: isSame
-            };
-
-            // Insert directly into Supabase profiles table
-            const { error } = await supabase
-                .from('profiles')
-                .insert([profileData]);
-
-            if (error) {
-                console.error('Supabase Error:', error.message);
-                alert('Registration failed: ' + error.message);
-                return;
+        async function initRegister() {
+            let attempts = 0;
+            while (!window.supabaseClient && attempts < 20) {
+                await new Promise(resolve => setTimeout(resolve, 100));
+                attempts++;
             }
+            if (!window.supabaseClient) return;
 
-            // Save session cache for local frontend pages
-            localStorage.setItem('bri_student_id', studentId);
-            localStorage.setItem('bri_student_name', `${profileData.last_name}, ${profileData.first_name}`);
+            document.getElementById('registration-form').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const statusEl = document.getElementById('reg-status');
 
-            alert(`Registration Successful!\nYour Assigned Student ID: ${studentId}`);
-            window.location.href = 'index.html';
-        });
+                const email = document.getElementById('reg-email').value.trim();
+                const password = document.getElementById('reg-password').value;
+
+                statusEl.textContent = 'Creating account and registering student...';
+                statusEl.className = 'text-xs font-semibold text-slate-600 text-center';
+
+                // 1. Sign up user via Supabase Auth
+                const { data: authData, error: authError } = await window.supabaseClient.auth.signUp({ email, password });
+                
+                if (authError) {
+                    statusEl.textContent = 'Registration Error: ' + authError.message;
+                    statusEl.className = 'text-xs font-semibold text-red-600 text-center';
+                    return;
+                }
+
+                const userId = authData.user ? authData.user.id : null;
+                if (!userId) {
+                    statusEl.textContent = 'Error: User ID not returned from auth.';
+                    statusEl.className = 'text-xs font-semibold text-red-600 text-center';
+                    return;
+                }
+
+                // Generate Student ID
+                const randomNum = Math.floor(10000 + Math.random() * 90000);
+                const studentId = `BRI-${randomNum}`;
+                const isSame = toggle.checked;
+                const physStreet = document.getElementById('phys-street').value;
+                const physCity = document.getElementById('phys-city').value;
+                const physState = document.getElementById('phys-state').value;
+                const physZip = document.getElementById('phys-zip').value;
+
+                const profileData = {
+                    id: userId,
+                    email: email,
+                    role: 'student',
+                    student_id: studentId,
+                    first_name: document.getElementById('first-name').value,
+                    middle_name: document.getElementById('middle-name').value || null,
+                    last_name: document.getElementById('last-name').value,
+                    date_of_birth: document.getElementById('dob').value,
+                    drivers_license_number: document.getElementById('dl-number').value,
+                    dl_state: document.getElementById('dl-state').value,
+                    dl_expiration_date: document.getElementById('dl-expiration').value,
+                    physical_street: physStreet,
+                    physical_city: physCity,
+                    physical_state: physState,
+                    physical_zip: physZip,
+                    mailing_street: isSame ? physStreet : document.getElementById('mail-street').value,
+                    mailing_city: isSame ? physCity : document.getElementById('mail-city').value,
+                    mailing_state: isSame ? physState : document.getElementById('mail-state').value,
+                    mailing_zip: isSame ? physZip : document.getElementById('mail-zip').value,
+                    is_same_address: isSame
+                };
+
+                // 2. Insert into profiles table
+                const { error: profileError } = await window.supabaseClient
+                    .from('profiles')
+                    .upsert([profileData], { onConflict: 'id' });
+
+                if (profileError) {
+                    statusEl.textContent = 'Profile Error: ' + profileError.message;
+                    statusEl.className = 'text-xs font-semibold text-red-600 text-center';
+                    return;
+                }
+
+                statusEl.textContent = `Registration Successful! Student ID: ${studentId}. Redirecting...`;
+                statusEl.className = 'text-xs font-semibold text-emerald-600 text-center';
+                
+                setTimeout(() => {
+                    window.location.href = 'dashboard.html';
+                }, 1000);
+            });
+        }
+
+        window.addEventListener('DOMContentLoaded', initRegister);
     </script>
 </body>
 </html>
