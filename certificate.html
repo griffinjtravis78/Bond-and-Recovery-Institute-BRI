@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Certificate of Completion - Bond & Recovery Institute</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabaseClient.js"></script>
     <style>
         @media print {
             body { background: white; }
@@ -12,7 +14,7 @@
         }
         .cert-border {
             border: 12px solid #0f172a;
-            outline: 2px solid #d4af37; /* Subtle classic gold accent line */
+            outline: 2px solid #d4af37;
             outline-offset: -18px;
         }
     </style>
@@ -27,7 +29,7 @@
             </svg>
             Print / Save Certificate PDF
         </button>
-        <a href="index.html" class="bg-slate-200 text-slate-700 font-medium px-4 py-2.5 rounded hover:bg-slate-300 transition flex items-center">
+        <a href="dashboard.html" class="bg-slate-200 text-slate-700 font-medium px-4 py-2.5 rounded hover:bg-slate-300 transition flex items-center">
             Return to Dashboard
         </a>
     </div>
@@ -46,24 +48,24 @@
         <div class="my-8 space-y-4">
             <p class="text-sm uppercase tracking-widest text-slate-500 font-semibold">This is proudly presented to</p>
             
-            <div class="text-3xl font-bold text-slate-900 font-serif border-b-2 border-slate-300 inline-block px-12 pb-2">
-                [Last Name], [First Name] [M.I.]
+            <div id="cert-student-name" class="text-3xl font-bold text-slate-900 font-serif border-b-2 border-slate-300 inline-block px-12 pb-2">
+                Loading Student...
             </div>
             
-            <p class="text-xs font-mono text-slate-500">Student ID Number: [BRI-ID-000000]</p>
+            <p class="text-xs font-mono text-slate-500">Student ID Number: <span id="cert-student-id">[BRI-ID-000000]</span></p>
 
             <div class="max-w-2xl mx-auto mt-6">
                 <p class="text-sm text-slate-600">for successfully completing the professional training curriculum for</p>
-                <h3 class="text-xl font-bold text-indigo-950 mt-2">[Course Code]: [Course Title</h3>
-                <p class="text-xs text-slate-500 mt-1">Authorized under Missouri pre-licensing standards and institutional accreditation guidelines.</p>
+                <h3 id="cert-course-title" class="text-xl font-bold text-indigo-950 mt-2">[Course Code]: [Course Title]</h3>
+                <p class="text-xs text-slate-500 mt-1">Authorized under state pre-licensing standards and institutional accreditation guidelines.</p>
             </div>
         </div>
 
         <!-- Metadata & Registrar Signatures -->
         <div class="grid grid-cols-3 items-end border-t border-slate-200 pt-6 mt-4 text-xs text-slate-600">
             <div class="text-left font-mono">
-                <p>Date Completed: <strong class="text-slate-900">[MM-DD-YYYY]</strong></p>
-                <p>Units Earned: <strong class="text-slate-900">[0.00] Credits</strong></p>
+                <p>Date Completed: <strong id="cert-date" class="text-slate-900">[MM-DD-YYYY]</strong></p>
+                <p>Units Earned: <strong id="cert-credits" class="text-slate-900">[3.00] Credits</strong></p>
             </div>
             <div class="text-center">
                 <span class="inline-block bg-indigo-50 text-indigo-900 font-bold px-3 py-1 rounded border border-indigo-200 uppercase tracking-widest text-[10px]">
@@ -80,5 +82,42 @@
 
     </div>
 
+    <!-- Dynamic Credential Population Script -->
+    <script>
+        async function initCertificate() {
+            let attempts = 0;
+            while (!window.supabaseClient && attempts < 20) {
+                await new Promise(resolve => setTimeout(resolve, 100));
+                attempts++;
+            }
+            if (!window.supabaseClient) return;
+
+            const { data: { session } } = await window.supabaseClient.auth.getSession();
+            if (!session) {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            // Populate Student Info from Session Email / Profile
+            const email = session.user.email;
+            document.getElementById('cert-student-name').textContent = email;
+            document.getElementById('cert-student-id').textContent = 'BRI-ID-' + session.user.id.substring(0, 8).toUpperCase();
+
+            // Pull Course Details from URL parameters (e.g., certificate.html?code=MS-BB-101&title=Missouri+Bail+Bond&credits=3.00)
+            const params = new URLSearchParams(window.location.search);
+            const courseCode = params.get('code') || 'MS-BB-101';
+            const courseTitle = params.get('title') || 'Missouri Bail Bond & Surety Recovery Agent 101';
+            const credits = params.get('credits') || '3.00';
+
+            document.getElementById('cert-course-title').textContent = `${courseCode}: ${courseTitle}`;
+            document.getElementById('cert-credits').textContent = `${credits} Credits`;
+            
+            // Set current completion date
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            document.getElementById('cert-date').textContent = new Date().toLocaleDateString('en-US', options);
+        }
+
+        window.addEventListener('DOMContentLoaded', initCertificate);
+    </script>
 </body>
 </html>
