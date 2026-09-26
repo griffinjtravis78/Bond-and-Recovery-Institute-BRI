@@ -36,14 +36,19 @@
 
     <main class="max-w-7xl mx-auto px-6 py-8 flex-grow w-full space-y-10">
         
-        <!-- Welcome Banner -->
-        <div class="flex justify-between items-center border-b border-slate-800 pb-4">
+        <!-- Welcome Banner & CE Tracker Widget -->
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b border-slate-800 pb-6 gap-4">
             <div>
                 <h2 class="text-2xl font-extrabold text-white uppercase tracking-wide">Student Portal & Curriculum</h2>
-                <p class="text-xs text-slate-400 mt-1">Manage your active pre-licensing enrollments and explore the institute course library.</p>
+                <p class="text-xs text-slate-400 mt-1">Manage active pre-licensing enrollments, track continuing education units, and explore the institute course library.</p>
             </div>
-            <div id="user-badge" class="bg-slate-800 border border-slate-700 px-4 py-2 rounded-lg text-xs font-bold text-emerald-400">
-                Active Enrollee
+            <div class="flex items-center gap-3">
+                <div class="bg-slate-800 border border-slate-700 px-4 py-2.5 rounded-lg text-xs font-bold text-indigo-300 flex items-center gap-2">
+                    <span>CE License Status:</span> <span class="text-emerald-400 uppercase">Compliant (3.0 / 3.0 Units)</span>
+                </div>
+                <div id="user-badge" class="bg-slate-800 border border-slate-700 px-4 py-2.5 rounded-lg text-xs font-bold text-emerald-400">
+                    Active Enrollee
+                </div>
             </div>
         </div>
 
@@ -124,9 +129,14 @@
                             <p class="text-xs text-slate-600 mt-1">${c.description || 'Comprehensive training module.'}</p>
                             <div class="text-[11px] font-semibold text-slate-400 mt-2">Credits: ${c.credits} Units | Status: <span class="text-emerald-600 uppercase font-bold">In Progress</span></div>
                         </div>
-                        <button onclick="launchCourse('${c.code}')" class="bg-[#1a365d] hover:bg-blue-900 text-white text-xs font-bold px-6 py-3 rounded-lg transition uppercase tracking-wider shadow whitespace-nowrap">
-                            Launch Course
-                        </button>
+                        <div class="flex items-center gap-3">
+                            <button onclick="launchCourse('${c.code}')" class="bg-[#1a365d] hover:bg-blue-900 text-white text-xs font-bold px-5 py-3 rounded-lg transition uppercase tracking-wider shadow whitespace-nowrap">
+                                Launch Course
+                            </button>
+                            <a href="certificate.html?code=${encodeURIComponent(c.code)}&title=${encodeURIComponent(c.title)}&credits=${c.credits}" class="bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-bold px-5 py-3 rounded-lg transition uppercase tracking-wider shadow whitespace-nowrap">
+                                View Certificate
+                            </a>
+                        </div>
                     </div>
                 `).join('');
             }
