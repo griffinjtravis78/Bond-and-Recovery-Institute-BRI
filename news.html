@@ -3,8 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Four-State Corridor News - Bond & Recovery Institute</title>
+    <title>Four-State Corridor News & Compliance - Bond & Recovery Institute</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabaseClient.js"></script>
     <style>
         .dropdown:hover .dropdown-menu { display: block; }
     </style>
@@ -12,89 +14,120 @@
 <body class="bg-slate-900 min-h-screen font-sans text-slate-100 flex flex-col justify-between">
 
     <!-- Standardized Top Navigation Bar -->
-    <nav class="w-full max-w-6xl bg-white text-slate-800 shadow-lg rounded-xl px-6 py-4 mt-6 mx-auto flex flex-wrap justify-between items-center border border-slate-200">
+    <nav class="w-full max-w-7xl bg-white text-slate-800 shadow-lg rounded-xl px-6 py-4 mt-6 mx-auto flex flex-wrap justify-between items-center border border-slate-200">
         <div class="flex items-center gap-3">
             <a href="home.html" class="font-extrabold tracking-wider text-[#1a365d] uppercase text-sm">BRI Portal</a>
         </div>
-        <div class="flex items-center gap-6 text-sm font-semibold">
+        <div class="flex items-center gap-6 text-xs font-bold uppercase tracking-wider">
             <a href="home.html" class="text-slate-800 hover:text-amber-600 transition">Home</a>
             <div class="relative dropdown group py-2">
                 <button class="flex items-center gap-1 text-[#1a365d] font-bold transition focus:outline-none">
-                    News 
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    News & Compliance 
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                 </button>
                 <div class="dropdown-menu absolute hidden bg-white shadow-xl rounded-lg py-2 mt-1 w-48 border border-slate-200 z-50">
-                    <a href="#kansas" class="block px-4 py-2 text-xs text-slate-700 hover:bg-slate-100 transition">Kansas</a>
-                    <a href="#missouri" class="block px-4 py-2 text-xs text-slate-700 hover:bg-slate-100 transition">Missouri</a>
-                    <a href="#oklahoma" class="block px-4 py-2 text-xs text-slate-700 hover:bg-slate-100 transition">Oklahoma</a>
-                    <a href="#arkansas" class="block px-4 py-2 text-xs text-slate-700 hover:bg-slate-100 transition">Arkansas</a>
+                    <a href="#missouri" class="block px-4 py-2 text-[11px] text-slate-700 hover:bg-slate-100 transition">Missouri (MO)</a>
+                    <a href="#kansas" class="block px-4 py-2 text-[11px] text-slate-700 hover:bg-slate-100 transition">Kansas (KS)</a>
+                    <a href="#oklahoma" class="block px-4 py-2 text-[11px] text-slate-700 hover:bg-slate-100 transition">Oklahoma (OK)</a>
+                    <a href="#arkansas" class="block px-4 py-2 text-[11px] text-slate-700 hover:bg-slate-100 transition">Arkansas (AR)</a>
                 </div>
             </div>
-            <a href="login.html" class="text-slate-800 hover:text-amber-600 transition">Bond & Recovery Institute</a>
-            <a href="store.html" class="text-slate-800 hover:text-amber-600 transition">Bond & Recovery Store</a>
-            <a href="admin.html" class="text-slate-800 hover:text-amber-600 transition">Admin Hub</a>
+            <a href="dashboard.html" class="text-slate-800 hover:text-amber-600 transition">Student Dashboard</a>
+            <a href="store.html" class="text-slate-800 hover:text-amber-600 transition">Supply Store</a>
         </div>
     </nav>
 
     <!-- Banner Section -->
     <div class="w-full bg-[#1a365d] border-y border-amber-600/30 py-12 px-6 text-center my-6">
         <div class="max-w-4xl mx-auto">
-            <h1 class="text-3xl font-extrabold tracking-widest text-white uppercase">Four-State Corridor News</h1>
-            <p class="text-sm text-amber-400 mt-2 uppercase tracking-wide">Regional Compliance, Regulatory Filings & Surety Bulletins</p>
+            <h1 class="text-3xl font-extrabold tracking-widest text-white uppercase">Four-State Corridor News & Compliance</h1>
+            <p class="text-xs text-amber-400 mt-2 uppercase tracking-wide">Automated 7 AM & 11 AM Scrapers • Governing Agency Links • Statutory Law Updates</p>
         </div>
     </div>
 
-    <!-- Four-Square Grid Container (2x2 layout) -->
-    <div class="max-w-6xl mx-auto px-6 py-4 w-full grid grid-cols-1 md:grid-cols-2 gap-8">
+    <!-- Four-Square Grid Container (MO, KS, OK, AR) -->
+    <div class="max-w-7xl mx-auto px-6 py-4 w-full grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
         
-        <!-- TOP-LEFT: KANSAS -->
-        <div id="kansas" class="bg-white text-slate-800 p-6 rounded-2xl shadow-xl border border-slate-200 flex flex-col justify-between">
-            <div>
-                <div class="flex justify-between items-center border-b pb-3 mb-4">
-                    <h2 class="text-lg font-extrabold text-[#1a365d] uppercase">Kansas Corridor</h2>
-                    <span class="bg-emerald-50 text-emerald-800 border border-emerald-200 text-xs font-bold px-2.5 py-1 rounded">KIDS Standards</span>
-                </div>
-                <div id="news-kansas" class="space-y-4 min-h-[150px]">
-                    <p class="text-xs text-slate-400 italic">Loading updates...</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- TOP-RIGHT: MISSOURI -->
+        <!-- 1. MISSOURI (MO) -->
         <div id="missouri" class="bg-white text-slate-800 p-6 rounded-2xl shadow-xl border border-slate-200 flex flex-col justify-between">
             <div>
                 <div class="flex justify-between items-center border-b pb-3 mb-4">
-                    <h2 class="text-lg font-extrabold text-[#1a365d] uppercase">Missouri Corridor</h2>
-                    <span class="bg-indigo-50 text-indigo-900 border border-indigo-200 text-xs font-bold px-2.5 py-1 rounded">DCI Regulatory</span>
+                    <h2 class="text-base font-extrabold text-[#1a365d] uppercase">Missouri (MO) Compliance Hub</h2>
+                    <span class="bg-indigo-50 text-indigo-900 border border-indigo-200 text-[10px] font-bold px-2.5 py-1 rounded">RSMo Chapters 374 & 544</span>
                 </div>
-                <div id="news-missouri" class="space-y-4 min-h-[150px]">
-                    <p class="text-xs text-slate-400 italic">Loading updates...</p>
+                
+                <!-- Governing Agency Section -->
+                <div class="mb-4 bg-slate-50 p-3 rounded-lg border border-slate-200 text-xs">
+                    <strong class="text-slate-700 uppercase block mb-1">Governing Regulatory Agency:</strong>
+                    <a href="https://insurance.mo.gov/" target="_blank" class="text-blue-700 underline font-semibold">Missouri Department of Commerce & Insurance (DCI)</a>
+                </div>
+
+                <!-- Feeds Container -->
+                <div id="feeds-mo" class="space-y-4 min-h-[200px]">
+                    <p class="text-xs text-slate-400 italic">Loading Missouri compliance feeds...</p>
                 </div>
             </div>
         </div>
 
-        <!-- BOTTOM-LEFT: OKLAHOMA -->
+        <!-- 2. KANSAS (KS) -->
+        <div id="kansas" class="bg-white text-slate-800 p-6 rounded-2xl shadow-xl border border-slate-200 flex flex-col justify-between">
+            <div>
+                <div class="flex justify-between items-center border-b pb-3 mb-4">
+                    <h2 class="text-base font-extrabold text-[#1a365d] uppercase">Kansas (KS) Compliance Hub</h2>
+                    <span class="bg-emerald-50 text-emerald-800 border border-emerald-200 text-[10px] font-bold px-2.5 py-1 rounded">KIDS Standards</span>
+                </div>
+                
+                <!-- Governing Agency Section -->
+                <div class="mb-4 bg-slate-50 p-3 rounded-lg border border-slate-200 text-xs">
+                    <strong class="text-slate-700 uppercase block mb-1">Governing Regulatory Agency:</strong>
+                    <a href="https://insurance.kansas.gov/" target="_blank" class="text-emerald-700 underline font-semibold">Kansas Insurance Department (KID) - Bail Bonds Division</a>
+                </div>
+
+                <!-- Feeds Container -->
+                <div id="feeds-ks" class="space-y-4 min-h-[200px]">
+                    <p class="text-xs text-slate-400 italic">Loading Kansas compliance feeds...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. OKLAHOMA (OK) -->
         <div id="oklahoma" class="bg-white text-slate-800 p-6 rounded-2xl shadow-xl border border-slate-200 flex flex-col justify-between">
             <div>
                 <div class="flex justify-between items-center border-b pb-3 mb-4">
-                    <h2 class="text-lg font-extrabold text-[#1a365d] uppercase">Oklahoma Corridor</h2>
-                    <span class="bg-blue-50 text-blue-800 border border-blue-200 text-xs font-bold px-2.5 py-1 rounded">OID Bulletins</span>
+                    <h2 class="text-base font-extrabold text-[#1a365d] uppercase">Oklahoma (OK) Compliance Hub</h2>
+                    <span class="bg-blue-50 text-blue-800 border border-blue-200 text-[10px] font-bold px-2.5 py-1 rounded">OID Regulations</span>
                 </div>
-                <div id="news-oklahoma" class="space-y-4 min-h-[150px]">
-                    <p class="text-xs text-slate-400 italic">Loading updates...</p>
+                
+                <!-- Governing Agency Section -->
+                <div class="mb-4 bg-slate-50 p-3 rounded-lg border border-slate-200 text-xs">
+                    <strong class="text-slate-700 uppercase block mb-1">Governing Regulatory Agency:</strong>
+                    <a href="https://www.oid.ok.gov/" target="_blank" class="text-blue-700 underline font-semibold">Oklahoma Insurance Department (OID) - Bail Enforcement Licensing</a>
+                </div>
+
+                <!-- Feeds Container -->
+                <div id="feeds-ok" class="space-y-4 min-h-[200px]">
+                    <p class="text-xs text-slate-400 italic">Loading Oklahoma compliance feeds...</p>
                 </div>
             </div>
         </div>
 
-        <!-- BOTTOM-RIGHT: ARKANSAS -->
+        <!-- 4. ARKANSAS (AR) -->
         <div id="arkansas" class="bg-white text-slate-800 p-6 rounded-2xl shadow-xl border border-slate-200 flex flex-col justify-between">
             <div>
                 <div class="flex justify-between items-center border-b pb-3 mb-4">
-                    <h2 class="text-lg font-extrabold text-[#1a365d] uppercase">Arkansas Corridor</h2>
-                    <span class="bg-amber-50 text-amber-800 border border-amber-200 text-xs font-bold px-2.5 py-1 rounded">AID Guidelines</span>
+                    <h2 class="text-base font-extrabold text-[#1a365d] uppercase">Arkansas (AR) Compliance Hub</h2>
+                    <span class="bg-amber-50 text-amber-800 border border-amber-200 text-[10px] font-bold px-2.5 py-1 rounded">AID Guidelines</span>
                 </div>
-                <div id="news-arkansas" class="space-y-4 min-h-[150px]">
-                    <p class="text-xs text-slate-400 italic">Loading updates...</p>
+                
+                <!-- Governing Agency Section -->
+                <div class="mb-4 bg-slate-50 p-3 rounded-lg border border-slate-200 text-xs">
+                    <strong class="text-slate-700 uppercase block mb-1">Governing Regulatory Agency:</strong>
+                    <a href="https://insurance.arkansas.gov/" target="_blank" class="text-amber-700 underline font-semibold">Arkansas Insurance Department (AID) - Professional Bail Bondsman Licensing</a>
+                </div>
+
+                <!-- Feeds Container -->
+                <div id="feeds-ar" class="space-y-4 min-h-[200px]">
+                    <p class="text-xs text-slate-400 italic">Loading Arkansas compliance feeds...</p>
                 </div>
             </div>
         </div>
@@ -102,47 +135,53 @@
     </div>
 
     <!-- Footer -->
-    <footer class="text-xs text-slate-400 py-8 text-center border-t border-slate-800 mt-12">
+    <footer class="text-xs text-slate-400 py-8 text-center border-t border-slate-800">
         &copy; 2026 Bond & Recovery Institute. All rights reserved.
     </footer>
 
     <!-- Fetch & Render News Script -->
-    <script type="module">
-        import { supabase } from './supabaseClient.js';
+    <script>
+        async function loadStateFeeds() {
+            let attempts = 0;
+            while (!window.supabaseClient && attempts < 20) {
+                await new Promise(resolve => setTimeout(resolve, 100));
+                attempts++;
+            }
+            if (!window.supabaseClient) return;
 
-        async function loadNews() {
-            const { data, error } = await supabase
-                .from('news_articles')
+            const { data, error } = await window.supabaseClient
+                .from('news_compliance_feeds')
                 .select('*')
-                .order('article_date', { ascending: false }); // Automatically sorted chronologically (newest first)
+                .order('created_at', { ascending: false });
 
-            const states = ['Kansas', 'Missouri', 'Oklahoma', 'Arkansas'];
+            const states = ['mo', 'ks', 'ok', 'ar'];
 
-            states.forEach(state => {
-                const container = document.getElementById(`news-${state.toLowerCase()}`);
-                const stateArticles = data ? data.filter(item => item.state === state) : [];
+            states.forEach(stateCode => {
+                const container = document.getElementById(`feeds-${stateCode}`);
+                const stateItems = data ? data.filter(item => item.state_code === stateCode || item.state_code === 'general') : [];
 
-                if (error || stateArticles.length === 0) {
-                    container.innerHTML = `<p class="text-xs text-slate-500 italic py-4">No recent bulletins posted for ${state}.</p>`;
+                if (error || stateItems.length === 0) {
+                    container.innerHTML = `<p class="text-xs text-slate-500 italic py-4">No active law updates or news feeds posted for this state yet.</p>`;
                     return;
                 }
 
-                container.innerHTML = stateArticles.map(article => `
+                container.innerHTML = stateItems.map(item => `
                     <div class="flex items-start gap-3 border-b border-slate-100 pb-3">
-                        ${article.thumbnail_url ? `<img src="${article.thumbnail_url}" alt="Thumbnail" class="w-12 h-12 object-cover rounded border flex-shrink-0">` : ''}
+                        ${item.thumbnail_url ? `<img src="${item.thumbnail_url}" alt="Thumbnail" class="w-12 h-12 object-cover rounded border flex-shrink-0">` : '<div class="w-12 h-12 bg-slate-100 rounded border flex items-center justify-center text-[10px] font-bold text-slate-400 uppercase flex-shrink-0">BRI</div>'}
                         <div class="flex-grow">
-                            <div class="flex justify-between items-baseline">
-                                <a href="${article.target_url || '#'}" target="_blank" class="text-sm font-bold text-[#1a365d] hover:underline">${article.title}</a>
-                                <span class="text-[10px] font-mono text-slate-400">${article.article_date}</span>
+                            <div class="flex justify-between items-baseline gap-2">
+                                <a href="${item.source_url}" target="_blank" class="text-xs font-bold text-[#1a365d] hover:underline">${item.title}</a>
+                                <span class="text-[10px] font-mono text-slate-400 whitespace-nowrap">${item.publication_date}</span>
                             </div>
-                            <p class="text-xs text-slate-600 mt-1">${article.description || ''}</p>
+                            <span class="inline-block bg-slate-100 text-slate-600 text-[9px] font-bold px-1.5 py-0.5 rounded uppercase mt-1">${item.category.replace('_', ' ')}</span>
+                            ${item.operational_summary ? `<p class="text-[11px] text-slate-600 mt-1"><strong>Agent Brief:</strong> ${item.operational_summary}</p>` : ''}
                         </div>
                     </div>
                 `).join('');
             });
         }
 
-        loadNews();
+        window.addEventListener('DOMContentLoaded', loadStateFeeds);
     </script>
 </body>
 </html>
