@@ -99,8 +99,8 @@
             statusMsg.textContent = "Authenticating...";
             statusMsg.className = "text-sm mt-4 font-semibold text-slate-600 text-center";
 
-            // 1. Authenticate with Supabase Auth
-            const { data: authData, error: authError } = await supabase.auth.signInWithPassword({
+            // 1. Authenticate with Supabase Auth using window.supabaseClient
+            const { data: authData, error: authError } = await window.supabaseClient.auth.signInWithPassword({
                 email: email,
                 password: password
             });
@@ -112,7 +112,7 @@
             }
 
             // 2. Fetch the user's role from the profiles table
-            const { data: profileData, error: profileError } = await supabase
+            const { data: profileData, error: profileError } = await window.supabaseClient
                 .from('profiles')
                 .select('role')
                 .eq('id', authData.user.id)
@@ -133,7 +133,7 @@
                 if (profileData.role === 'admin' || profileData.role === 'superadmin') {
                     window.location.href = 'admin.html';
                 } else if (profileData.role === 'instructor') {
-                    window.location.href = 'dashboard.html'; // or instructor dashboard if built
+                    window.location.href = 'dashboard.html';
                 } else {
                     window.location.href = 'dashboard.html';
                 }
