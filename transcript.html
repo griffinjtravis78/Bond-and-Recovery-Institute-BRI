@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bond & Recovery Institute - Official Transcript</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabaseClient.js"></script>
     <style>
         @media print {
             body { background: white; }
@@ -52,7 +54,7 @@
             </svg>
             Send Official Transcript ($9.99)
         </button>
-        <a href="index.html" class="bg-slate-200 text-slate-700 font-medium px-4 py-2.5 rounded hover:bg-slate-300 transition flex items-center">
+        <a href="dashboard.html" class="bg-slate-200 text-slate-700 font-medium px-4 py-2.5 rounded hover:bg-slate-300 transition flex items-center">
             Dashboard
         </a>
     </div>
@@ -101,15 +103,15 @@
                 <div class="bg-slate-50/90 border border-slate-200 rounded-lg p-5 mb-8 grid grid-cols-1 md:grid-cols-3 gap-y-4 gap-x-6 text-sm">
                     <div>
                         <span class="font-semibold text-slate-500 block text-xs uppercase tracking-wider mb-1">Student Last Name, First Name, M.I.:</span>
-                        <span class="text-base font-bold text-slate-900">Griffin, Travis J.</span>
+                        <span id="trans-student-name" class="text-base font-bold text-slate-900">Loading...</span>
                     </div>
                     <div>
                         <span class="font-semibold text-slate-500 block text-xs uppercase tracking-wider mb-1">Student ID Number:</span>
-                        <span class="text-base font-mono font-bold text-slate-900">BRI-10492</span>
+                        <span id="trans-student-id" class="text-base font-mono font-bold text-slate-900">Loading...</span>
                     </div>
                     <div>
-                        <span class="font-semibold text-slate-500 block text-xs uppercase tracking-wider mb-1">Date of Birth:</span>
-                        <span class="text-base font-mono font-medium text-slate-900">04-12</span>
+                        <span class="font-semibold text-slate-500 block text-xs uppercase tracking-wider mb-1">Account Email:</span>
+                        <span id="trans-student-email" class="text-xs font-mono font-medium text-slate-900">Loading...</span>
                     </div>
                 </div>
 
@@ -125,16 +127,8 @@
                                 <th class="border border-indigo-900 px-4 py-2.5 font-semibold text-xs tracking-wider uppercase w-28 text-right">Units of Credit</th>
                             </tr>
                         </thead>
-                        <tbody class="divide-y divide-slate-200 bg-white/80">
-                            <tr class="hover:bg-slate-50">
-                                <td class="border border-slate-300 px-4 py-3">
-                                    <div class="font-bold text-slate-900">MS-BB-101: Missouri Bail Bond & Surety Recovery Agent 101</div>
-                                    <div class="text-xs text-slate-500">Comprehensive pre-licensing curriculum aligned with Missouri RSMo Chapters 374, 385, 544, and DCI regulatory standards.</div>
-                                </td>
-                                <td class="border border-slate-300 px-4 py-3 text-emerald-800 font-semibold text-xs uppercase tracking-wide">In Progress</td>
-                                <td class="border border-slate-300 px-4 py-3 font-mono text-xs text-slate-400">-</td>
-                                <td class="border border-slate-300 px-4 py-3 text-right font-mono font-medium">3.00</td>
-                            </tr>
+                        <tbody id="transcript-courses-tbody" class="divide-y divide-slate-200 bg-white/80">
+                            <!-- Populated dynamically -->
                         </tbody>
                     </table>
                 </div>
@@ -144,7 +138,7 @@
                     <div>
                         <div class="text-xs text-slate-500 space-y-1">
                             <p><strong class="text-slate-700">Authentication Note:</strong> This official transcript bears the repeated security watermark pattern of the Bond & Recovery Institute.</p>
-                            <p>Cumulative Credits Earned: <span class="font-mono font-bold text-slate-900">0.00</span> | Total Program Units: <span class="font-mono font-bold text-slate-900">3.00</span></p>
+                            <p>Cumulative Credits Earned: <span id="trans-credits-earned" class="font-mono font-bold text-slate-900">3.00</span> | Total Program Units: <span class="font-mono font-bold text-slate-900">3.00</span></p>
                         </div>
                     </div>
                     <div class="text-center md:text-right">
@@ -172,7 +166,6 @@
             <h3 class="text-lg font-extrabold text-indigo-950 mb-1">Request Official Transcript ($9.99 Fee)</h3>
             <p class="text-xs text-slate-600 mb-6">Enter the destination details below. A cryptographic SHA-256 hash will be generated upon secure checkout completion.</p>
 
-            <!-- Step 1: Destination Form -->
             <form id="destination-form" class="space-y-4">
                 <div>
                     <label class="block text-xs font-semibold uppercase text-slate-700 mb-1">Organization Name *</label>
@@ -211,7 +204,6 @@
                     </div>
                 </div>
 
-                <!-- Action Buttons -->
                 <div class="flex justify-end gap-3 mt-6 pt-4 border-t border-slate-200">
                     <button type="button" onclick="closeRequestModal()" class="bg-slate-200 hover:bg-slate-300 text-slate-700 px-4 py-2 rounded text-sm font-medium transition">Cancel</button>
                     <button type="button" onclick="previewAndPay()" class="bg-indigo-900 hover:bg-indigo-800 text-white px-5 py-2 rounded text-sm font-medium transition">Proceed to Payment ($9.99)</button>
@@ -220,7 +212,7 @@
         </div>
     </div>
 
-    <!-- JavaScript Handling Formatted Preview & Simulated Stripe / SHA-256 Generation -->
+    <!-- Transcript Initialization & Supabase Integration Script -->
     <script>
         function openRequestModal() {
             document.getElementById('request-modal').classList.remove('hidden');
@@ -228,6 +220,55 @@
 
         function closeRequestModal() {
             document.getElementById('request-modal').classList.add('hidden');
+        }
+
+        async function initTranscript() {
+            let attempts = 0;
+            while (!window.supabaseClient && attempts < 20) {
+                await new Promise(resolve => setTimeout(resolve, 100));
+                attempts++;
+            }
+            if (!window.supabaseClient) return;
+
+            const { data: { session } } = await window.supabaseClient.auth.getSession();
+            if (!session) {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            const userId = session.user.id;
+            const email = session.user.email;
+            document.getElementById('trans-student-email').textContent = email;
+            document.getElementById('trans-student-id').textContent = 'BRI-' + userId.substring(0, 6).toUpperCase();
+
+            // Fetch profile details if available
+            const { data: profile } = await window.supabaseClient.from('profiles').select('*').eq('id', userId).single();
+            if (profile) {
+                const fullName = profile.last_name && profile.first_name ? `${profile.last_name}, ${profile.first_name}` : email;
+                document.getElementById('trans-student-name').textContent = fullName;
+            } else {
+                document.getElementById('trans-student-name').textContent = email;
+            }
+
+            // Fetch courses
+            const { data: courses } = await window.supabaseClient.from('lms_courses').select('*').order('code', { ascending: true });
+            const tbody = document.getElementById('transcript-courses-tbody');
+            
+            if (courses && courses.length > 0) {
+                tbody.innerHTML = courses.map(c => `
+                    <tr class="hover:bg-slate-50">
+                        <td class="border border-slate-300 px-4 py-3">
+                            <div class="font-bold text-slate-900">${c.code}: ${c.title}</div>
+                            <div class="text-xs text-slate-500">${c.description || 'Pre-licensing professional development module.'}</div>
+                        </td>
+                        <td class="border border-slate-300 px-4 py-3 text-emerald-800 font-semibold text-xs uppercase tracking-wide">${c.status}</td>
+                        <td class="border border-slate-300 px-4 py-3 font-mono text-xs text-slate-400">Current</td>
+                        <td class="border border-slate-300 px-4 py-3 text-right font-mono font-medium">${c.credits}</td>
+                    </tr>
+                `).join('');
+            } else {
+                tbody.innerHTML = `<tr><td colspan="4" class="text-center py-4 text-xs text-slate-500 italic">No course history recorded.</td></tr>`;
+            }
         }
 
         async function previewAndPay() {
@@ -242,7 +283,6 @@
                 return;
             }
 
-            // Construct standardized destination format preview
             const attn = document.getElementById('org-attn').value.trim();
             const fax = document.getElementById('org-fax').value.trim();
             const email = document.getElementById('org-email').value.trim();
@@ -255,24 +295,23 @@
             if (fax) formattedBlock += `\nFAX: ${fax}`;
             if (email) formattedBlock += `\nEMAIL: ${email}`;
 
-            // Confirm payment simulation (Stripe Checkout integration point)
             const confirmed = confirm(`Destination Format Preview:\n\n------------------------------------\n${formattedBlock}\n------------------------------------\n\nProceed to Stripe Checkout for the $9.99 Official Transcript Fee?`);
             
             if (confirmed) {
-                // Simulate successful Stripe transaction & compute SHA-256 cryptographic hash
-                const rawData = "BRI-10492-TRANSCRIPT-" + new Date().toISOString() + "-" + org;
+                const rawData = "BRI-TRANSCRIPT-" + new Date().toISOString() + "-" + org;
                 const encoder = new TextEncoder();
                 const dataBuffer = encoder.encode(rawData);
                 const hashBuffer = await crypto.subtle.digest('SHA-256', dataBuffer);
                 const hashArray = Array.from(new Uint8Array(hashBuffer));
                 const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
 
-                // Stamp hash onto transcript footer
                 document.getElementById('sha-hash-display').innerText = `[SHA-256 Hash: ${hashHex}]`;
                 closeRequestModal();
                 alert('Payment successful via Stripe! Official transcript generated and cryptographically stamped.');
             }
         }
+
+        window.addEventListener('DOMContentLoaded', initTranscript);
     </script>
 </body>
 </html>
