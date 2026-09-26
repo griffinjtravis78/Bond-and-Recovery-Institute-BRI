@@ -17,34 +17,28 @@
                 <p class="text-xs text-slate-500 font-semibold uppercase">Bond & Recovery Institute</p>
             </div>
             
-            <div class="flex items-center gap-4">
-                <a href="index.html" class="bg-slate-200 hover:bg-slate-300 text-slate-800 text-xs font-bold px-3 py-2 rounded-lg transition uppercase tracking-wider">
-                    Home
-                </a>
-                <a href="store.html" class="bg-slate-200 hover:bg-slate-300 text-slate-800 text-xs font-bold px-3 py-2 rounded-lg transition uppercase tracking-wider">
-                    Store
-                </a>
-                <a href="admin.html" id="admin-link" class="hidden bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold px-3 py-2 rounded-lg transition uppercase tracking-wider shadow">
-                    Admin Panel
-                </a>
-                <button id="logout-btn" class="bg-red-600 hover:bg-red-700 text-white text-xs font-bold px-3 py-2 rounded-lg transition uppercase tracking-wider shadow">
-                    Sign Out
-                </button>
+            <div class="flex items-center gap-3">
+                <a href="index.html" class="bg-slate-200 hover:bg-slate-300 text-slate-800 text-xs font-bold px-3 py-2 rounded-lg transition uppercase tracking-wider">Home</a>
+                <a href="store.html" class="bg-slate-200 hover:bg-slate-300 text-slate-800 text-xs font-bold px-3 py-2 rounded-lg transition uppercase tracking-wider">Store</a>
+                <a href="register.html" class="bg-slate-200 hover:bg-slate-300 text-slate-800 text-xs font-bold px-3 py-2 rounded-lg transition uppercase tracking-wider">Edit Profile</a>
+                <a href="admin.html" id="admin-link" class="hidden bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold px-3 py-2 rounded-lg transition uppercase tracking-wider shadow">Admin Panel</a>
+                <button id="logout-btn" class="bg-red-600 hover:bg-red-700 text-white text-xs font-bold px-3 py-2 rounded-lg transition uppercase tracking-wider shadow">Sign Out</button>
             </div>
         </div>
     </header>
 
     <main class="max-w-7xl mx-auto px-6 py-8 flex-grow w-full space-y-10">
         
-        <!-- Welcome Banner & CE Tracker Widget -->
+        <!-- Welcome Banner & Dynamic State CE Tracker -->
         <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b border-slate-800 pb-6 gap-4">
             <div>
-                <h2 class="text-2xl font-extrabold text-white uppercase tracking-wide">Student Portal & Curriculum</h2>
-                <p class="text-xs text-slate-400 mt-1">Manage active pre-licensing enrollments, track continuing education units, and explore the institute course library.</p>
+                <h2 class="text-2xl font-extrabold text-white uppercase tracking-wide">Welcome, <span id="welcome-name">Agent</span></h2>
+                <p class="text-xs text-slate-400 mt-1">Manage active pre-licensing enrollments, monitor state continuing education credits, and explore the catalog.</p>
             </div>
             <div class="flex items-center gap-3">
                 <div class="bg-slate-800 border border-slate-700 px-4 py-2.5 rounded-lg text-xs font-bold text-indigo-300 flex items-center gap-2">
-                    <span>CE License Status:</span> <span class="text-emerald-400 uppercase">Compliant (3.0 / 3.0 Units)</span>
+                    <span>State License (<span id="user-state-badge">MO</span>) CE Status:</span> 
+                    <span id="ce-status-text" class="uppercase">Calculating...</span>
                 </div>
                 <div id="user-badge" class="bg-slate-800 border border-slate-700 px-4 py-2.5 rounded-lg text-xs font-bold text-emerald-400">
                     Active Enrollee
@@ -76,7 +70,16 @@
 
     <script>
         let allCourses = [];
-        let enrolledCourseIds = JSON.parse(localStorage.getItem('bri_enrolled_courses')) || ['1', 'MS-BB-101'];
+        let userProfile = null;
+        let cart = JSON.parse(localStorage.getItem('bri_cart')) || [];
+
+        // State CE Requirements (Units needed per renewal cycle)
+        const stateCERequirements = {
+            'MO': { annual: 8.0, name: 'Missouri DCI Surety Standard' },
+            'KS': { annual: 6.0, name: 'Kansas KIDS Standard' },
+            'OK': { annual: 8.0, name: 'Oklahoma OID Standard' },
+            'AR': { annual: 6.0, name: 'Arkansas AID Standard' }
+        };
 
         async function initDashboard() {
             let attempts = 0;
@@ -89,9 +92,18 @@
             const { data: { session } } = await window.supabaseClient.auth.getSession();
             if (!session) { window.location.href = 'login.html'; return; }
 
-            const { data: profile } = await window.supabaseClient.from('profiles').select('role').eq('id', session.user.id).single();
-            if (profile && (profile.role === 'admin' || profile.role === 'superadmin')) {
-                document.getElementById('admin-link').classList.remove('hidden');
+            const { data: profile } = await window.supabaseClient.from('profiles').select('*').eq('id', session.user.id).single();
+            userProfile = profile;
+
+            if (profile) {
+                const displayName = profile.last_name ? `${profile.last_name}, ${profile.first_name}` : session.user.email;
+                document.getElementById('welcome-name').textContent = displayName;
+                const st = profile.dl_state || profile.physical_state || 'MO';
+                document.getElementById('user-state-badge').textContent = st;
+                
+                if (profile.role === 'admin' || profile.role === 'superadmin') {
+                    document.getElementById('admin-link').classList.remove('hidden');
+                }
             }
 
             await fetchCourses();
@@ -107,17 +119,35 @@
             if (!error && data) {
                 allCourses = data;
                 renderDashboardViews();
+                calculateCECompliance();
+            }
+        }
+
+        function calculateCECompliance() {
+            const st = userProfile?.dl_state || userProfile?.physical_state || 'MO';
+            const req = stateCERequirements[st] || stateCERequirements['MO'];
+            
+            const enrolledIds = JSON.parse(localStorage.getItem('bri_enrolled_courses')) || ['1', 'MS-BB-101'];
+            const earnedCredits = allCourses
+                .filter(c => enrolledIds.includes(c.id) || enrolledIds.includes(c.code))
+                .reduce((sum, c) => sum + parseFloat(c.credits || 3.0), 0);
+
+            const statusEl = document.getElementById('ce-status-text');
+            if (earnedCredits >= req.annual) {
+                statusEl.innerHTML = `<span class="text-emerald-400 font-bold">Compliant (${earnedCredits.toFixed(1)} / ${req.annual} Units)</span>`;
+            } else {
+                statusEl.innerHTML = `<span class="text-amber-400 font-bold">Action Required (${earnedCredits.toFixed(1)} / ${req.annual} Units)</span>`;
             }
         }
 
         function renderDashboardViews() {
             const enrolledContainer = document.getElementById('enrolled-courses-container');
             const libraryContainer = document.getElementById('library-courses-container');
+            const enrolledCourseIds = JSON.parse(localStorage.getItem('bri_enrolled_courses')) || ['1', 'MS-BB-101'];
 
             const enrolled = allCourses.filter(c => enrolledCourseIds.includes(c.id) || enrolledCourseIds.includes(c.code));
             const available = allCourses.filter(c => !enrolledCourseIds.includes(c.id) && !enrolledCourseIds.includes(c.code) && c.status === 'Active');
 
-            // Render Enrolled
             if (enrolled.length === 0) {
                 enrolledContainer.innerHTML = '<div class="bg-white text-slate-800 p-6 rounded-xl border border-slate-200 text-xs text-slate-500">You are currently not enrolled in any active courses. Explore the library below to enroll.</div>';
             } else {
@@ -130,10 +160,10 @@
                             <div class="text-[11px] font-semibold text-slate-400 mt-2">Credits: ${c.credits} Units | Status: <span class="text-emerald-600 uppercase font-bold">In Progress</span></div>
                         </div>
                         <div class="flex items-center gap-3">
-                            <button onclick="launchCourse('${c.code}')" class="bg-[#1a365d] hover:bg-blue-900 text-white text-xs font-bold px-5 py-3 rounded-lg transition uppercase tracking-wider shadow whitespace-nowrap">
+                            <a href="player.html?code=${encodeURIComponent(c.code)}" class="bg-[#1a365d] hover:bg-blue-900 text-white text-xs font-bold px-5 py-3 rounded-lg transition uppercase tracking-wider shadow whitespace-nowrap">
                                 Launch Course
-                            </button>
-                            <a href="certificate.html?code=${encodeURIComponent(c.code)}&title=${encodeURIComponent(c.title)}&credits=${c.credits}" class="bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-bold px-5 py-3 rounded-lg transition uppercase tracking-wider shadow whitespace-nowrap">
+                            </a>
+                            <a href="certificate.html?code=${encodeURIComponent(c.code)}&title=${encodeURIComponent(c.title)}&credits=${c.credits}" target="_blank" class="bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-bold px-5 py-3 rounded-lg transition uppercase tracking-wider shadow whitespace-nowrap">
                                 View Certificate
                             </a>
                         </div>
@@ -141,7 +171,6 @@
                 `).join('');
             }
 
-            // Render Library
             if (available.length === 0) {
                 libraryContainer.innerHTML = '<p class="text-xs text-slate-400 italic col-span-full">No additional courses available in the library.</p>';
             } else {
@@ -157,8 +186,8 @@
                                 <span class="text-slate-500">Credits: ${c.credits} Units</span>
                                 <span class="text-emerald-700 text-sm">$${c.price || '199.00'}</span>
                             </div>
-                            <button onclick="purchaseCourse('${c.id}', '${c.code}', '${c.title}', '${c.price || 199.00}')" class="w-full bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-bold py-3 rounded-lg transition uppercase tracking-wider shadow">
-                                Purchase & Enroll ($${c.price || '199.00'})
+                            <button onclick="addToCart('${c.id}', '${c.title}', ${c.price || 199.00}, 'course')" class="w-full bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-bold py-3 rounded-lg transition uppercase tracking-wider shadow">
+                                Add Course to Cart ($${c.price || '199.00'})
                             </button>
                         </div>
                     </div>
@@ -166,17 +195,11 @@
             }
         }
 
-        function launchCourse(code) {
-            alert(`Launching LMS module player for course: ${code}. Loading SCORM and interactive materials...`);
-        }
-
-        function purchaseCourse(id, code, title, price) {
-            if (confirm(`Proceed to secure checkout to purchase "${title}" for $${price}?`)) {
-                enrolledCourseIds.push(id);
-                enrolledCourseIds.push(code);
-                localStorage.setItem('bri_enrolled_courses', JSON.stringify(enrolledCourseIds));
-                alert(`Enrollment confirmed! "${title}" has been added to your Enrolled Curriculum.`);
-                renderDashboardViews();
+        function addToCart(id, title, price, type) {
+            cart.push({ id, title, price, type });
+            localStorage.setItem('bri_cart', JSON.stringify(cart));
+            if (confirm(`"${title}" added to your Order Cart!\n\nWould you like to proceed to checkout now?`)) {
+                window.location.href = 'checkout.html';
             }
         }
 
