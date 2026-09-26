@@ -35,26 +35,41 @@
         <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
             <div>
                 <h2 class="text-2xl font-extrabold text-white uppercase tracking-wide">System Administration Dashboard</h2>
-                <p class="text-xs text-slate-400 mt-1">Select an administrative work area below to manage curriculum, e-commerce, or security access.</p>
+                <p class="text-xs text-slate-400 mt-1">Select an administrative work area below to manage curriculum, e-commerce, regional enterprises, news feeds, or security access.</p>
             </div>
             <button onclick="switchAdminSection('hub')" id="back-to-hub" class="hidden bg-slate-700 hover:bg-slate-600 text-white text-xs font-bold px-4 py-2 rounded-lg transition uppercase tracking-wider">
                 &larr; Back to Admin Hub
             </button>
         </div>
 
-        <div id="admin-hub-grid" class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+        <!-- Admin Hub Grid -->
+        <div id="admin-hub-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
             <div onclick="switchAdminSection('bri')" class="bg-white text-slate-800 rounded-xl p-6 shadow-xl border border-slate-200 hover:border-[#1a365d] hover:shadow-2xl cursor-pointer transition transform hover:-translate-y-1">
                 <div class="bg-blue-50 text-[#1a365d] p-3 rounded-lg w-fit mb-4 font-bold text-sm uppercase">Curriculum Hub</div>
                 <h3 class="text-lg font-bold text-[#1a365d] mb-2">BRI Admin</h3>
-                <p class="text-xs text-slate-600 leading-relaxed">Upload SCORM packages, documents, videos, and set course pricing and credits.</p>
+                <p class="text-xs text-slate-600 leading-relaxed">Publish courses, set pricing, assign credit units, and manage active catalog modules.</p>
                 <div class="mt-4 text-xs font-bold text-blue-700 uppercase tracking-wider flex items-center gap-1">Launch BRI Admin &rarr;</div>
             </div>
 
             <div onclick="switchAdminSection('store')" class="bg-white text-slate-800 rounded-xl p-6 shadow-xl border border-slate-200 hover:border-emerald-600 hover:shadow-2xl cursor-pointer transition transform hover:-translate-y-1">
                 <div class="bg-emerald-50 text-emerald-800 p-3 rounded-lg w-fit mb-4 font-bold text-sm uppercase">E-Commerce</div>
                 <h3 class="text-lg font-bold text-emerald-800 mb-2">Store Admin</h3>
-                <p class="text-xs text-slate-600 leading-relaxed">Multi-photo uploads, dynamic tactical gear/apparel attributes, and accordion bullet lists.</p>
+                <p class="text-xs text-slate-600 leading-relaxed">Multi-photo uploads, dynamic tactical gear attributes, and accordion bullet lists.</p>
                 <div class="mt-4 text-xs font-bold text-emerald-700 uppercase tracking-wider flex items-center gap-1">Launch Store Admin &rarr;</div>
+            </div>
+
+            <div onclick="switchAdminSection('enterprises')" class="bg-white text-slate-800 rounded-xl p-6 shadow-xl border border-slate-200 hover:border-indigo-600 hover:shadow-2xl cursor-pointer transition transform hover:-translate-y-1">
+                <div class="bg-indigo-50 text-indigo-800 p-3 rounded-lg w-fit mb-4 font-bold text-sm uppercase">Enterprises</div>
+                <h3 class="text-lg font-bold text-indigo-800 mb-2">Bail Bond Enterprises</h3>
+                <p class="text-xs text-slate-600 leading-relaxed">Configure and link regional platform URLs for MO, KS, OK, and AR enterprise models.</p>
+                <div class="mt-4 text-xs font-bold text-indigo-700 uppercase tracking-wider flex items-center gap-1">Launch Enterprise Routing &rarr;</div>
+            </div>
+
+            <div onclick="switchAdminSection('news')" class="bg-white text-slate-800 rounded-xl p-6 shadow-xl border border-slate-200 hover:border-teal-600 hover:shadow-2xl cursor-pointer transition transform hover:-translate-y-1">
+                <div class="bg-teal-50 text-teal-800 p-3 rounded-lg w-fit mb-4 font-bold text-sm uppercase">News & Compliance</div>
+                <h3 class="text-lg font-bold text-teal-800 mb-2">News Admin & Scheduler</h3>
+                <p class="text-xs text-slate-600 leading-relaxed">Manage twice-daily automated news scrapers (7 AM / 11 AM) and state compliance feeds.</p>
+                <div class="mt-4 text-xs font-bold text-teal-700 uppercase tracking-wider flex items-center gap-1">Launch News Scheduler &rarr;</div>
             </div>
 
             <div onclick="switchAdminSection('system')" class="bg-white text-slate-800 rounded-xl p-6 shadow-xl border border-slate-200 hover:border-amber-600 hover:shadow-2xl cursor-pointer transition transform hover:-translate-y-1">
@@ -65,9 +80,10 @@
             </div>
         </div>
 
+        <!-- Work Area Container -->
         <div id="work-area-container" class="bg-white text-slate-800 shadow-xl rounded-xl p-6 border border-slate-200 hidden">
             
-            <!-- BRI Admin Section -->
+            <!-- 1. BRI Admin Section -->
             <div id="section-bri" class="admin-section hidden">
                 <div class="border-b border-slate-200 pb-4 mb-6">
                     <h3 class="text-lg font-extrabold text-[#1a365d] uppercase">BRI Admin - Curriculum & Asset Management (LMS)</h3>
@@ -127,15 +143,246 @@
                 </div>
             </div>
 
-            <!-- Store Admin Section -->
+            <!-- 2. Store Admin Section -->
             <div id="section-store" class="admin-section hidden">
                 <div class="border-b border-slate-200 pb-4 mb-6">
-                    <h3 class="text-lg font-extrabold text-emerald-800 uppercase">Store Admin - Inventory Control</h3>
+                    <h3 class="text-lg font-extrabold text-emerald-800 uppercase">Store Admin - Inventory & Merchandise Control</h3>
+                    <p class="text-xs text-slate-500 mt-1">Upload multi-photo catalogs, tactical gear attributes, expandable accordion bullets, and hyperlinks.</p>
                 </div>
-                <p class="text-xs text-slate-600">Store merchandise controls active.</p>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <div class="bg-slate-50 p-6 rounded-lg border border-slate-200 space-y-4">
+                        <h4 class="text-sm font-bold text-emerald-800 uppercase mb-2">Upload / Edit Store Merchandise</h4>
+                        
+                        <input type="hidden" id="store-edit-id" value="">
+
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Item Title</label>
+                            <input type="text" id="store-title" placeholder="e.g., Tactical Bail Recovery Vest & Rig" class="w-full bg-white border border-slate-300 rounded-lg px-4 py-2 text-xs text-slate-800 focus:ring-2 focus:ring-emerald-600">
+                        </div>
+
+                        <div class="grid grid-cols-3 gap-3">
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Price ($)</label>
+                                <input type="number" step="0.01" id="store-price" placeholder="129.99" class="w-full bg-white border border-slate-300 rounded-lg px-3 py-2 text-xs text-slate-800">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Stock</label>
+                                <input type="number" id="store-stock" placeholder="50" class="w-full bg-white border border-slate-300 rounded-lg px-3 py-2 text-xs text-slate-800">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Product Type</label>
+                                <select id="store-product-type" onchange="handleProductTypeChange()" class="w-full bg-white border border-slate-300 rounded-lg px-3 py-2 text-xs text-slate-800 font-semibold">
+                                    <option value="apparel">Clothing / Uniform</option>
+                                    <option value="tactical">Tactical Equipment</option>
+                                    <option value="safety">Safety Gear & Badges</option>
+                                    <option value="accessories">Accessories / Field Gear</option>
+                                    <option value="furniture">Office / Ref Furniture</option>
+                                    <option value="jewelry">Insignia / Jewelry</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Product Photos (Multiple)</label>
+                            <input type="file" id="store-photos" accept="image/*" multiple class="w-full text-xs text-slate-500 file:mr-2 file:py-1 file:px-3 file:rounded file:border-0 file:text-xs file:font-bold file:bg-emerald-50 file:text-emerald-800">
+                        </div>
+
+                        <div id="dynamic-attributes-container" class="grid grid-cols-2 gap-3 bg-white p-3 rounded-lg border border-slate-200">
+                            <div>
+                                <label class="block text-[11px] font-bold text-slate-700 uppercase mb-1">Color Options</label>
+                                <input type="text" id="attr-colors" placeholder="Black, Ranger Green" class="w-full bg-slate-50 border border-slate-300 rounded px-3 py-1.5 text-xs text-slate-800">
+                            </div>
+                            <div id="attr-size-container">
+                                <label id="attr-size-label" class="block text-[11px] font-bold text-slate-700 uppercase mb-1">Size Options</label>
+                                <input type="text" id="attr-sizes" placeholder="S, M, L, XL" class="w-full bg-slate-50 border border-slate-300 rounded px-3 py-1.5 text-xs text-slate-800">
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="flex justify-between items-center mb-1">
+                                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider">Product Overview</label>
+                                <button type="button" onclick="insertHyperlink('store-desc')" class="text-[10px] bg-slate-200 hover:bg-slate-300 font-bold px-2 py-0.5 rounded text-slate-700 uppercase">🔗 Insert Hyperlink</button>
+                            </div>
+                            <textarea id="store-desc" rows="3" placeholder="Overview details..." class="w-full bg-white border border-slate-300 rounded-lg px-3 py-2 text-xs text-slate-800"></textarea>
+                        </div>
+
+                        <div class="space-y-3 border-t border-slate-200 pt-3">
+                            <h5 class="text-xs font-bold text-emerald-800 uppercase">Accordion Bullet Points</h5>
+                            
+                            <div class="bg-white p-3 rounded border border-slate-200">
+                                <div class="flex justify-between items-center mb-1">
+                                    <label class="text-[11px] font-bold text-slate-700 uppercase">Features</label>
+                                    <button type="button" onclick="addBulletField('features-list')" class="text-[10px] text-emerald-700 font-bold hover:underline">+ Add Feature</button>
+                                </div>
+                                <div id="features-list" class="space-y-2">
+                                    <div class="flex gap-2">
+                                        <input type="text" placeholder="e.g., Reinforced MOLLE webbing" class="w-full bg-slate-50 border border-slate-300 rounded px-2 py-1 text-xs">
+                                        <button type="button" onclick="this.parentElement.remove()" class="text-red-500 font-bold px-2">&times;</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="bg-white p-3 rounded border border-slate-200">
+                                <div class="flex justify-between items-center mb-1">
+                                    <label id="lbl-fit-dims" class="text-[11px] font-bold text-slate-700 uppercase">Fit / Dimensions</label>
+                                    <button type="button" onclick="addBulletField('fit-list')" class="text-[10px] text-emerald-700 font-bold hover:underline">+ Add Entry</button>
+                                </div>
+                                <div id="fit-list" class="space-y-2">
+                                    <div class="flex gap-2">
+                                        <input type="text" placeholder="e.g., Adjustable waist straps" class="w-full bg-slate-50 border border-slate-300 rounded px-2 py-1 text-xs">
+                                        <button type="button" onclick="this.parentElement.remove()" class="text-red-500 font-bold px-2">&times;</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="bg-white p-3 rounded border border-slate-200">
+                                <div class="flex justify-between items-center mb-1">
+                                    <label class="text-[11px] font-bold text-slate-700 uppercase">Materials & Care</label>
+                                    <button type="button" onclick="addBulletField('materials-list')" class="text-[10px] text-emerald-700 font-bold hover:underline">+ Add Entry</button>
+                                </div>
+                                <div id="materials-list" class="space-y-2">
+                                    <div class="flex gap-2">
+                                        <input type="text" placeholder="e.g., 1000D Ballistic Nylon" class="w-full bg-slate-50 border border-slate-300 rounded px-2 py-1 text-xs">
+                                        <button type="button" onclick="this.parentElement.remove()" class="text-red-500 font-bold px-2">&times;</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="bg-white p-3 rounded border border-slate-200">
+                                <div class="flex justify-between items-center mb-1">
+                                    <label class="text-[11px] font-bold text-slate-700 uppercase">Shipping & Returns</label>
+                                    <button type="button" onclick="addBulletField('shipping-list')" class="text-[10px] text-emerald-700 font-bold hover:underline">+ Add Entry</button>
+                                </div>
+                                <div id="shipping-list" class="space-y-2">
+                                    <div class="flex gap-2">
+                                        <input type="text" placeholder="e.g., Ships within 24 hours" class="w-full bg-slate-50 border border-slate-300 rounded px-2 py-1 text-xs">
+                                        <button type="button" onclick="this.parentElement.remove()" class="text-red-500 font-bold px-2">&times;</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button id="save-product-btn" class="w-full bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-bold py-3 rounded-lg transition uppercase tracking-wider shadow">
+                            Upload Merchandise to Store
+                        </button>
+                        <p id="store-status" class="text-xs font-semibold text-center mt-2"></p>
+                    </div>
+
+                    <div>
+                        <h4 class="text-sm font-bold text-slate-800 uppercase mb-4">Current Store Inventory</h4>
+                        <div id="store-inventory-list" class="space-y-3 max-h-[600px] overflow-y-auto pr-2"></div>
+                    </div>
+                </div>
             </div>
 
-            <!-- System Admin Section -->
+            <!-- 3. Regional Bail Bond Enterprises URL Management Section -->
+            <div id="section-enterprises" class="admin-section hidden">
+                <div class="border-b border-slate-200 pb-4 mb-6">
+                    <h3 class="text-lg font-extrabold text-indigo-800 uppercase">Bail Bond Enterprises - Regional URL Routing</h3>
+                    <p class="text-xs text-slate-500 mt-1">Configure the destination enterprise software URLs for Missouri, Kansas, Oklahoma, and Arkansas.</p>
+                </div>
+
+                <div class="max-w-xl space-y-4">
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Missouri (MO) Enterprise URL</label>
+                            <input type="url" id="url-mo" placeholder="https://mo.bailbondenterprise.com" class="w-full bg-slate-50 border border-slate-300 rounded-lg px-3 py-2 text-xs text-slate-800">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Kansas (KS) Enterprise URL</label>
+                            <input type="url" id="url-ks" placeholder="https://ks.bailbondenterprise.com" class="w-full bg-slate-50 border border-slate-300 rounded-lg px-3 py-2 text-xs text-slate-800">
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Oklahoma (OK) Enterprise URL</label>
+                            <input type="url" id="url-ok" placeholder="https://ok.bailbondenterprise.com" class="w-full bg-slate-50 border border-slate-300 rounded-lg px-3 py-2 text-xs text-slate-800">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Arkansas (AR) Enterprise URL</label>
+                            <input type="url" id="url-ar" placeholder="https://ar.bailbondenterprise.com" class="w-full bg-slate-50 border border-slate-300 rounded-lg px-3 py-2 text-xs text-slate-800">
+                        </div>
+                    </div>
+                    <button id="save-enterprise-urls-btn" class="w-full bg-indigo-700 hover:bg-indigo-800 text-white text-xs font-bold py-3 rounded-lg transition uppercase tracking-wider shadow">
+                        Save Enterprise Routing URLs
+                    </button>
+                    <p id="enterprise-url-status" class="text-xs font-semibold text-center mt-2"></p>
+                </div>
+            </div>
+
+            <!-- 4. News Admin & Scheduler Section -->
+            <div id="section-news" class="admin-section hidden">
+                <div class="border-b border-slate-200 pb-4 mb-6">
+                    <h3 class="text-lg font-extrabold text-teal-800 uppercase">News Admin & Automated Scheduler</h3>
+                    <p class="text-xs text-slate-500 mt-1">Manage automated twice-daily scrapers (7:00 AM & 11:00 AM) and manual state compliance feed submissions.</p>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <div class="bg-slate-50 p-6 rounded-lg border border-slate-200 space-y-4">
+                        <h4 class="text-sm font-bold text-teal-800 uppercase mb-2">Publish / Push Compliance Feed Item</h4>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Target State / Hub</label>
+                            <select id="news-state" class="w-full bg-white border border-slate-300 rounded-lg px-3 py-2 text-xs text-slate-800">
+                                <option value="mo">Missouri (MO)</option>
+                                <option value="ks">Kansas (KS)</option>
+                                <option value="ok">Oklahoma (OK)</option>
+                                <option value="ar">Arkansas (AR)</option>
+                                <option value="general">General / Multi-State</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Feed Category</label>
+                            <select id="news-category" class="w-full bg-white border border-slate-300 rounded-lg px-3 py-2 text-xs text-slate-800">
+                                <option value="agency">Governing Agency Link</option>
+                                <option value="law_update">State Law Update</option>
+                                <option value="news">News Article Feed</option>
+                                <option value="legal_feed">Legal / Statutory Change Feed</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Article / Item Title</label>
+                            <input type="text" id="news-title" placeholder="e.g., HB 2144 Bail Bond Regulatory Reform" class="w-full bg-white border border-slate-300 rounded-lg px-3 py-2 text-xs text-slate-800">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Source URL (Hyperlink)</label>
+                            <input type="url" id="news-url" placeholder="https://..." class="w-full bg-white border border-slate-300 rounded-lg px-3 py-2 text-xs text-slate-800">
+                        </div>
+                        <div class="grid grid-cols-2 gap-3">
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Thumbnail Image URL</label>
+                                <input type="url" id="news-thumb" placeholder="https://.../image.jpg" class="w-full bg-white border border-slate-300 rounded-lg px-3 py-2 text-xs text-slate-800">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Publication Date</label>
+                                <input type="text" id="news-date" placeholder="September 26, 2026" class="w-full bg-white border border-slate-300 rounded-lg px-3 py-2 text-xs text-slate-800">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Operational Impact Brief (2 Sentences)</label>
+                            <textarea id="news-summary" rows="2" placeholder="Brief summary of how this impacts bond agents..." class="w-full bg-white border border-slate-300 rounded-lg px-3 py-2 text-xs text-slate-800"></textarea>
+                        </div>
+                        <button id="publish-news-btn" class="w-full bg-teal-700 hover:bg-teal-800 text-white text-xs font-bold py-3 rounded-lg transition uppercase tracking-wider shadow">
+                            Publish Compliance Item
+                        </button>
+                        <p id="news-status" class="text-xs font-semibold text-center mt-2"></p>
+                    </div>
+
+                    <div class="space-y-4">
+                        <div class="bg-teal-50 border border-teal-200 p-4 rounded-lg">
+                            <h5 class="text-xs font-bold text-teal-900 uppercase mb-1">Automated Scraper Status (Active)</h5>
+                            <p class="text-[11px] text-teal-700">Scheduled checks run automatically twice daily at <strong>7:00 AM</strong> and <strong>11:00 AM</strong> to aggregate state regulatory and surety law updates.</p>
+                            <button onclick="triggerManualScraper()" class="mt-3 bg-teal-700 hover:bg-teal-800 text-white text-[11px] font-bold px-3 py-1.5 rounded uppercase shadow">
+                                Run Manual Scraper Sync Now
+                            </button>
+                        </div>
+                        <h4 class="text-sm font-bold text-slate-800 uppercase">Recent Compliance Feeds</h4>
+                        <div id="news-admin-list" class="space-y-3 max-h-[400px] overflow-y-auto pr-2"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 5. System Admin Section -->
             <div id="section-system" class="admin-section hidden">
                 <div class="border-b border-slate-200 pb-4 mb-6">
                     <h3 class="text-lg font-extrabold text-amber-800 uppercase">System Administration - User Security Roles</h3>
@@ -169,48 +416,92 @@
 
     <script>
         let lmsCatalog = [];
+        let storeInventory = [];
+        let newsItems = [];
+
+        function insertHyperlink(textareaId) {
+            const textarea = document.getElementById(textareaId);
+            const start = textarea.selectionStart;
+            const end = textarea.selectionEnd;
+            const selectedText = textarea.value.substring(start, end);
+            if (!selectedText) {
+                alert('Please highlight a word or phrase in the text area first before adding a hyperlink.');
+                return;
+            }
+            const url = prompt('Enter destination URL for "' + selectedText + '":', 'https://');
+            if (!url) return;
+            const linkedText = `<a href="${url}" target="_blank" class="text-emerald-700 underline font-semibold">${selectedText}</a>`;
+            textarea.value = textarea.value.substring(0, start) + linkedText + textarea.value.substring(end);
+        }
+
+        function handleProductTypeChange() {
+            const type = document.getElementById('store-product-type').value;
+            const sizeLabel = document.getElementById('attr-size-label');
+            const sizeInput = document.getElementById('attr-sizes');
+            const fitLabel = document.getElementById('lbl-fit-dims');
+
+            if (type === 'furniture') {
+                sizeLabel.textContent = 'Dimensions (W x D x H)';
+                sizeInput.placeholder = 'e.g., 24"W x 26"D x 42"H';
+                fitLabel.textContent = 'Dimensions & Clearance';
+            } else if (type === 'jewelry' || type === 'safety') {
+                sizeLabel.textContent = 'Specifications / Rating';
+                sizeInput.placeholder = 'e.g., NIJ Level IIIA';
+                fitLabel.textContent = 'Safety Specs / Fit';
+            } else {
+                sizeLabel.textContent = 'Size Options';
+                sizeInput.placeholder = 'S, M, L, XL';
+                fitLabel.textContent = 'Fit / Dimensions';
+            }
+        }
+
+        function addBulletField(containerId, value = '') {
+            const container = document.getElementById(containerId);
+            const div = document.createElement('div');
+            div.className = 'flex gap-2';
+            div.innerHTML = `
+                <input type="text" value="${value}" placeholder="Add detail bullet..." class="w-full bg-slate-50 border border-slate-300 rounded px-2 py-1 text-xs">
+                <button type="button" onclick="this.parentElement.remove()" class="text-red-500 font-bold px-2">&times;</button>
+            `;
+            container.appendChild(div);
+        }
+
+        function getBulletsFromContainer(containerId) {
+            const inputs = document.querySelectorAll(`#${containerId} input`);
+            return Array.from(inputs).map(i => i.value.trim()).filter(v => v.length > 0);
+        }
 
         function renderLmsCatalog() {
             const listEl = document.getElementById('lms-catalog-list');
             if (!listEl) return;
-
             if (lmsCatalog.length === 0) {
                 listEl.innerHTML = '<p class="text-xs text-slate-500 italic p-4 text-center">No catalog modules available.</p>';
                 return;
             }
-
-            listEl.innerHTML = lmsCatalog.map(item => {
-                let statusBadgeColor = 'text-emerald-600 bg-emerald-50';
-                if (item.status === 'Canceled') statusBadgeColor = 'text-red-600 bg-red-50';
-                if (item.status === 'Archived') statusBadgeColor = 'text-slate-600 bg-slate-100';
-
-                return `
-                    <div class="bg-slate-50 border border-slate-200 p-4 rounded-lg flex flex-col gap-2">
-                        <div class="flex justify-between items-start">
-                            <div>
-                                <span class="bg-[#1a365d] text-white text-[10px] font-bold px-2 py-0.5 rounded uppercase">${item.code}</span>
-                                <h5 class="text-xs font-bold text-slate-800 mt-1">${item.title}</h5>
-                            </div>
-                            <span class="text-[10px] font-bold px-2 py-1 rounded uppercase ${statusBadgeColor}">${item.status}</span>
+            listEl.innerHTML = lmsCatalog.map(item => `
+                <div class="bg-slate-50 border border-slate-200 p-4 rounded-lg flex flex-col gap-2">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <span class="bg-[#1a365d] text-white text-[10px] font-bold px-2 py-0.5 rounded uppercase">${item.code}</span>
+                            <h5 class="text-xs font-bold text-slate-800 mt-1">${item.title}</h5>
                         </div>
-                        <p class="text-[11px] text-slate-500 line-clamp-1">${item.description || 'No description provided.'}</p>
-                        <div class="flex justify-between items-center text-[10px] text-slate-400 border-t border-slate-200 pt-2 mt-1">
-                            <span>Credits: ${item.credits} Units | Price: $${item.price || '0.00'}</span>
-                            <div class="flex gap-2 font-semibold">
-                                <button onclick="editModule('${item.id}')" class="text-blue-600 hover:underline uppercase">Edit</button>
-                                <button onclick="updateModuleStatus('${item.id}', 'Canceled')" class="text-amber-600 hover:underline uppercase">Cancel</button>
-                                <button onclick="deleteCourse('${item.id}')" class="text-red-600 hover:underline uppercase">Delete</button>
-                            </div>
+                        <span class="text-[10px] font-bold px-2 py-1 rounded uppercase text-emerald-600 bg-emerald-50">${item.status}</span>
+                    </div>
+                    <p class="text-[11px] text-slate-500 line-clamp-1">${item.description || 'No description provided.'}</p>
+                    <div class="flex justify-between items-center text-[10px] text-slate-400 border-t border-slate-200 pt-2 mt-1">
+                        <span>Credits: ${item.credits} | Price: $${item.price || '199.00'}</span>
+                        <div class="flex gap-2 font-semibold">
+                            <button onclick="editModule('${item.id}')" class="text-blue-600 hover:underline uppercase">Edit</button>
+                            <button onclick="deleteCourse('${item.id}')" class="text-red-600 hover:underline uppercase">Delete</button>
                         </div>
                     </div>
-                `;
-            }).join('');
+                </div>
+            `).join('');
         }
 
         function editModule(id) {
             const item = lmsCatalog.find(m => m.id === id);
             if (!item) return;
-
             document.getElementById('lms-edit-id').value = item.id;
             document.getElementById('lms-code').value = item.code;
             document.getElementById('lms-title').value = item.title;
@@ -237,11 +528,6 @@
             document.getElementById('lms-status').textContent = '';
         }
 
-        async function updateModuleStatus(id, newStatus) {
-            const { error } = await window.supabaseClient.from('lms_courses').update({ status: newStatus }).eq('id', id);
-            if (!error) await fetchLmsCourses();
-        }
-
         async function deleteCourse(id) {
             const { error } = await window.supabaseClient.from('lms_courses').delete().eq('id', id);
             if (!error) await fetchLmsCourses();
@@ -250,10 +536,71 @@
         async function fetchLmsCourses() {
             if (!window.supabaseClient) return;
             const { data, error } = await window.supabaseClient.from('lms_courses').select('*').order('code', { ascending: true });
+            if (!error && data) { lmsCatalog = data; renderLmsCatalog(); }
+        }
+
+        async function fetchStoreItems() {
+            if (!window.supabaseClient) return;
+            const { data, error } = await window.supabaseClient.from('store_items').select('*').order('title', { ascending: true });
             if (!error && data) {
-                lmsCatalog = data;
-                renderLmsCatalog();
+                storeInventory = data;
+                const listEl = document.getElementById('store-inventory-list');
+                if (listEl) {
+                    listEl.innerHTML = data.length === 0 ? '<p class="text-xs text-slate-500 italic p-4 text-center">No inventory items.</p>' : data.map(item => `
+                        <div class="bg-slate-50 border border-slate-200 p-3 rounded flex justify-between items-center text-xs">
+                            <div><strong>${item.title}</strong> ($${item.price})</div>
+                            <button onclick="deleteStoreItem('${item.id}')" class="text-red-600 font-bold uppercase">Delete</button>
+                        </div>
+                    `).join('');
+                }
             }
+        }
+
+        async function deleteStoreItem(id) {
+            await window.supabaseClient.from('store_items').delete().eq('id', id);
+            await fetchStoreItems();
+        }
+
+        async function fetchEnterpriseUrls() {
+            if (!window.supabaseClient) return;
+            const { data } = await window.supabaseClient.from('enterprise_urls').select('*');
+            if (data) {
+                data.forEach(row => {
+                    const input = document.getElementById(`url-${row.state_code}`);
+                    if (input) input.value = row.enterprise_url;
+                });
+            }
+        }
+
+        async function fetchNewsFeeds() {
+            if (!window.supabaseClient) return;
+            const { data } = await window.supabaseClient.from('news_compliance_feeds').select('*').order('created_at', { ascending: false });
+            if (data) {
+                newsItems = data;
+                const listEl = document.getElementById('news-admin-list');
+                if (listEl) {
+                    listEl.innerHTML = data.length === 0 ? '<p class="text-xs text-slate-500 italic">No news feeds active.</p>' : data.map(n => `
+                        <div class="bg-slate-50 border border-slate-200 p-3 rounded flex justify-between items-start text-xs">
+                            <div>
+                                <span class="bg-teal-800 text-white text-[9px] font-bold px-1.5 py-0.5 rounded uppercase">${n.state_code} | ${n.category}</span>
+                                <h6 class="font-bold text-slate-800 mt-1"><a href="${n.source_url}" target="_blank" class="text-teal-700 underline">${n.title}</a></h6>
+                                <p class="text-[10px] text-slate-500 mt-0.5">${n.publication_date}</p>
+                            </div>
+                            <button onclick="deleteNewsItem('${n.id}')" class="text-red-600 font-bold uppercase text-[10px]">Delete</button>
+                        </div>
+                    `).join('');
+                }
+            }
+        }
+
+        async function deleteNewsItem(id) {
+            await window.supabaseClient.from('news_compliance_feeds').delete().eq('id', id);
+            await fetchNewsFeeds();
+        }
+
+        async function triggerManualScraper() {
+            alert('Manual Scraper Sync triggered! Checking MO, KS, OK, and AR regulatory sites for new updates...');
+            await fetchNewsFeeds();
         }
 
         function switchAdminSection(sectionKey) {
@@ -273,6 +620,9 @@
                 backBtn.classList.remove('hidden');
                 document.getElementById(`section-${sectionKey}`).classList.remove('hidden');
                 if (sectionKey === 'bri') fetchLmsCourses();
+                if (sectionKey === 'store') fetchStoreItems();
+                if (sectionKey === 'enterprises') fetchEnterpriseUrls();
+                if (sectionKey === 'news') fetchNewsFeeds();
             }
         }
 
@@ -288,6 +638,9 @@
             if (!session) { window.location.href = 'login.html'; return; }
 
             await fetchLmsCourses();
+            await fetchStoreItems();
+            await fetchEnterpriseUrls();
+            await fetchNewsFeeds();
 
             document.getElementById('publish-course-btn').addEventListener('click', async () => {
                 const editId = document.getElementById('lms-edit-id').value;
@@ -300,7 +653,7 @@
                 const statusEl = document.getElementById('lms-status');
 
                 if (!code || !title) {
-                    statusEl.textContent = 'Please provide a course code and title.';
+                    statusEl.textContent = 'Please provide course code and title.';
                     statusEl.className = 'text-xs font-semibold text-red-600';
                     return;
                 }
@@ -318,6 +671,96 @@
                     statusEl.className = 'text-xs font-semibold text-emerald-600';
                     await fetchLmsCourses();
                     resetLmsForm();
+                }
+            });
+
+            document.getElementById('save-product-btn').addEventListener('click', async () => {
+                const title = document.getElementById('store-title').value.trim();
+                const price = parseFloat(document.getElementById('store-price').value);
+                const stock = parseInt(document.getElementById('store-stock').value) || 0;
+                const type = document.getElementById('store-product-type').value;
+                const desc = document.getElementById('store-desc').value.trim();
+                const colors = document.getElementById('attr-colors').value.trim();
+                const sizes = document.getElementById('attr-sizes').value.trim();
+                const statusEl = document.getElementById('store-status');
+
+                if (!title || isNaN(price)) {
+                    statusEl.textContent = 'Please provide a valid item title and price.';
+                    statusEl.className = 'text-xs font-semibold text-red-600';
+                    return;
+                }
+
+                const photoFiles = document.getElementById('store-photos').files;
+                const photoNames = photoFiles.length > 0 ? Array.from(photoFiles).map(f => f.name) : ['default-product.jpg'];
+
+                const bullets = {
+                    features: getBulletsFromContainer('features-list'),
+                    fit: getBulletsFromContainer('fit-list'),
+                    materials: getBulletsFromContainer('materials-list'),
+                    shipping: getBulletsFromContainer('shipping-list')
+                };
+
+                const itemId = 'STORE-' + Date.now();
+                const { error } = await window.supabaseClient.from('store_items').insert({
+                    id: itemId, title, price, stock, type, description: desc, photos: photoNames, attributes: { colors, sizes }, bullets
+                });
+
+                if (error) {
+                    statusEl.textContent = 'Error: ' + error.message;
+                    statusEl.className = 'text-xs font-semibold text-red-600';
+                } else {
+                    statusEl.textContent = `Item '${title}' saved to store!`;
+                    statusEl.className = 'text-xs font-semibold text-emerald-600';
+                    await fetchStoreItems();
+                }
+            });
+
+            document.getElementById('save-enterprise-urls-btn').addEventListener('click', async () => {
+                const states = ['mo', 'ks', 'ok', 'ar'];
+                const stateNames = { mo: 'Missouri', ks: 'Kansas', ok: 'Oklahoma', ar: 'Arkansas' };
+                const statusEl = document.getElementById('enterprise-url-status');
+                statusEl.textContent = 'Saving enterprise URLs...';
+
+                for (let s of states) {
+                    const url = document.getElementById(`url-${s}`).value.trim();
+                    if (url) {
+                        await window.supabaseClient.from('enterprise_urls').upsert({
+                            state_code: s, state_name: stateNames[s], enterprise_url: url
+                        }, { onConflict: 'state_code' });
+                    }
+                }
+                statusEl.textContent = 'Enterprise routing URLs successfully saved!';
+                statusEl.className = 'text-xs font-semibold text-emerald-600';
+            });
+
+            document.getElementById('publish-news-btn').addEventListener('click', async () => {
+                const state_code = document.getElementById('news-state').value;
+                const category = document.getElementById('news-category').value;
+                const title = document.getElementById('news-title').value.trim();
+                const source_url = document.getElementById('news-url').value.trim();
+                const thumbnail_url = document.getElementById('news-thumb').value.trim();
+                const publication_date = document.getElementById('news-date').value.trim() || 'Today';
+                const operational_summary = document.getElementById('news-summary').value.trim();
+                const statusEl = document.getElementById('news-status');
+
+                if (!title || !source_url) {
+                    statusEl.textContent = 'Please provide a title and source URL.';
+                    statusEl.className = 'text-xs font-semibold text-red-600';
+                    return;
+                }
+
+                const newsId = 'NEWS-' + Date.now();
+                const { error } = await window.supabaseClient.from('news_compliance_feeds').insert({
+                    id: newsId, state_code, category, title, source_url, thumbnail_url, publication_date, operational_summary
+                });
+
+                if (error) {
+                    statusEl.textContent = 'Error: ' + error.message;
+                    statusEl.className = 'text-xs font-semibold text-red-600';
+                } else {
+                    statusEl.textContent = 'Compliance feed item published successfully!';
+                    statusEl.className = 'text-xs font-semibold text-emerald-600';
+                    await fetchNewsFeeds();
                 }
             });
 
