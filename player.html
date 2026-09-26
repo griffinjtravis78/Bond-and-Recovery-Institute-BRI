@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Course Player - Bond & Recovery Institute</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabaseClient.js"></script>
     <style>
         body, html { margin: 0; padding: 0; height: 100%; overflow: hidden; font-family: sans-serif; background: #0f172a; }
         #header-bar { background: #0f172a; color: #fff; padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; height: 50px; border-bottom: 1px solid #1e293b; }
@@ -12,11 +15,38 @@
 </head>
 <body>
     <div id="header-bar">
-        <span><strong>Bond & Recovery Institute (BRI)</strong> | Course Player</span>
-        <a href="index.html" style="color: #cbd5e0; text-decoration: none; font-size: 14px;" class="hover:text-white">&larr; Return to Dashboard</a>
+        <span class="text-xs"><strong>Bond & Recovery Institute (BRI)</strong> | <span id="player-course-title">Loading Module...</span></span>
+        <a href="dashboard.html" class="text-xs text-slate-300 hover:text-white transition font-semibold uppercase">&larr; Return to Dashboard</a>
     </div>
 
-    <!-- SCORM Content Frame -->
-    <iframe id="course-frame" src="../public/course/index.html"></iframe>
+    <!-- SCORM / Interactive Content Frame -->
+    <iframe id="course-frame" src="about:blank"></iframe>
+
+    <script>
+        async function initPlayer() {
+            let attempts = 0;
+            while (!window.supabaseClient && attempts < 20) {
+                await new Promise(resolve => setTimeout(resolve, 100));
+                attempts++;
+            }
+            if (!window.supabaseClient) return;
+
+            const { data: { session } } = await window.supabaseClient.auth.getSession();
+            if (!session) {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            const params = new URLSearchParams(window.location.search);
+            const courseCode = params.get('code') || 'MS-BB-101';
+            
+            document.getElementById('player-course-title').textContent = `Course Module: ${courseCode}`;
+            
+            // Set frame source to SCORM package or fallback interactive module
+            document.getElementById('course-frame').src = params.get('url') || '../public/course/index.html';
+        }
+
+        window.addEventListener('DOMContentLoaded', initPlayer);
+    </script>
 </body>
 </html>
