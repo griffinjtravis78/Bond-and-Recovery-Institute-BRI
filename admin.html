@@ -37,7 +37,7 @@
         <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
             <div>
                 <h2 class="text-2xl font-extrabold text-white uppercase tracking-wide">System Administration Dashboard</h2>
-                <p class="text-xs text-slate-400 mt-1">Select an administrative work area below to manage curriculum, e-commerce, or security access.</p>
+                <p class="text-xs text-slate-400 mt-1">Select an administrative work area below to manage curriculum, e-commerce inventory, or security access.</p>
             </div>
             <button onclick="switchAdminSection('hub')" id="back-to-hub" class="hidden bg-slate-700 hover:bg-slate-600 text-white text-xs font-bold px-4 py-2 rounded-lg transition uppercase tracking-wider">
                 &larr; Back to Admin Hub
@@ -59,7 +59,7 @@
             <div onclick="switchAdminSection('store')" class="bg-white text-slate-800 rounded-xl p-6 shadow-xl border border-slate-200 hover:border-emerald-600 hover:shadow-2xl cursor-pointer transition transform hover:-translate-y-1">
                 <div class="bg-emerald-50 text-emerald-800 p-3 rounded-lg w-fit mb-4 font-bold text-sm uppercase">E-Commerce</div>
                 <h3 class="text-lg font-bold text-emerald-800 mb-2">Store Admin</h3>
-                <p class="text-xs text-slate-600 leading-relaxed">Upload new merchandise, manage pricing, update study guides & equipment inventory, and oversee full e-commerce operations.</p>
+                <p class="text-xs text-slate-600 leading-relaxed">Multi-photo uploads, dynamic tactical gear/apparel attributes, expandable accordion bullet lists with hyperlink insertion tools.</p>
                 <div class="mt-4 text-xs font-bold text-emerald-700 uppercase tracking-wider flex items-center gap-1">Launch Store Admin &rarr;</div>
             </div>
 
@@ -76,7 +76,7 @@
         <!-- Dynamic Work Area Section Container -->
         <div id="work-area-container" class="bg-white text-slate-800 shadow-xl rounded-xl p-6 border border-slate-200 hidden">
             
-            <!-- 1. BRI Admin Section: Advanced LMS & SCORM/Asset Ingestion -->
+            <!-- 1. BRI Admin Section -->
             <div id="section-bri" class="admin-section hidden">
                 <div class="border-b border-slate-200 pb-4 mb-6">
                     <h3 class="text-lg font-extrabold text-[#1a365d] uppercase">BRI Admin - Curriculum & Asset Management (LMS)</h3>
@@ -84,7 +84,6 @@
                 </div>
 
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                    <!-- Course Ingestion Form -->
                     <div class="bg-slate-50 p-6 rounded-lg border border-slate-200">
                         <h4 id="lms-form-title" class="text-sm font-bold text-[#1a365d] uppercase mb-4">Publish New Course Module</h4>
                         <div class="space-y-4">
@@ -116,7 +115,6 @@
                                 <textarea id="lms-desc" rows="2" placeholder="Regulatory compliance alignment..." class="w-full bg-white border border-slate-300 rounded-lg px-4 py-2 text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#1a365d]"></textarea>
                             </div>
 
-                            <!-- Asset Upload Zone -->
                             <div class="border-t border-slate-200 pt-4">
                                 <h5 class="text-xs font-bold text-[#1a365d] uppercase mb-3">Instructional Asset Ingestion</h5>
                                 <div class="grid grid-cols-2 gap-3 text-xs">
@@ -125,15 +123,15 @@
                                         <input type="file" id="asset-scorm" accept=".zip" class="w-full text-[11px] text-slate-500 file:mr-2 file:py-1 file:px-2 file:rounded file:border-0 file:text-[10px] file:font-bold file:bg-blue-50 file:text-[#1a365d]">
                                     </div>
                                     <div>
-                                        <label class="block font-semibold text-slate-600 mb-1">Document / Syllabus (.pdf, .docx)</label>
+                                        <label class="block font-semibold text-slate-600 mb-1">Document (.pdf, .docx)</label>
                                         <input type="file" id="asset-doc" accept=".pdf,.doc,.docx" class="w-full text-[11px] text-slate-500 file:mr-2 file:py-1 file:px-2 file:rounded file:border-0 file:text-[10px] file:font-bold file:bg-blue-50 file:text-[#1a365d]">
                                     </div>
                                     <div>
-                                        <label class="block font-semibold text-slate-600 mb-1">Instructional Video (.mp4)</label>
+                                        <label class="block font-semibold text-slate-600 mb-1">Video (.mp4)</label>
                                         <input type="file" id="asset-video" accept="video/mp4" class="w-full text-[11px] text-slate-500 file:mr-2 file:py-1 file:px-2 file:rounded file:border-0 file:text-[10px] file:font-bold file:bg-blue-50 file:text-[#1a365d]">
                                     </div>
                                     <div>
-                                        <label class="block font-semibold text-slate-600 mb-1">Course Thumbnail Image (.png, .jpg)</label>
+                                        <label class="block font-semibold text-slate-600 mb-1">Thumbnail (.png, .jpg)</label>
                                         <input type="file" id="asset-image" accept="image/*" class="w-full text-[11px] text-slate-500 file:mr-2 file:py-1 file:px-2 file:rounded file:border-0 file:text-[10px] file:font-bold file:bg-blue-50 file:text-[#1a365d]">
                                     </div>
                                 </div>
@@ -149,68 +147,158 @@
                         </div>
                     </div>
 
-                    <!-- Active Catalog Module Management List -->
                     <div>
                         <h4 class="text-sm font-bold text-slate-800 uppercase mb-4">Catalog Modules Management</h4>
-                        <div id="lms-catalog-list" class="space-y-3 max-h-[500px] overflow-y-auto pr-2">
-                            <!-- Dynamic items populated via script -->
-                        </div>
+                        <div id="lms-catalog-list" class="space-y-3 max-h-[500px] overflow-y-auto pr-2"></div>
                     </div>
                 </div>
             </div>
 
-            <!-- 2. Store Admin Section: Merchandise & E-Commerce Management -->
+            <!-- 2. Store Admin Section: Advanced E-Commerce Suite -->
             <div id="section-store" class="admin-section hidden">
                 <div class="border-b border-slate-200 pb-4 mb-6">
                     <h3 class="text-lg font-extrabold text-emerald-800 uppercase">Store Admin - Inventory & Merchandise Control</h3>
-                    <p class="text-xs text-slate-500 mt-1">Upload new study guides, compliance badges, tactical equipment, and manage store fulfillment pricing.</p>
+                    <p class="text-xs text-slate-500 mt-1">Upload multi-photo product catalogs, tactical gear attributes, expandable accordion bullets, and hyperlinks.</p>
                 </div>
 
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                    <div class="bg-slate-50 p-6 rounded-lg border border-slate-200">
-                        <h4 class="text-sm font-bold text-emerald-800 uppercase mb-4">Add / Update Store Merchandise</h4>
-                        <div class="space-y-4">
-                            <div>
-                                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Item Title</label>
-                                <input type="text" id="store-title" placeholder="e.g., Missouri Surety Recovery Field Manual" class="w-full bg-white border border-slate-300 rounded-lg px-4 py-2 text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-600">
-                            </div>
-                            <div class="grid grid-cols-2 gap-4">
-                                <div>
-                                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Price ($)</label>
-                                    <input type="number" step="0.01" id="store-price" placeholder="49.99" class="w-full bg-white border border-slate-300 rounded-lg px-4 py-2 text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-600">
-                                </div>
-                                <div>
-                                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Stock Quantity</label>
-                                    <input type="number" id="store-stock" placeholder="100" class="w-full bg-white border border-slate-300 rounded-lg px-4 py-2 text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-600">
-                                </div>
-                            </div>
-                            <div>
-                                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Product Description</label>
-                                <textarea id="store-desc" rows="3" placeholder="Specifications and fulfillment details..." class="w-full bg-white border border-slate-300 rounded-lg px-4 py-2 text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-600"></textarea>
-                            </div>
-                            <button id="add-product-btn" class="w-full bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-bold py-3 rounded-lg transition uppercase tracking-wider shadow">
-                                Upload Item to Store Inventory
-                            </button>
-                            <p id="store-status" class="text-xs font-semibold text-center mt-2"></p>
+                    <!-- Product Form -->
+                    <div class="bg-slate-50 p-6 rounded-lg border border-slate-200 space-y-4">
+                        <h4 class="text-sm font-bold text-emerald-800 uppercase mb-2">Upload / Edit Store Merchandise</h4>
+                        
+                        <input type="hidden" id="store-edit-id" value="">
+
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Item Title</label>
+                            <input type="text" id="store-title" placeholder="e.g., Tactical Bail Recovery Vest & Rig" class="w-full bg-white border border-slate-300 rounded-lg px-4 py-2 text-xs text-slate-800 focus:ring-2 focus:ring-emerald-600">
                         </div>
+
+                        <div class="grid grid-cols-3 gap-3">
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Price ($)</label>
+                                <input type="number" step="0.01" id="store-price" placeholder="129.99" class="w-full bg-white border border-slate-300 rounded-lg px-3 py-2 text-xs text-slate-800">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Stock</label>
+                                <input type="number" id="store-stock" placeholder="50" class="w-full bg-white border border-slate-300 rounded-lg px-3 py-2 text-xs text-slate-800">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Product Type</label>
+                                <select id="store-product-type" onchange="handleProductTypeChange()" class="w-full bg-white border border-slate-300 rounded-lg px-3 py-2 text-xs text-slate-800 font-semibold">
+                                    <option value="apparel">Clothing / Uniform</option>
+                                    <option value="tactical">Tactical Equipment</option>
+                                    <option value="safety">Safety Gear & Badges</option>
+                                    <option value="accessories">Accessories / Field Gear</option>
+                                    <option value="furniture">Office / Ref Furniture</option>
+                                    <option value="jewelry">Insignia / Jewelry</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Multi-Photo Upload Zone -->
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Product Photos (Multiple)</label>
+                            <input type="file" id="store-photos" accept="image/*" multiple class="w-full text-xs text-slate-500 file:mr-2 file:py-1 file:px-3 file:rounded file:border-0 file:text-xs file:font-bold file:bg-emerald-50 file:text-emerald-800">
+                            <p class="text-[10px] text-slate-400 mt-1">Select multiple images for multi-angle gallery views.</p>
+                        </div>
+
+                        <!-- Dynamic Attributes (Apparel: Colors & Sizes) -->
+                        <div id="dynamic-attributes-container" class="grid grid-cols-2 gap-3 bg-white p-3 rounded-lg border border-slate-200">
+                            <div>
+                                <label class="block text-[11px] font-bold text-slate-700 uppercase mb-1">Color Options (Comma separated)</label>
+                                <input type="text" id="attr-colors" placeholder="Black, Ranger Green, Navy" class="w-full bg-slate-50 border border-slate-300 rounded px-3 py-1.5 text-xs text-slate-800">
+                            </div>
+                            <div id="attr-size-container">
+                                <label id="attr-size-label" class="block text-[11px] font-bold text-slate-700 uppercase mb-1">Size Options</label>
+                                <input type="text" id="attr-sizes" placeholder="S, M, L, XL, 2XL" class="w-full bg-slate-50 border border-slate-300 rounded px-3 py-1.5 text-xs text-slate-800">
+                            </div>
+                        </div>
+
+                        <!-- Product Description with Hyperlink Toolbar -->
+                        <div>
+                            <div class="flex justify-between items-center mb-1">
+                                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider">Product Overview / Description</label>
+                                <button type="button" onclick="insertHyperlink('store-desc')" class="text-[10px] bg-slate-200 hover:bg-slate-300 font-bold px-2 py-0.5 rounded text-slate-700 uppercase">🔗 Insert Hyperlink to Highlighted Text</button>
+                            </div>
+                            <textarea id="store-desc" rows="3" placeholder="Detailed product overview..." class="w-full bg-white border border-slate-300 rounded-lg px-3 py-2 text-xs text-slate-800"></textarea>
+                        </div>
+
+                        <!-- Accordion Bullet Lists with 'Add Another' Controls -->
+                        <div class="space-y-3 border-t border-slate-200 pt-3">
+                            <h5 class="text-xs font-bold text-emerald-800 uppercase">Accordion Bullet Points & Details</h5>
+                            
+                            <!-- Features -->
+                            <div class="bg-white p-3 rounded border border-slate-200">
+                                <div class="flex justify-between items-center mb-1">
+                                    <label class="text-[11px] font-bold text-slate-700 uppercase">Features (Accordion Bullets)</label>
+                                    <button type="button" onclick="addBulletField('features-list')" class="text-[10px] text-emerald-700 font-bold hover:underline">+ Add Feature</button>
+                                </div>
+                                <div id="features-list" class="space-y-2">
+                                    <div class="flex gap-2">
+                                        <input type="text" placeholder="e.g., Reinforced MOLLE webbing" class="w-full bg-slate-50 border border-slate-300 rounded px-2 py-1 text-xs">
+                                        <button type="button" onclick="this.parentElement.remove()" class="text-red-500 font-bold px-2">&times;</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Fit / Dimensions -->
+                            <div class="bg-white p-3 rounded border border-slate-200">
+                                <div class="flex justify-between items-center mb-1">
+                                    <label id="lbl-fit-dims" class="text-[11px] font-bold text-slate-700 uppercase">Fit / Dimensions (Accordion Bullets)</label>
+                                    <button type="button" onclick="addBulletField('fit-list')" class="text-[10px] text-emerald-700 font-bold hover:underline">+ Add Entry</button>
+                                </div>
+                                <div id="fit-list" class="space-y-2">
+                                    <div class="flex gap-2">
+                                        <input type="text" placeholder="e.g., Adjustable waist straps (32'' - 48'')" class="w-full bg-slate-50 border border-slate-300 rounded px-2 py-1 text-xs">
+                                        <button type="button" onclick="this.parentElement.remove()" class="text-red-500 font-bold px-2">&times;</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Materials & Care -->
+                            <div class="bg-white p-3 rounded border border-slate-200">
+                                <div class="flex justify-between items-center mb-1">
+                                    <label class="text-[11px] font-bold text-slate-700 uppercase">Materials & Care (Accordion Bullets)</label>
+                                    <button type="button" onclick="addBulletField('materials-list')" class="text-[10px] text-emerald-700 font-bold hover:underline">+ Add Entry</button>
+                                </div>
+                                <div id="materials-list" class="space-y-2">
+                                    <div class="flex gap-2">
+                                        <input type="text" placeholder="e.g., 1000D Ballistic Nylon; Machine wash cold" class="w-full bg-slate-50 border border-slate-300 rounded px-2 py-1 text-xs">
+                                        <button type="button" onclick="this.parentElement.remove()" class="text-red-500 font-bold px-2">&times;</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Shipping & Returns -->
+                            <div class="bg-white p-3 rounded border border-slate-200">
+                                <div class="flex justify-between items-center mb-1">
+                                    <label class="text-[11px] font-bold text-slate-700 uppercase">Shipping & Returns (Accordion Bullets)</label>
+                                    <button type="button" onclick="addBulletField('shipping-list')" class="text-[10px] text-emerald-700 font-bold hover:underline">+ Add Entry</button>
+                                </div>
+                                <div id="shipping-list" class="space-y-2">
+                                    <div class="flex gap-2">
+                                        <input type="text" placeholder="e.g., Ships within 24 hours via Priority Ground" class="w-full bg-slate-50 border border-slate-300 rounded px-2 py-1 text-xs">
+                                        <button type="button" onclick="this.parentElement.remove()" class="text-red-500 font-bold px-2">&times;</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button id="save-product-btn" class="w-full bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-bold py-3 rounded-lg transition uppercase tracking-wider shadow">
+                            Upload Merchandise to Store
+                        </button>
+                        <p id="store-status" class="text-xs font-semibold text-center mt-2"></p>
                     </div>
 
+                    <!-- Store Inventory List -->
                     <div>
                         <h4 class="text-sm font-bold text-slate-800 uppercase mb-4">Current Store Inventory</h4>
-                        <div id="store-inventory-list" class="space-y-3">
-                            <div class="bg-slate-50 border border-slate-200 p-4 rounded-lg flex justify-between items-center">
-                                <div>
-                                    <h5 class="text-xs font-bold text-slate-800">Missouri Statutory Code Quick-Ref Guide</h5>
-                                    <p class="text-[11px] text-slate-500">Price: $35.00 | Stock: 142 units</p>
-                                </div>
-                                <span class="text-xs font-semibold text-emerald-700 bg-emerald-50 px-2 py-1 rounded">Published</span>
-                            </div>
-                        </div>
+                        <div id="store-inventory-list" class="space-y-3 max-h-[600px] overflow-y-auto pr-2"></div>
                     </div>
                 </div>
             </div>
 
-            <!-- 3. System Admin Section: User Security Roles -->
+            <!-- 3. System Admin Section -->
             <div id="section-system" class="admin-section hidden">
                 <div class="border-b border-slate-200 pb-4 mb-6">
                     <h3 class="text-lg font-extrabold text-amber-800 uppercase">System Administration - User Security Roles</h3>
@@ -220,12 +308,12 @@
                 <div class="max-w-xl">
                     <div class="mb-4">
                         <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">User Email Address</label>
-                        <input type="email" id="target-email" placeholder="student@example.com" class="w-full bg-slate-50 border border-slate-300 rounded-lg px-4 py-3 text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-amber-600">
+                        <input type="email" id="target-email" placeholder="student@example.com" class="w-full bg-slate-50 border border-slate-300 rounded-lg px-4 py-3 text-xs text-slate-800 focus:ring-2 focus:ring-amber-600">
                     </div>
 
                     <div class="mb-6">
                         <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Select Privilege Level</label>
-                        <select id="target-role" class="w-full bg-slate-50 border border-slate-300 rounded-lg px-4 py-3 text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-amber-600">
+                        <select id="target-role" class="w-full bg-slate-50 border border-slate-300 rounded-lg px-4 py-3 text-xs text-slate-800">
                             <option value="student">Student</option>
                             <option value="instructor">Instructor</option>
                             <option value="admin">Admin</option>
@@ -250,91 +338,133 @@
 
     <!-- Admin Portal Logic -->
     <script>
-        // In-memory mock catalog storage for demonstration (syncs with localStorage if available)
+        // Storage & Catalog States
         let lmsCatalog = JSON.parse(localStorage.getItem('bri_lms_catalog')) || [
             { id: '1', code: 'MS-BB-101', title: 'Missouri Bail Bond & Surety Recovery Agent 101', credits: '3.00', status: 'Active', desc: 'Comprehensive pre-licensing curriculum aligned with Missouri RSMo Chapters 374, 385, 544, and DCI regulatory standards.', assets: { scorm: 'loaded', doc: 'loaded', video: 'none', image: 'none' } }
         ];
 
-        function saveCatalog() {
-            localStorage.setItem('bri_lms_catalog', JSON.stringify(lmsCatalog));
-            renderLmsCatalog();
-        }
+        let storeInventory = JSON.parse(localStorage.getItem('bri_store_inventory')) || [
+            { id: '101', title: 'Missouri Statutory Code Quick-Ref Guide', price: '35.00', stock: '142', type: 'accessories', desc: 'Essential statutory compliance reference manual for surety agents.', photos: ['guide.jpg'], attributes: { colors: 'N/A', sizes: 'Standard' }, bullets: { features: ['Tabbed RSMo chapters'], fit: ['Pocket size 6x9'], materials: ['Gloss cardstock'], shipping: ['Ships same day'] } }
+        ];
 
-        function renderLmsCatalog() {
-            const listEl = document.getElementById('lms-catalog-list');
-            if (!listEl) return;
+        // Hyperlink Insertion Helper
+        function insertHyperlink(textareaId) {
+            const textarea = document.getElementById(textareaId);
+            const start = textarea.selectionStart;
+            const end = textarea.selectionEnd;
+            const selectedText = textarea.value.substring(start, end);
 
-            if (lmsCatalog.length === 0) {
-                listEl.innerHTML = '<p class="text-xs text-slate-500 italic p-4 text-center">No catalog modules available.</p>';
+            if (!selectedText) {
+                alert('Please highlight a word or phrase in the text area first before adding a hyperlink.');
                 return;
             }
 
-            listEl.innerHTML = lmsCatalog.map(item => {
-                let statusBadgeColor = 'text-emerald-600 bg-emerald-50';
-                if (item.status === 'Canceled') statusBadgeColor = 'text-red-600 bg-red-50';
-                if (item.status === 'Archived') statusBadgeColor = 'text-slate-600 bg-slate-100';
+            const url = prompt('Enter the destination URL for "' + selectedText + '":', 'https://');
+            if (!url) return;
 
-                return `
-                    <div class="bg-slate-50 border border-slate-200 p-4 rounded-lg flex flex-col gap-2">
-                        <div class="flex justify-between items-start">
-                            <div>
-                                <span class="bg-[#1a365d] text-white text-[10px] font-bold px-2 py-0.5 rounded uppercase">${item.code}</span>
-                                <h5 class="text-xs font-bold text-slate-800 mt-1">${item.title}</h5>
-                            </div>
-                            <span class="text-[10px] font-bold px-2 py-1 rounded uppercase ${statusBadgeColor}">${item.status}</span>
-                        </div>
-                        <p class="text-[11px] text-slate-500 line-clamp-1">${item.desc || 'No description provided.'}</p>
-                        <div class="flex justify-between items-center text-[10px] text-slate-400 border-t border-slate-200 pt-2 mt-1">
-                            <span>Credits: ${item.credits} Units</span>
-                            <div class="flex gap-2 font-semibold">
-                                <button onclick="editModule('${item.id}')" class="text-blue-600 hover:underline uppercase">Edit</button>
-                                <button onclick="updateModuleStatus('${item.id}', 'Canceled')" class="text-amber-600 hover:underline uppercase">Cancel</button>
-                                <button onclick="updateModuleStatus('${item.id}', 'Archived')" class="text-slate-600 hover:underline uppercase">Archive</button>
-                            </div>
-                        </div>
-                    </div>
-                `;
-            }).join('');
+            const linkedText = `<a href="${url}" target="_blank" class="text-emerald-700 underline font-semibold">${selectedText}</a>`;
+            textarea.value = textarea.value.substring(0, start) + linkedText + textarea.value.substring(end);
         }
 
-        function editModule(id) {
-            const item = lmsCatalog.find(m => m.id === id);
+        // Dynamic Product Type Adaptation
+        function handleProductTypeChange() {
+            const type = document.getElementById('store-product-type').value;
+            const sizeLabel = document.getElementById('attr-size-label');
+            const sizeInput = document.getElementById('attr-sizes');
+            const fitLabel = document.getElementById('lbl-fit-dims');
+
+            if (type === 'furniture') {
+                sizeLabel.textContent = 'Dimensions (Width x Depth x Height)';
+                sizeInput.placeholder = 'e.g., 24"W x 26"D x 42"H';
+                fitLabel.textContent = 'Dimensions & Clearance (Accordion Bullets)';
+            } else if (type === 'jewelry' || type === 'safety') {
+                sizeLabel.textContent = 'Specifications / Rating';
+                sizeInput.placeholder = 'e.g., NIJ Level IIIA / Adjustable';
+                fitLabel.textContent = 'Safety Specs / Fit (Accordion Bullets)';
+            } else {
+                sizeLabel.textContent = 'Size Options';
+                sizeInput.placeholder = 'S, M, L, XL, 2XL';
+                fitLabel.textContent = 'Fit / Dimensions (Accordion Bullets)';
+            }
+        }
+
+        // Add Repeatable Bullet Field
+        function addBulletField(containerId, value = '') {
+            const container = document.getElementById(containerId);
+            const div = document.createElement('div');
+            div.className = 'flex gap-2';
+            div.innerHTML = `
+                <input type="text" value="${value}" placeholder="Add detail bullet..." class="w-full bg-slate-50 border border-slate-300 rounded px-2 py-1 text-xs">
+                <button type="button" onclick="this.parentElement.remove()" class="text-red-500 font-bold px-2">&times;</button>
+            `;
+            container.appendChild(div);
+        }
+
+        function getBulletsFromContainer(containerId) {
+            const inputs = document.querySelectorAll(`#${containerId} input`);
+            return Array.from(inputs).map(i => i.value.trim()).filter(v => v.length > 0);
+        }
+
+        // Render Store Inventory
+        function renderStoreInventory() {
+            const listEl = document.getElementById('store-inventory-list');
+            if (!listEl) return;
+
+            if (storeInventory.length === 0) {
+                listEl.innerHTML = '<p class="text-xs text-slate-500 italic p-4 text-center">No merchandise items in inventory.</p>';
+                return;
+            }
+
+            listEl.innerHTML = storeInventory.map(item => `
+                <div class="bg-slate-50 border border-slate-200 p-4 rounded-lg flex flex-col gap-2">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <span class="bg-emerald-800 text-white text-[10px] font-bold px-2 py-0.5 rounded uppercase">${item.type}</span>
+                            <h5 class="text-xs font-bold text-slate-800 mt-1">${item.title}</h5>
+                        </div>
+                        <span class="text-xs font-bold text-emerald-700">$${item.price}</span>
+                    </div>
+                    <p class="text-[11px] text-slate-500">Stock: ${item.stock} units | Photos: ${item.photos?.length || 1}</p>
+                    <div class="flex justify-end gap-2 text-[10px] font-semibold text-slate-600 border-t border-slate-200 pt-2">
+                        <button onclick="editStoreItem('${item.id}')" class="text-blue-600 hover:underline uppercase">Edit</button>
+                        <button onclick="deleteStoreItem('${item.id}')" class="text-red-600 hover:underline uppercase">Delete</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function editStoreItem(id) {
+            const item = storeInventory.find(i => i.id === id);
             if (!item) return;
 
-            document.getElementById('lms-edit-id').value = item.id;
-            document.getElementById('lms-code').value = item.code;
-            document.getElementById('lms-title').value = item.title;
-            document.getElementById('lms-credits').value = item.credits;
-            document.getElementById('lms-status-select').value = item.status;
-            document.getElementById('lms-desc').value = item.desc;
-            document.getElementById('lms-form-title').textContent = `Edit Module: ${item.code}`;
-            document.getElementById('publish-course-btn').textContent = 'Save Changes';
-            document.getElementById('cancel-edit-btn').classList.remove('hidden');
+            document.getElementById('store-edit-id').value = item.id;
+            document.getElementById('store-title').value = item.title;
+            document.getElementById('store-price').value = item.price;
+            document.getElementById('store-stock').value = item.stock;
+            document.getElementById('store-product-type').value = item.type;
+            document.getElementById('store-desc').value = item.desc;
+            document.getElementById('attr-colors').value = item.attributes?.colors || '';
+            document.getElementById('attr-sizes').value = item.attributes?.sizes || '';
+
+            // Populate bullets
+            ['features', 'fit', 'materials', 'shipping'].forEach(key => {
+                const container = document.getElementById(`${key}-list`);
+                container.innerHTML = '';
+                const items = item.bullets?.[key] || [''];
+                items.forEach(val => addBulletField(`${key}-list`, val));
+            });
+
+            handleProductTypeChange();
+            document.getElementById('save-product-btn').textContent = 'Update Store Item';
         }
 
-        function resetLmsForm() {
-            document.getElementById('lms-edit-id').value = '';
-            document.getElementById('lms-code').value = '';
-            document.getElementById('lms-title').value = '';
-            document.getElementById('lms-credits').value = '3.00';
-            document.getElementById('lms-status-select').value = 'Active';
-            document.getElementById('lms-desc').value = '';
-            document.getElementById('asset-scorm').value = '';
-            document.getElementById('asset-doc').value = '';
-            document.getElementById('asset-video').value = '';
-            document.getElementById('asset-image').value = '';
-            document.getElementById('lms-form-title').textContent = 'Publish New Course Module';
-            document.getElementById('publish-course-btn').textContent = 'Publish / Save Module';
-            document.getElementById('cancel-edit-btn').classList.add('hidden');
-            document.getElementById('lms-status').textContent = '';
+        function deleteStoreItem(id) {
+            storeInventory = storeInventory.filter(i => i.id !== id);
+            localStorage.setItem('bri_store_inventory', JSON.stringify(storeInventory));
+            renderStoreInventory();
         }
 
-        function updateModuleStatus(id, newStatus) {
-            lmsCatalog = lmsCatalog.map(m => m.id === id ? { ...m, status: newStatus } : m);
-            saveCatalog();
-        }
-
-        // Section Switcher Function
+        // Section Switcher
         function switchAdminSection(sectionKey) {
             const gridEl = document.getElementById('admin-hub-grid');
             const containerEl = document.getElementById('work-area-container');
@@ -351,111 +481,26 @@
                 containerEl.classList.remove('hidden');
                 backBtn.classList.remove('hidden');
                 document.getElementById(`section-${sectionKey}`).classList.remove('hidden');
-                if (sectionKey === 'bri') renderLmsCatalog();
+                if (sectionKey === 'store') renderStoreInventory();
             }
         }
 
         window.addEventListener('DOMContentLoaded', async () => {
-            // 1. Verify Authentication & Admin Role
-            const { data: { session }, error: sessionError } = await window.supabaseClient.auth.getSession();
+            const { data: { session } } = await window.supabaseClient.auth.getSession();
+            if (!session) { window.location.href = 'login.html'; return; }
 
-            if (sessionError || !session) {
-                window.location.href = 'login.html';
-                return;
-            }
+            renderStoreInventory();
 
-            const { data: profile } = await window.supabaseClient
-                .from('profiles')
-                .select('role')
-                .eq('id', session.user.id)
-                .single();
-
-            if (!profile || (profile.role !== 'admin' && profile.role !== 'superadmin')) {
-                alert('Access Denied: Administrator privileges required.');
-                window.location.href = 'dashboard.html';
-                return;
-            }
-
-            renderLmsCatalog();
-
-            // 2. Handle Course Publish / Update / Asset Uploads
-            document.getElementById('publish-course-btn').addEventListener('click', () => {
-                const editId = document.getElementById('lms-edit-id').value;
-                const code = document.getElementById('lms-code').value.trim();
-                const title = document.getElementById('lms-title').value.trim();
-                const credits = document.getElementById('lms-credits').value;
-                const status = document.getElementById('lms-status-select').value;
-                const desc = document.getElementById('lms-desc').value.trim();
-                const statusEl = document.getElementById('lms-status');
-
-                if (!code || !title) {
-                    statusEl.textContent = 'Please provide a course code and title.';
-                    statusEl.className = 'text-xs font-semibold text-red-600';
-                    return;
-                }
-
-                // Check uploaded asset mock filenames
-                const scormFile = document.getElementById('asset-scorm').files[0]?.name || 'none';
-                const docFile = document.getElementById('asset-doc').files[0]?.name || 'none';
-                const videoFile = document.getElementById('asset-video').files[0]?.name || 'none';
-                const imageFile = document.getElementById('asset-image').files[0]?.name || 'none';
-
-                if (editId) {
-                    // Update existing
-                    lmsCatalog = lmsCatalog.map(m => m.id === editId ? {
-                        ...m, code, title, credits, status, desc,
-                        assets: { scorm: scormFile !== 'none' ? scormFile : m.assets.scorm, doc: docFile !== 'none' ? docFile : m.assets.doc, video: videoFile !== 'none' ? videoFile : m.assets.video, image: imageFile !== 'none' ? imageFile : m.assets.image }
-                    } : m);
-                    statusEl.textContent = `Module '${code}' successfully updated with assets!`;
-                } else {
-                    // Create new
-                    const newModule = {
-                        id: Date.now().toString(),
-                        code, title, credits, status, desc,
-                        assets: { scorm: scormFile, doc: docFile, video: videoFile, image: imageFile }
-                    };
-                    lmsCatalog.push(newModule);
-                    statusEl.textContent = `Course '${code}: ${title}' successfully published with assets!`;
-                }
-
-                statusEl.className = 'text-xs font-semibold text-emerald-600';
-                saveCatalog();
-                resetLmsForm();
-            });
-
-            // 3. Handle Role Update Submission (System Admin)
-            document.getElementById('update-role-btn').addEventListener('click', async () => {
-                const email = document.getElementById('target-email').value.trim();
-                const newRole = document.getElementById('target-role').value;
-                const statusEl = document.getElementById('status-message');
-
-                if (!email) {
-                    statusEl.textContent = 'Please enter a valid user email address.';
-                    statusEl.className = 'text-xs font-semibold mt-4 text-center text-red-600';
-                    return;
-                }
-
-                statusEl.textContent = 'Updating privileges...';
-                statusEl.className = 'text-xs font-semibold mt-4 text-center text-slate-600';
-
-                const { error } = await window.supabaseClient
-                    .from('profiles')
-                    .update({ role: newRole })
-                    .eq('id', session.user.id);
-
-                if (error) {
-                    statusEl.textContent = `Error: ${error.message}`;
-                    statusEl.className = 'text-xs font-semibold mt-4 text-center text-red-600';
-                } else {
-                    statusEl.textContent = `Successfully updated role to '${newRole}' for ${email}!`;
-                    statusEl.className = 'text-xs font-semibold mt-4 text-center text-emerald-600';
-                }
-            });
-
-            // 4. Handle Merchandise Upload (Store Admin)
-            document.getElementById('add-product-btn').addEventListener('click', () => {
+            // Save Store Merchandise
+            document.getElementById('save-product-btn').addEventListener('click', () => {
+                const editId = document.getElementById('store-edit-id').value;
                 const title = document.getElementById('store-title').value.trim();
                 const price = document.getElementById('store-price').value.trim();
+                const stock = document.getElementById('store-stock').value.trim();
+                const type = document.getElementById('store-product-type').value;
+                const desc = document.getElementById('store-desc').value.trim();
+                const colors = document.getElementById('attr-colors').value.trim();
+                const sizes = document.getElementById('attr-sizes').value.trim();
                 const statusEl = document.getElementById('store-status');
 
                 if (!title || !price) {
@@ -464,11 +509,36 @@
                     return;
                 }
 
-                statusEl.textContent = `Item '${title}' ($${price}) added to store inventory!`;
+                const photoFiles = document.getElementById('store-photos').files;
+                const photoNames = photoFiles.length > 0 ? Array.from(photoFiles).map(f => f.name) : ['default-product.jpg'];
+
+                const bullets = {
+                    features: getBulletsFromContainer('features-list'),
+                    fit: getBulletsFromContainer('fit-list'),
+                    materials: getBulletsFromContainer('materials-list'),
+                    shipping: getBulletsFromContainer('shipping-list')
+                };
+
+                if (editId) {
+                    storeInventory = storeInventory.map(i => i.id === editId ? {
+                        ...i, title, price, stock, type, desc, photos: photoNames, attributes: { colors, sizes }, bullets
+                    } : i);
+                    statusEl.textContent = `Item '${title}' successfully updated!`;
+                } else {
+                    const newItem = {
+                        id: Date.now().toString(),
+                        title, price, stock, type, desc, photos: photoNames, attributes: { colors, sizes }, bullets
+                    };
+                    storeInventory.push(newItem);
+                    statusEl.textContent = `Item '${title}' successfully added to store inventory!`;
+                }
+
                 statusEl.className = 'text-xs font-semibold text-emerald-600';
+                localStorage.setItem('bri_store_inventory', JSON.stringify(storeInventory));
+                renderStoreInventory();
             });
 
-            // 5. Handle Sign Out
+            // Sign Out
             document.getElementById('logout-btn').addEventListener('click', async () => {
                 await window.supabaseClient.auth.signOut();
                 window.location.href = 'login.html';
