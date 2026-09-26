@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bond & Recovery Institute - Official Transcript</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @media print {
+            body { background: white; }
+            .no-print { display: none !important; }
+        }
+        .watermark-container {
+            position: relative;
+            overflow: hidden;
+        }
+        .watermark-grid {
+            position: absolute;
+            inset: -50%;
+            z-index: 0;
+            pointer-events: none;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: repeat(5, 1fr);
+            opacity: 0.08;
+            transform: rotate(-30deg) scale(1.4);
+            font-weight: 900;
+            font-size: 1.35rem;
+            color: #0f172a;
+            user-select: none;
+            align-content: center;
+            justify-items: center;
+            text-align: center;
+            line-height: 10rem;
+            letter-spacing: 0.1em;
+        }
+    </style>
+</head>
+<body class="bg-slate-100 min-h-screen py-10 px-4 flex flex-col items-center justify-center font-sans">
+
+    <!-- Action Toolbar (Hidden during print) -->
+    <div class="mb-6 no-print flex gap-4">
+        <button onclick="window.print()" class="bg-indigo-900 text-white font-medium px-5 py-2.5 rounded shadow hover:bg-indigo-800 transition flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
+            </svg>
+            Print / Save as PDF (Unofficial)
+        </button>
+        <button onclick="openRequestModal()" class="bg-emerald-800 text-white font-medium px-5 py-2.5 rounded shadow hover:bg-emerald-700 transition flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+            </svg>
+            Send Official Transcript ($9.99)
+        </button>
+        <a href="index.html" class="bg-slate-200 text-slate-700 font-medium px-4 py-2.5 rounded hover:bg-slate-300 transition flex items-center">
+            Dashboard
+        </a>
+    </div>
+
+    <!-- Official Transcript Sheet -->
+    <div class="w-full max-w-4xl bg-white shadow-2xl rounded-sm border border-slate-300 watermark-container relative p-12 text-slate-800">
+        
+        <!-- Repeating Watermark Background Layer -->
+        <div class="watermark-grid">
+            <span>BRI OFFICIAL TRANSCRIPT</span>
+            <span>BRI OFFICIAL TRANSCRIPT</span>
+            <span>BRI OFFICIAL TRANSCRIPT</span>
+            <span>BRI OFFICIAL TRANSCRIPT</span>
+            <span>BRI OFFICIAL TRANSCRIPT</span>
+            <span>BRI OFFICIAL TRANSCRIPT</span>
+            <span>BRI OFFICIAL TRANSCRIPT</span>
+            <span>BRI OFFICIAL TRANSCRIPT</span>
+            <span>BRI OFFICIAL TRANSCRIPT</span>
+            <span>BRI OFFICIAL TRANSCRIPT</span>
+            <span>BRI OFFICIAL TRANSCRIPT</span>
+            <span>BRI OFFICIAL TRANSCRIPT</span>
+            <span>BRI OFFICIAL TRANSCRIPT</span>
+            <span>BRI OFFICIAL TRANSCRIPT</span>
+            <span>BRI OFFICIAL TRANSCRIPT</span>
+            <span>BRI OFFICIAL TRANSCRIPT</span>
+            <span>BRI OFFICIAL TRANSCRIPT</span>
+            <span>BRI OFFICIAL TRANSCRIPT</span>
+            <span>BRI OFFICIAL TRANSCRIPT</span>
+            <span>BRI OFFICIAL TRANSCRIPT</span>
+        </div>
+
+        <!-- Document Foreground Content -->
+        <div class="relative z-10 flex flex-col justify-between min-h-[900px]">
+            <div>
+                <!-- Institution Header -->
+                <div class="text-center border-b-2 border-indigo-900 pb-5 mb-8">
+                    <h2 class="text-xs font-semibold tracking-widest text-indigo-800 uppercase mb-1">Official Academic Transcript</h2>
+                    <h1 class="text-3xl font-extrabold tracking-wide text-indigo-950 uppercase">Bond & Recovery Institute</h1>
+                    <p class="text-xs text-slate-500 mt-1">Division of Professional Certification & Records • State Accreditation #BR-88219</p>
+                    <div class="mt-3 inline-block bg-indigo-50 text-indigo-900 text-xs font-bold px-4 py-1 rounded border border-indigo-200 tracking-wider">
+                        CERTIFIED OFFICIAL RECORD
+                    </div>
+                </div>
+
+                <!-- Student Metadata Section -->
+                <div class="bg-slate-50/90 border border-slate-200 rounded-lg p-5 mb-8 grid grid-cols-1 md:grid-cols-3 gap-y-4 gap-x-6 text-sm">
+                    <div>
+                        <span class="font-semibold text-slate-500 block text-xs uppercase tracking-wider mb-1">Student Last Name, First Name, M.I.:</span>
+                        <span class="text-base font-bold text-slate-900">Griffin, Travis J.</span>
+                    </div>
+                    <div>
+                        <span class="font-semibold text-slate-500 block text-xs uppercase tracking-wider mb-1">Student ID Number:</span>
+                        <span class="text-base font-mono font-bold text-slate-900">BRI-10492</span>
+                    </div>
+                    <div>
+                        <span class="font-semibold text-slate-500 block text-xs uppercase tracking-wider mb-1">Date of Birth:</span>
+                        <span class="text-base font-mono font-medium text-slate-900">04-12</span>
+                    </div>
+                </div>
+
+                <!-- Course Record Table -->
+                <div class="mb-8">
+                    <h3 class="text-sm font-bold text-indigo-950 uppercase tracking-wider mb-3 pb-1 border-b border-slate-200">Academic Course History</h3>
+                    <table class="w-full border-collapse border border-slate-300 text-left text-sm">
+                        <thead>
+                            <tr class="bg-indigo-950 text-white">
+                                <th class="border border-indigo-900 px-4 py-2.5 font-semibold text-xs tracking-wider uppercase">Course Title / Description</th>
+                                <th class="border border-indigo-900 px-4 py-2.5 font-semibold text-xs tracking-wider uppercase w-32">Status</th>
+                                <th class="border border-indigo-900 px-4 py-2.5 font-semibold text-xs tracking-wider uppercase w-36">Date Completed</th>
+                                <th class="border border-indigo-900 px-4 py-2.5 font-semibold text-xs tracking-wider uppercase w-28 text-right">Units of Credit</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-200 bg-white/80">
+                            <tr class="hover:bg-slate-50">
+                                <td class="border border-slate-300 px-4 py-3">
+                                    <div class="font-bold text-slate-900">MS-BB-101: Missouri Bail Bond & Surety Recovery Agent 101</div>
+                                    <div class="text-xs text-slate-500">Comprehensive pre-licensing curriculum aligned with Missouri RSMo Chapters 374, 385, 544, and DCI regulatory standards.</div>
+                                </td>
+                                <td class="border border-slate-300 px-4 py-3 text-emerald-800 font-semibold text-xs uppercase tracking-wide">In Progress</td>
+                                <td class="border border-slate-300 px-4 py-3 font-mono text-xs text-slate-400">-</td>
+                                <td class="border border-slate-300 px-4 py-3 text-right font-mono font-medium">3.00</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Summary & Signature Section -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-end border-t border-slate-300 pt-6">
+                    <div>
+                        <div class="text-xs text-slate-500 space-y-1">
+                            <p><strong class="text-slate-700">Authentication Note:</strong> This official transcript bears the repeated security watermark pattern of the Bond & Recovery Institute.</p>
+                            <p>Cumulative Credits Earned: <span class="font-mono font-bold text-slate-900">0.00</span> | Total Program Units: <span class="font-mono font-bold text-slate-900">3.00</span></p>
+                        </div>
+                    </div>
+                    <div class="text-center md:text-right">
+                        <div class="inline-block border-b border-slate-400 pb-1 w-64 mb-1">
+                            <span class="font-serif italic text-lg text-indigo-950 font-bold">Director of Records</span>
+                        </div>
+                        <p class="text-xs font-semibold text-slate-600 uppercase tracking-wider">Bond & Recovery Institute Registrar</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SHA-256 Hash Footer Block -->
+            <div class="mt-8 pt-4 border-t border-slate-200 text-center">
+                <span id="sha-hash-display" class="font-mono text-[11px] text-slate-500 tracking-wider bg-slate-50 px-3 py-1.5 rounded border border-slate-200 inline-block">
+                    [SHA-256 Hash: Pending Official Dispatch Request]
+                </span>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Official Transcript Request & Destination Modal -->
+    <div id="request-modal" class="fixed inset-0 bg-slate-950/70 z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white w-full max-w-xl rounded-lg shadow-2xl border border-slate-300 p-6 relative">
+            <h3 class="text-lg font-extrabold text-indigo-950 mb-1">Request Official Transcript ($9.99 Fee)</h3>
+            <p class="text-xs text-slate-600 mb-6">Enter the destination details below. A cryptographic SHA-256 hash will be generated upon secure checkout completion.</p>
+
+            <!-- Step 1: Destination Form -->
+            <form id="destination-form" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-semibold uppercase text-slate-700 mb-1">Organization Name *</label>
+                    <input type="text" id="org-name" required class="w-full border border-slate-300 rounded px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-900 outline-none" placeholder="e.g., Missouri Department of Commerce & Insurance">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold uppercase text-slate-700 mb-1">Attention (ATTN)</label>
+                    <input type="text" id="org-attn" class="w-full border border-slate-300 rounded px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-900 outline-none" placeholder="e.g., Licensing Division">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold uppercase text-slate-700 mb-1">Street Address / PO Box *</label>
+                    <input type="text" id="org-address" required class="w-full border border-slate-300 rounded px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-900 outline-none" placeholder="e.g., 301 W. High Street">
+                </div>
+                <div class="grid grid-cols-3 gap-3">
+                    <div class="col-span-1">
+                        <label class="block text-xs font-semibold uppercase text-slate-700 mb-1">City *</label>
+                        <input type="text" id="org-city" required class="w-full border border-slate-300 rounded px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-900 outline-none" placeholder="Jefferson City">
+                    </div>
+                    <div class="col-span-1">
+                        <label class="block text-xs font-semibold uppercase text-slate-700 mb-1">State *</label>
+                        <input type="text" id="org-state" required class="w-full border border-slate-300 rounded px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-900 outline-none" placeholder="MO">
+                    </div>
+                    <div class="col-span-1">
+                        <label class="block text-xs font-semibold uppercase text-slate-700 mb-1">Zip *</label>
+                        <input type="text" id="org-zip" required class="w-full border border-slate-300 rounded px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-900 outline-none" placeholder="65101">
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs font-semibold uppercase text-slate-700 mb-1">Fax Number (Optional)</label>
+                        <input type="text" id="org-fax" placeholder="(573) 555-0199" class="w-full border border-slate-300 rounded px-3 py-2 text-sm font-mono focus:ring-2 focus:ring-indigo-900 outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold uppercase text-slate-700 mb-1">Email Address (Optional)</label>
+                        <input type="email" id="org-email" placeholder="licensing@insurance.mo.gov" class="w-full border border-slate-300 rounded px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-900 outline-none">
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="flex justify-end gap-3 mt-6 pt-4 border-t border-slate-200">
+                    <button type="button" onclick="closeRequestModal()" class="bg-slate-200 hover:bg-slate-300 text-slate-700 px-4 py-2 rounded text-sm font-medium transition">Cancel</button>
+                    <button type="button" onclick="previewAndPay()" class="bg-indigo-900 hover:bg-indigo-800 text-white px-5 py-2 rounded text-sm font-medium transition">Proceed to Payment ($9.99)</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- JavaScript Handling Formatted Preview & Simulated Stripe / SHA-256 Generation -->
+    <script>
+        function openRequestModal() {
+            document.getElementById('request-modal').classList.remove('hidden');
+        }
+
+        function closeRequestModal() {
+            document.getElementById('request-modal').classList.add('hidden');
+        }
+
+        async function previewAndPay() {
+            const org = document.getElementById('org-name').value.trim();
+            const addr = document.getElementById('org-address').value.trim();
+            const city = document.getElementById('org-city').value.trim();
+            const state = document.getElementById('org-state').value.trim();
+            const zip = document.getElementById('org-zip').value.trim();
+
+            if (!org || !addr || !city || !state || !zip) {
+                alert('Please fill out all mandatory destination fields.');
+                return;
+            }
+
+            // Construct standardized destination format preview
+            const attn = document.getElementById('org-attn').value.trim();
+            const fax = document.getElementById('org-fax').value.trim();
+            const email = document.getElementById('org-email').value.trim();
+
+            let formattedBlock = "";
+            if (attn) formattedBlock += `ATTN: ${attn}\n`;
+            formattedBlock += `${org.toUpperCase()}\n`;
+            formattedBlock += `${addr.toUpperCase()}\n`;
+            formattedBlock += `${city.toUpperCase()}, ${state.toUpperCase()} ${zip}\n`;
+            if (fax) formattedBlock += `\nFAX: ${fax}`;
+            if (email) formattedBlock += `\nEMAIL: ${email}`;
+
+            // Confirm payment simulation (Stripe Checkout integration point)
+            const confirmed = confirm(`Destination Format Preview:\n\n------------------------------------\n${formattedBlock}\n------------------------------------\n\nProceed to Stripe Checkout for the $9.99 Official Transcript Fee?`);
+            
+            if (confirmed) {
+                // Simulate successful Stripe transaction & compute SHA-256 cryptographic hash
+                const rawData = "BRI-10492-TRANSCRIPT-" + new Date().toISOString() + "-" + org;
+                const encoder = new TextEncoder();
+                const dataBuffer = encoder.encode(rawData);
+                const hashBuffer = await crypto.subtle.digest('SHA-256', dataBuffer);
+                const hashArray = Array.from(new Uint8Array(hashBuffer));
+                const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+
+                // Stamp hash onto transcript footer
+                document.getElementById('sha-hash-display').innerText = `[SHA-256 Hash: ${hashHex}]`;
+                closeRequestModal();
+                alert('Payment successful via Stripe! Official transcript generated and cryptographically stamped.');
+            }
+        }
+    </script>
+</body>
+</html>

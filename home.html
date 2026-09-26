@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home - Bond & Recovery Institute</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Dropdown hover behavior */
+        .dropdown:hover .dropdown-menu {
+            display: block;
+        }
+    </style>
+</head>
+<body class="bg-slate-900 min-h-screen font-sans text-slate-100 flex flex-col items-center justify-between py-8 px-4">
+
+    <!-- Top Navigation Bar -->
+    <nav class="w-full max-w-5xl bg-white text-slate-800 shadow-lg rounded-xl px-6 py-4 mb-8 flex flex-wrap justify-between items-center border border-slate-200">
+        <!-- Brand Title / Nav Left -->
+        <div class="flex items-center gap-3">
+            <span class="font-extrabold tracking-wider text-[#1a365d] uppercase text-sm">BRI Portal</span>
+        </div>
+
+        <!-- Navigation Tabs -->
+        <div class="flex items-center gap-6 text-sm font-semibold">
+            <a href="home.html" class="text-[#1a365d] hover:text-amber-600 transition">Home</a>
+            
+            <!-- News Dropdown -->
+            <div class="relative dropdown group py-2">
+                <button class="flex items-center gap-1 hover:text-amber-600 transition text-slate-800 focus:outline-none">
+                    News 
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </button>
+                <div class="dropdown-menu absolute hidden bg-white shadow-xl rounded-lg py-2 mt-1 w-48 border border-slate-200 z-50">
+                    <a href="#arkansas" class="block px-4 py-2 text-xs text-slate-700 hover:bg-slate-100 transition">Arkansas</a>
+                    <a href="#kansas" class="block px-4 py-2 text-xs text-slate-700 hover:bg-slate-100 transition">Kansas</a>
+                    <a href="#missouri" class="block px-4 py-2 text-xs text-slate-700 hover:bg-slate-100 transition">Missouri</a>
+                    <a href="#oklahoma" class="block px-4 py-2 text-xs text-slate-700 hover:bg-slate-100 transition">Oklahoma</a>
+                </div>
+            </div>
+
+            <a href="login.html" class="text-[#1a365d] hover:text-amber-600 transition">Bond & Recovery Institute</a>
+            <a href="#about" class="text-slate-800 hover:text-amber-600 transition">About Us</a>
+            <a href="#store" class="text-slate-800 hover:text-amber-600 transition">Bond & Recovery Store</a>
+        </div>
+    </nav>
+
+    <!-- Hero Branding Card with Centered Logo -->
+    <div class="w-full max-w-3xl bg-white text-slate-800 shadow-2xl rounded-2xl p-10 flex flex-col items-center text-center border border-slate-200 my-auto">
+        
+        <!-- Vector Crest Logo Graphic -->
+        <div class="w-36 h-36 mb-6 relative flex items-center justify-center">
+            <svg viewBox="0 0 200 200" class="w-full h-full drop-shadow-md">
+                <!-- Outer Shield Background -->
+                <path d="M100 10 L180 35 V100 C180 145 145 175 100 190 C55 175 20 145 20 100 V35 Z" fill="#1a365d" stroke="#c5a059" stroke-width="4"/>
+                
+                <!-- Inner Gold Accent Border -->
+                <path d="M100 20 L168 41 V98 C168 137 137 163 100 177 C63 163 32 137 32 98 V41 Z" fill="none" stroke="#c5a059" stroke-width="1.5" stroke-dasharray="4 2"/>
+
+                <!-- Scales of Justice (Top Half) -->
+                <g stroke="#c5a059" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="100" y1="45" x2="100" y2="100" stroke-width="3"/>
+                    <line x1="70" y1="58" x2="130" y2="58" stroke-width="3"/>
+                    
+                    <line x1="70" y1="58" x2="55" y2="85"/>
+                    <line x1="70" y1="58" x2="85" y2="85"/>
+                    <path d="M 50 85 Q 70 100 90 85 Z" fill="#c5a059" fill-opacity="0.3"/>
+
+                    <line x1="130" y1="58" x2="115" y2="85"/>
+                    <line x1="130" y1="58" x2="145" y2="85"/>
+                    <path d="M 110 85 Q 130 100 150 85 Z" fill="#c5a059" fill-opacity="0.3"/>
+                </g>
+
+                <!-- Upward Compass Needle / Recovery Arrow (Bottom Half) -->
+                <g fill="#c5a059">
+                    <polygon points="100,100 93,125 100,150 100,100" fill="#e2c074"/>
+                    <polygon points="100,100 107,125 100,150 100,100" fill="#c5a059"/>
+                    <circle cx="100" cy="125" r="2.5" fill="#1a365d"/>
+                </g>
+            </svg>
+        </div>
+
+        <!-- Typography Branding -->
+        <div class="border-b border-slate-200 pb-6 mb-6 w-full">
+            <h1 class="text-3xl font-extrabold tracking-widest text-[#1a365d] uppercase">Bond & Recovery Institute</h1>
+            <p class="text-sm text-slate-500 mt-2 uppercase tracking-wide">Professional Compliance & Surety Training</p>
+        </div>
+
+        <!-- Call to Action Buttons -->
+        <div class="flex flex-col sm:flex-row gap-4 w-full justify-center">
+            <a href="login.html" class="bg-[#1a365d] hover:bg-indigo-900 text-white font-bold py-3 px-6 rounded-lg shadow transition text-sm uppercase tracking-wide">Student Sign In</a>
+            <a href="register.html" class="bg-amber-600 hover:bg-amber-500 text-white font-bold py-3 px-6 rounded-lg shadow transition text-sm uppercase tracking-wide">New Student Registration</a>
+        </div>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="text-xs text-slate-400 mt-8 text-center">
+        &copy; 2026 Bond & Recovery Institute. All rights reserved.
+    </footer>
+
+</body>
+</html>
