@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Login - Bond & Recovery Institute</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-900 min-h-screen py-12 px-4 flex flex-col items-center justify-center font-sans">
+
+    <!-- Login Card Container with Centered Logo -->
+    <div class="w-full max-w-md bg-white shadow-2xl rounded-xl p-8 flex flex-col items-center text-center border border-slate-200">
+        
+        <!-- Vector Crest Logo Graphic -->
+        <div class="w-28 h-28 mb-4 relative flex items-center justify-center">
+            <svg viewBox="0 0 200 200" class="w-full h-full drop-shadow-md">
+                <!-- Outer Shield Background -->
+                <path d="M100 10 L180 35 V100 C180 145 145 175 100 190 C55 175 20 145 20 100 V35 Z" fill="#1a365d" stroke="#c5a059" stroke-width="4"/>
+                
+                <!-- Inner Gold Accent Border -->
+                <path d="M100 20 L168 41 V98 C168 137 137 163 100 177 C63 163 32 137 32 98 V41 Z" fill="none" stroke="#c5a059" stroke-width="1.5" stroke-dasharray="4 2"/>
+
+                <!-- Scales of Justice (Top Half) -->
+                <g stroke="#c5a059" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="100" y1="45" x2="100" y2="100" stroke-width="3"/>
+                    <line x1="70" y1="58" x2="130" y2="58" stroke-width="3"/>
+                    
+                    <line x1="70" y1="58" x2="55" y2="85"/>
+                    <line x1="70" y1="58" x2="85" y2="85"/>
+                    <path d="M 50 85 Q 70 100 90 85 Z" fill="#c5a059" fill-opacity="0.3"/>
+
+                    <line x1="130" y1="58" x2="115" y2="85"/>
+                    <line x1="130" y1="58" x2="145" y2="85"/>
+                    <path d="M 110 85 Q 130 100 150 85 Z" fill="#c5a059" fill-opacity="0.3"/>
+                </g>
+
+                <!-- Upward Compass Needle / Recovery Arrow (Bottom Half) -->
+                <g fill="#c5a059">
+                    <polygon points="100,100 93,125 100,150 100,100" fill="#e2c074"/>
+                    <polygon points="100,100 107,125 100,150 100,100" fill="#c5a059"/>
+                    <circle cx="100" cy="125" r="2.5" fill="#1a365d"/>
+                </g>
+            </svg>
+        </div>
+
+        <!-- Typography Branding -->
+        <div class="border-b border-slate-200 pb-4 mb-6 w-full">
+            <h1 class="text-lg font-extrabold tracking-wider text-[#1a365d] uppercase">Bond & Recovery Institute</h1>
+            <p class="text-xs text-slate-500 mt-0.5 uppercase tracking-wide">Student Portal Sign In</p>
+        </div>
+
+        <!-- Form Fields -->
+        <form id="login-form" class="space-y-4 w-full text-left">
+            <div>
+                <label class="block text-xs font-semibold uppercase text-slate-700 mb-1">Student ID Number *</label>
+                <input type="text" id="student-id-input" placeholder="e.g., BRI-91259" required class="w-full border border-slate-300 rounded px-3 py-2 text-sm font-mono uppercase focus:ring-2 focus:ring-indigo-900 outline-none">
+            </div>
+
+            <button type="submit" class="w-full bg-[#1a365d] hover:bg-indigo-900 text-white font-bold py-2.5 rounded shadow transition text-sm">Access Dashboard</button>
+        </form>
+
+        <div class="mt-6 text-center border-t border-slate-100 pt-4 w-full">
+            <p class="text-xs text-slate-600">New student? <a href="register.html" class="text-[#1a365d] font-semibold hover:underline">Register here</a></p>
+        </div>
+    </div>
+
+    <!-- Login Logic Script -->
+    <script type="module">
+        import { supabase } from './supabaseClient.js';
+
+        document.getElementById('login-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const inputId = document.getElementById('student-id-input'].value.trim().toUpperCase();
+
+            const { data, error } = await supabase
+                .from('profiles')
+                .select('student_id, first_name, last_name')
+                .eq('student_id', inputId)
+                .single();
+
+            if (error || !data) {
+                alert('Student ID not found. Please check your ID or complete registration.');
+                return;
+            }
+
+            localStorage.setItem('bri_student_id', data.student_id);
+            localStorage.setItem('bri_student_name', `${data.last_name}, ${data.first_name}`);
+
+            window.location.href = 'index.html';
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard - Bond & Recovery Institute</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-100 min-h-screen font-sans text-slate-800">
+
+    <!-- Top Navigation / Header -->
+    <header class="bg-indigo-950 text-white shadow-md py-4 px-6">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+            <div>
+                <h1 class="text-lg font-extrabold tracking-wide uppercase">Bond & Recovery Institute</h1>
+                <p class="text-xs text-indigo-300">Professional Compliance & Surety Training</p>
+            </div>
+            <div id="student-header-info" class="text-right text-xs text-indigo-200 flex items-center gap-2">
+                <span>Welcome, <strong id="header-name" class="text-white">[Student Name]</strong> (ID: <strong id="header-id" class="font-mono text-white">BRI-00000</strong>)</span>
+                <a href="transcript.html" class="bg-indigo-800 hover:bg-indigo-700 text-white font-semibold px-3 py-1.5 rounded transition shadow-sm ml-2">View Transcript</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="max-w-7xl mx-auto p-6 space-y-6">
+
+        <!-- Curriculum Notice Banner -->
+        <div class="bg-white border border-slate-200 rounded-lg p-6 shadow-sm flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+            <div>
+                <h2 class="text-base font-bold text-indigo-950 uppercase">Your Enrolled Curriculum</h2>
+                <p class="text-sm text-slate-600 mt-0.5">Complete your active pre-licensing modules within your 30-day enrollment window.</p>
+            </div>
+            <div class="bg-emerald-50 border border-emerald-200 text-emerald-800 px-3 py-1 rounded text-xs font-bold uppercase tracking-wider">
+                Active Enrollee
+            </div>
+        </div>
+
+        <!-- Course Card Grid -->
+        <div class="grid grid-cols-1 gap-6">
+            <div class="bg-white border border-slate-200 rounded-lg shadow-sm p-6 flex flex-col justify-between">
+                <div>
+                    <div class="flex justify-between items-start mb-3">
+                        <span class="bg-indigo-50 text-indigo-900 border border-indigo-200 text-xs font-mono font-bold px-2.5 py-1 rounded">MS-BB-101</span>
+                        <span class="bg-emerald-50 text-emerald-700 text-xs font-semibold px-2.5 py-1 rounded border border-emerald-200">Status: In Progress</span>
+                    </div>
+                    <h3 class="text-lg font-bold text-indigo-950 mb-2">Missouri Bail Bond & Surety Recovery Agent 101</h3>
+                    <p class="text-sm text-slate-600 mb-6">Comprehensive pre-licensing curriculum aligned with Missouri RSMo Chapters 374, 385, 544, and DCI regulatory standards.</p>
+                </div>
+                
+                <div class="border-t border-slate-100 pt-4 flex flex-col sm:flex-row justify-between items-center gap-4">
+                    <span class="text-xs text-slate-500 font-medium">Credits: 3.00 Units</span>
+                    <a href="player.html" class="w-full sm:w-auto bg-indigo-900 hover:bg-indigo-800 text-white font-bold px-5 py-2 rounded text-sm transition shadow text-center">Launch Course</a>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Dashboard Session Hydration Script -->
+    <script type="module">
+        import { supabase } from './supabaseClient.js';
+
+        // Retrieve stored student session details from registration
+        const studentId = localStorage.getItem('bri_student_id') || 'BRI-00000';
+        const studentName = localStorage.getItem('bri_student_name') || 'Student, Registered';
+
+        // Hydrate header elements with live session cache
+        const nameEl = document.getElementById('header-name');
+        const idEl = document.getElementById('header-id');
+
+        if (nameEl) nameEl.textContent = studentName;
+        if (idEl) idEl.textContent = studentId;
+    </script>
+</body>
+</html>

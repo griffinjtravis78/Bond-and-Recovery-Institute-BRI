@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Player - Bond & Recovery Institute</title>
+    <style>
+        body, html { margin: 0; padding: 0; height: 100%; overflow: hidden; font-family: sans-serif; background: #0f172a; }
+        #header-bar { background: #0f172a; color: #fff; padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; height: 50px; border-bottom: 1px solid #1e293b; }
+        #course-frame { width: 100%; height: calc(100vh - 50px); border: none; background: #fff; }
+    </style>
+</head>
+<body>
+    <div id="header-bar">
+        <span><strong>Bond & Recovery Institute (BRI)</strong> | Course Player</span>
+        <a href="index.html" style="color: #cbd5e0; text-decoration: none; font-size: 14px;" class="hover:text-white">&larr; Return to Dashboard</a>
+    </div>
+
+    <!-- SCORM Content Frame -->
+    <iframe id="course-frame" src="../public/course/index.html"></iframe>
+</body>
+</html>
