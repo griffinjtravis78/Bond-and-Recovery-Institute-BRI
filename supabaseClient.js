@@ -1,7 +1,7 @@
-const SUPABASE_URL = 'https://ijiletksbuevkirdkfaw.supabase.co';
-const SUPABASE_ANON_KEY = 'sb_publishable_cuMGIsnCN8v7RGdDQ1Ck5w_xOi5ORHA';
-
-if (typeof window.supabaseClient === 'undefined') {
-    window.supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+// Initialize Supabase client cleanly using window namespace
+if (!window.supabaseClient && window.supabase) {
+    window.supabaseClient = window.supabase.createClient(
+        'https://ijiletksbuevkirdkfaw.supabase.co',
+        'sb_publishable_cuMGIsnCN8v7RGdDQ1Ck5w_xOi5ORHA'
+    );
 }
-var supabase = window.supabaseClient;
