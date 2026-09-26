@@ -3,125 +3,201 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bond & Recovery Institute - Admin Control Panel</title>
+    <title>BRI Admin Portal - Enterprise Management</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Supabase Client CDN -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="supabaseClient.js"></script>
-    <style>
-        /* Dropdown hover behavior */
-        .dropdown:hover .dropdown-menu {
-            display: block;
-        }
-    </style>
 </head>
-<body class="bg-slate-900 min-h-screen font-sans text-slate-100 flex flex-col items-center justify-between py-8 px-4">
+<body class="bg-slate-900 min-h-screen font-sans text-slate-100 flex flex-col justify-between">
 
     <!-- Top Navigation Bar -->
-    <nav class="w-full max-w-5xl bg-white text-slate-800 shadow-lg rounded-xl px-6 py-4 mb-8 flex flex-wrap justify-between items-center border border-slate-200">
-        <!-- Brand Title / Nav Left -->
-        <div class="flex items-center gap-3">
-            <span class="font-extrabold tracking-wider text-[#1a365d] uppercase text-sm">BRI Admin Portal</span>
+    <header class="bg-white text-slate-800 shadow-md border-b border-slate-200">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex flex-wrap justify-between items-center">
+            <div>
+                <h1 class="text-lg font-extrabold tracking-wider text-[#1a365d] uppercase">BRI Admin Portal</h1>
+                <p class="text-xs text-slate-500 font-semibold uppercase">Enterprise Privilege & Security Management</p>
+            </div>
+            
+            <div class="flex items-center gap-4">
+                <a href="dashboard.html" class="bg-slate-200 hover:bg-slate-300 text-slate-800 text-xs font-bold px-3 py-2 rounded-lg transition uppercase tracking-wider">
+                    Student Dashboard
+                </a>
+                <button id="logout-btn" class="bg-red-600 hover:bg-red-700 text-white text-xs font-bold px-3 py-2 rounded-lg transition uppercase tracking-wider shadow">
+                    Sign Out
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="max-w-7xl mx-auto px-6 py-8 flex-grow w-full">
+        
+        <!-- Welcome Banner -->
+        <div class="mb-8">
+            <h2 class="text-2xl font-extrabold text-white uppercase tracking-wide">System Administration Dashboard</h2>
+            <p class="text-xs text-slate-400 mt-1">Select an administrative work area or manage security roles below.</p>
         </div>
 
-        <!-- Navigation Tabs -->
-        <div class="flex items-center gap-6 text-sm font-semibold">
-            <a href="home.html" class="text-slate-800 hover:text-amber-600 transition">Home</a>
+        <!-- Admin Work Area Cards Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+            
+            <!-- BRI Admin Card -->
+            <div onclick="switchAdminSection('bri')" class="bg-white text-slate-800 rounded-xl p-6 shadow-xl border border-slate-200 hover:border-[#1a365d] hover:shadow-2xl cursor-pointer transition transform hover:-translate-y-1">
+                <div class="bg-blue-50 text-[#1a365d] p-3 rounded-lg w-fit mb-4 font-bold text-sm uppercase">Curriculum Hub</div>
+                <h3 class="text-lg font-bold text-[#1a365d] mb-2">BRI Admin</h3>
+                <p class="text-xs text-slate-600 leading-relaxed">Manage student rosters, pre-licensing module completions, transcripts, and course compliance tracking.</p>
+                <div class="mt-4 text-xs font-bold text-blue-700 uppercase tracking-wider flex items-center gap-1">Access Work Area &rarr;</div>
+            </div>
 
-            <!-- News Dropdown -->
-            <div class="relative dropdown group py-2">
-                <button class="flex items-center gap-1 hover:text-amber-600 transition text-slate-800 focus:outline-none">
-                    News
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                </button>
-                <div class="dropdown-menu absolute hidden bg-white shadow-xl rounded-lg py-2 mt-1 w-48 border border-slate-200 z-50">
-                    <a href="news.html#arkansas" class="block px-4 py-2 text-xs text-slate-700 hover:bg-slate-100 transition">Arkansas</a>
-                    <a href="news.html#kansas" class="block px-4 py-2 text-xs text-slate-700 hover:bg-slate-100 transition">Kansas</a>
-                    <a href="news.html#missouri" class="block px-4 py-2 text-xs text-slate-700 hover:bg-slate-100 transition">Missouri</a>
-                    <a href="news.html#oklahoma" class="block px-4 py-2 text-xs text-slate-700 hover:bg-slate-100 transition">Oklahoma</a>
+            <!-- Store Admin Card -->
+            <div onclick="switchAdminSection('store')" class="bg-white text-slate-800 rounded-xl p-6 shadow-xl border border-slate-200 hover:border-emerald-600 hover:shadow-2xl cursor-pointer transition transform hover:-translate-y-1">
+                <div class="bg-emerald-50 text-emerald-800 p-3 rounded-lg w-fit mb-4 font-bold text-sm uppercase">E-Commerce</div>
+                <h3 class="text-lg font-bold text-emerald-800 mb-2">Store Admin</h3>
+                <p class="text-xs text-slate-600 leading-relaxed">Oversee training material orders, study guides, equipment inventory, and fulfillment tracking.</p>
+                <div class="mt-4 text-xs font-bold text-emerald-700 uppercase tracking-wider flex items-center gap-1">Access Work Area &rarr;</div>
+            </div>
+
+            <!-- System Admin Card -->
+            <div onclick="switchAdminSection('system')" class="bg-white text-slate-800 rounded-xl p-6 shadow-xl border border-slate-200 hover:border-amber-600 hover:shadow-2xl cursor-pointer transition transform hover:-translate-y-1">
+                <div class="bg-amber-50 text-amber-800 p-3 rounded-lg w-fit mb-4 font-bold text-sm uppercase">Security & IAM</div>
+                <h3 class="text-lg font-bold text-amber-800 mb-2">System Admin</h3>
+                <p class="text-xs text-slate-600 leading-relaxed">Configure user security roles, database permissions, cryptographic transcript hashes, and audit logs.</p>
+                <div class="mt-4 text-xs font-bold text-amber-700 uppercase tracking-wider flex items-center gap-1">Access Work Area &rarr;</div>
+            </div>
+
+        </div>
+
+        <!-- Dynamic Work Area Section Container -->
+        <div id="work-area-container" class="bg-white text-slate-800 shadow-xl rounded-xl p-6 border border-slate-200">
+            
+            <!-- Default / System Admin Section: Role Manager -->
+            <div id="section-system" class="admin-section">
+                <div class="border-b border-slate-200 pb-4 mb-6">
+                    <h3 class="text-lg font-extrabold text-[#1a365d] uppercase">System Administration - User Security Roles</h3>
+                    <p class="text-xs text-slate-500 mt-1">Assign or elevate user privilege levels across the institute platform.</p>
+                </div>
+
+                <div class="max-w-xl">
+                    <div class="mb-4">
+                        <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">User Email Address</label>
+                        <input type="email" id="target-email" placeholder="student@example.com" class="w-full bg-slate-50 border border-slate-300 rounded-lg px-4 py-3 text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#1a365d]">
+                    </div>
+
+                    <div class="mb-6">
+                        <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Select Privilege Level</label>
+                        <select id="target-role" class="w-full bg-slate-50 border border-slate-300 rounded-lg px-4 py-3 text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#1a365d]">
+                            <option value="student">Student</option>
+                            <option value="instructor">Instructor</option>
+                            <option value="admin">Admin</option>
+                        </select>
+                    </div>
+
+                    <button id="update-role-btn" class="w-full bg-[#1a365d] hover:bg-blue-900 text-white text-xs font-bold py-3 rounded-lg transition uppercase tracking-wider shadow">
+                        Update User Privileges
+                    </button>
+                    <p id="status-message" class="text-xs font-semibold mt-4 text-center"></p>
                 </div>
             </div>
 
-            <a href="dashboard.html" class="text-slate-800 hover:text-amber-600 transition">Dashboard</a>
-            <a href="admin.html" class="text-[#1a365d] hover:text-amber-600 transition">Admin Panel</a>
-            <a href="store.html" class="text-slate-800 hover:text-amber-600 transition">Store</a>
-        </div>
-    </nav>
-
-    <!-- Admin Dashboard Main Container -->
-    <div class="w-full max-w-3xl bg-white text-slate-800 shadow-2xl rounded-2xl p-10 flex flex-col border border-slate-200 mb-8">
-        
-        <div class="border-b border-slate-200 pb-6 mb-6">
-            <h1 class="text-2xl md:text-3xl font-extrabold tracking-tight text-[#1a365d] uppercase">
-                System Administration
-            </h1>
-            <p class="text-xs md:text-sm font-semibold tracking-widest text-slate-500 uppercase mt-1">
-                Enterprise Privilege & Security Management
-            </p>
-        </div>
-
-        <!-- Role Assignment Card -->
-        <div class="bg-slate-50 p-6 rounded-xl border border-slate-200">
-            <h2 class="text-lg font-bold text-[#1a365d] mb-4">Assign User Security Role</h2>
-            <form id="role-assignment-form" class="flex flex-col gap-4">
-                <div>
-                    <label class="block text-xs font-semibold uppercase text-slate-600 mb-1">User Email Address</label>
-                    <input type="email" id="target-email" required placeholder="student@example.com" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1a365d]">
+            <!-- BRI Admin Section Placeholder -->
+            <div id="section-bri" class="admin-section hidden">
+                <div class="border-b border-slate-200 pb-4 mb-6">
+                    <h3 class="text-lg font-extrabold text-[#1a365d] uppercase">BRI Curriculum Management</h3>
+                    <p class="text-xs text-slate-500 mt-1">Active course enrollment rosters and module progress telemetry.</p>
                 </div>
-                <div>
-                    <label class="block text-xs font-semibold uppercase text-slate-600 mb-1">Select Privilege Level</label>
-                    <select id="target-role" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1a365d]">
-                        <option value="student">Student</option>
-                        <option value="instructor">Instructor</option>
-                        <option value="admin">Administrator</option>
-                    </select>
+                <div class="p-8 text-center bg-slate-50 rounded-lg border border-dashed border-slate-300">
+                    <p class="text-xs text-slate-600 font-semibold uppercase tracking-wider">BRI Admin Work Area Initialized</p>
+                    <p class="text-xs text-slate-400 mt-1">Roster management and module telemetry modules ready for configuration.</p>
                 </div>
-                <button type="submit" class="bg-[#1a365d] hover:bg-blue-900 text-white font-bold py-3 px-6 rounded-lg transition uppercase text-sm tracking-wider">
-                    Update User Privileges
-                </button>
-            </form>
-            <p id="role-status-msg" class="text-sm mt-3 font-semibold"></p>
+            </div>
+
+            <!-- Store Admin Section Placeholder -->
+            <div id="section-store" class="admin-section hidden">
+                <div class="border-b border-slate-200 pb-4 mb-6">
+                    <h3 class="text-lg font-extrabold text-emerald-800 uppercase">Store & Inventory Management</h3>
+                    <p class="text-xs text-slate-500 mt-1">Fulfillment tracking, study manuals, and equipment order queues.</p>
+                </div>
+                <div class="p-8 text-center bg-slate-50 rounded-lg border border-dashed border-slate-300">
+                    <p class="text-xs text-emerald-800 font-semibold uppercase tracking-wider">Store Admin Work Area Initialized</p>
+                    <p class="text-xs text-slate-400 mt-1">Inventory fulfillment queue and catalog control modules ready for configuration.</p>
+                </div>
+            </div>
+
         </div>
 
-    </div>
+    </main>
 
     <!-- Footer -->
-    <footer class="text-xs text-slate-400 mt-4 text-center">
+    <footer class="bg-white border-t border-slate-200 text-xs text-slate-500 py-4 text-center">
         &copy; 2026 Bond & Recovery Institute. All rights reserved.
     </footer>
 
-    <!-- Role Assignment Execution Script -->
+    <!-- Admin Portal Logic -->
     <script>
-        document.getElementById('role-assignment-form').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            
-            const emailInput = document.getElementById('target-email').value.trim();
-            const newRole = document.getElementById('target-role').value;
-            const statusMsg = document.getElementById('role-status-msg');
+        // Section Switcher Function
+        function switchAdminSection(sectionKey) {
+            document.querySelectorAll('.admin-section').forEach(el => el.classList.add('hidden'));
+            document.getElementById(`section-${sectionKey}`).classList.remove('hidden');
+        }
 
-            statusMsg.textContent = "Updating user role in database...";
-            statusMsg.className = "text-sm mt-3 font-semibold text-slate-600";
+        window.addEventListener('DOMContentLoaded', async () => {
+            // 1. Verify Authentication & Admin Role
+            const { data: { session }, error: sessionError } = await window.supabaseClient.auth.getSession();
 
-            // Update user role in the Supabase profiles table matching email
-            const { data, error } = await supabase
-                .from('profiles')
-                .update({ role: newRole })
-                .eq('email', emailInput)
-                .select();
-
-            if (error) {
-                statusMsg.textContent = "Error: " + error.message;
-                statusMsg.className = "text-sm mt-3 font-semibold text-red-600";
-            } else if (!data || data.length === 0) {
-                statusMsg.textContent = "No user found with that email address in the profiles registry.";
-                statusMsg.className = "text-sm mt-3 font-semibold text-amber-600";
-            } else {
-                statusMsg.textContent = `Success! User ${emailInput} privileges updated to '${newRole}'.`;
-                statusMsg.className = "text-sm mt-3 font-semibold text-green-600";
-                document.getElementById('target-email').value = '';
+            if (sessionError || !session) {
+                window.location.href = 'login.html';
+                return;
             }
+
+            const { data: profile } = await window.supabaseClient
+                .from('profiles')
+                .select('role')
+                .eq('id', session.user.id)
+                .single();
+
+            if (!profile || (profile.role !== 'admin' && profile.role !== 'superadmin')) {
+                alert('Access Denied: Administrator privileges required.');
+                window.location.href = 'dashboard.html';
+                return;
+            }
+
+            // 2. Handle Role Update Submission
+            document.getElementById('update-role-btn').addEventListener('click', async () => {
+                const email = document.getElementById('target-email').value.trim();
+                const newRole = document.getElementById('target-role').value;
+                const statusEl = document.getElementById('status-message');
+
+                if (!email) {
+                    statusEl.textContent = 'Please enter a valid user email address.';
+                    statusEl.className = 'text-xs font-semibold mt-4 text-center text-red-600';
+                    return;
+                }
+
+                statusEl.textContent = 'Updating privileges...';
+                statusEl.className = 'text-xs font-semibold mt-4 text-center text-slate-600';
+
+                // Call Supabase function or update profiles table directly
+                const { error } = await window.supabaseClient
+                    .from('profiles')
+                    .update({ role: newRole })
+                    .eq('email', email); // or matching auth query if needed
+
+                if (error) {
+                    statusEl.textContent = `Error: ${error.message}`;
+                    statusEl.className = 'text-xs font-semibold mt-4 text-center text-red-600';
+                } else {
+                    statusEl.textContent = `Successfully updated role to '${newRole}' for ${email}!`;
+                    statusEl.className = 'text-xs font-semibold mt-4 text-center text-emerald-600';
+                }
+            });
+
+            // 3. Handle Sign Out
+            document.getElementById('logout-btn').addEventListener('click', async () => {
+                await window.supabaseClient.auth.signOut();
+                window.location.href = 'login.html';
+            });
         });
     </script>
-
 </body>
 </html>
