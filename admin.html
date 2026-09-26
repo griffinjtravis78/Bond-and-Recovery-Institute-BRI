@@ -3,223 +3,125 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard - Bond & Recovery Institute</title>
+    <title>Bond & Recovery Institute - Admin Control Panel</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Supabase Client CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabaseClient.js"></script>
     <style>
-        .dropdown:hover .dropdown-menu { display: block; }
+        /* Dropdown hover behavior */
+        .dropdown:hover .dropdown-menu {
+            display: block;
+        }
     </style>
 </head>
-<body class="bg-slate-900 min-h-screen font-sans text-slate-100 flex flex-col justify-between">
+<body class="bg-slate-900 min-h-screen font-sans text-slate-100 flex flex-col items-center justify-between py-8 px-4">
 
-    <!-- Standardized Top Navigation Bar -->
-    <nav class="w-full max-w-6xl bg-white text-slate-800 shadow-lg rounded-xl px-6 py-4 mt-6 mx-auto flex flex-wrap justify-between items-center border border-slate-200">
+    <!-- Top Navigation Bar -->
+    <nav class="w-full max-w-5xl bg-white text-slate-800 shadow-lg rounded-xl px-6 py-4 mb-8 flex flex-wrap justify-between items-center border border-slate-200">
+        <!-- Brand Title / Nav Left -->
         <div class="flex items-center gap-3">
-            <a href="home.html" class="font-extrabold tracking-wider text-[#1a365d] uppercase text-sm">BRI Admin Portal</a>
+            <span class="font-extrabold tracking-wider text-[#1a365d] uppercase text-sm">BRI Admin Portal</span>
         </div>
+
+        <!-- Navigation Tabs -->
         <div class="flex items-center gap-6 text-sm font-semibold">
             <a href="home.html" class="text-slate-800 hover:text-amber-600 transition">Home</a>
-            <a href="news.html" class="text-slate-800 hover:text-amber-600 transition">News Hub</a>
+
+            <!-- News Dropdown -->
+            <div class="relative dropdown group py-2">
+                <button class="flex items-center gap-1 hover:text-amber-600 transition text-slate-800 focus:outline-none">
+                    News
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </button>
+                <div class="dropdown-menu absolute hidden bg-white shadow-xl rounded-lg py-2 mt-1 w-48 border border-slate-200 z-50">
+                    <a href="news.html#arkansas" class="block px-4 py-2 text-xs text-slate-700 hover:bg-slate-100 transition">Arkansas</a>
+                    <a href="news.html#kansas" class="block px-4 py-2 text-xs text-slate-700 hover:bg-slate-100 transition">Kansas</a>
+                    <a href="news.html#missouri" class="block px-4 py-2 text-xs text-slate-700 hover:bg-slate-100 transition">Missouri</a>
+                    <a href="news.html#oklahoma" class="block px-4 py-2 text-xs text-slate-700 hover:bg-slate-100 transition">Oklahoma</a>
+                </div>
+            </div>
+
+            <a href="dashboard.html" class="text-slate-800 hover:text-amber-600 transition">Dashboard</a>
+            <a href="admin.html" class="text-[#1a365d] hover:text-amber-600 transition">Admin Panel</a>
             <a href="store.html" class="text-slate-800 hover:text-amber-600 transition">Store</a>
-            <a href="admin.html" class="text-[#1a365d] hover:text-amber-600 transition font-bold">Admin Hub</a>
         </div>
     </nav>
 
-    <!-- Main Admin Container -->
-    <div class="max-w-4xl mx-auto px-6 py-10 w-full">
+    <!-- Admin Dashboard Main Container -->
+    <div class="w-full max-w-3xl bg-white text-slate-800 shadow-2xl rounded-2xl p-10 flex flex-col border border-slate-200 mb-8">
         
-        <div class="text-center mb-8">
-            <h1 class="text-2xl font-extrabold tracking-widest text-white uppercase">System Administration Hub</h1>
-            <p class="text-xs text-slate-400 mt-1 uppercase tracking-wide">Manage Store Inventory, Institute Curriculum & Regional News</p>
+        <div class="border-b border-slate-200 pb-6 mb-6">
+            <h1 class="text-2xl md:text-3xl font-extrabold tracking-tight text-[#1a365d] uppercase">
+                System Administration
+            </h1>
+            <p class="text-xs md:text-sm font-semibold tracking-widest text-slate-500 uppercase mt-1">
+                Enterprise Privilege & Security Management
+            </p>
         </div>
 
-        <!-- Tab Navigation Buttons -->
-        <div class="flex justify-center gap-3 mb-6 flex-wrap">
-            <button onclick="switchTab('store')" id="btn-tab-store" class="bg-indigo-900 text-white font-bold px-5 py-2.5 rounded-lg shadow transition text-xs uppercase tracking-wider">Store Product</button>
-            <button onclick="switchTab('institute')" id="btn-tab-institute" class="bg-slate-800 text-slate-300 font-bold px-5 py-2.5 rounded-lg shadow transition text-xs uppercase tracking-wider hover:bg-slate-700">Institute Course</button>
-            <button onclick="switchTab('news')" id="btn-tab-news" class="bg-slate-800 text-slate-300 font-bold px-5 py-2.5 rounded-lg shadow transition text-xs uppercase tracking-wider hover:bg-slate-700">News & Bulletin Admin</button>
-        </div>
-
-        <!-- TAB 1: Store Product Management -->
-        <div id="tab-store" class="bg-white text-slate-800 p-8 rounded-2xl shadow-2xl border border-slate-200">
-            <h2 class="text-lg font-extrabold text-[#1a365d] uppercase mb-4">Upload New Store Product</h2>
-            <form id="product-form" class="space-y-4">
+        <!-- Role Assignment Card -->
+        <div class="bg-slate-50 p-6 rounded-xl border border-slate-200">
+            <h2 class="text-lg font-bold text-[#1a365d] mb-4">Assign User Security Role</h2>
+            <form id="role-assignment-form" class="flex flex-col gap-4">
                 <div>
-                    <label class="block text-xs font-semibold uppercase text-slate-700 mb-1">Product Title *</label>
-                    <input type="text" id="prod-title" required class="w-full border rounded px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-900 outline-none">
-                </div>
-                <div class="grid grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-xs font-semibold uppercase text-slate-700 mb-1">Category *</label>
-                        <select id="prod-category" class="w-full border rounded px-3 py-2 text-sm bg-white focus:ring-2 focus:ring-indigo-900 outline-none">
-                            <option value="Field Gear">Field Gear</option>
-                            <option value="Compliance">Compliance & Legal</option>
-                            <option value="Apparel">Apparel & Uniform</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="block text-xs font-semibold uppercase text-slate-700 mb-1">Price ($) *</label>
-                        <input type="number" step="0.01" id="prod-price" required class="w-full border rounded px-3 py-2 text-sm font-mono focus:ring-2 focus:ring-indigo-900 outline-none">
-                    </div>
+                    <label class="block text-xs font-semibold uppercase text-slate-600 mb-1">User Email Address</label>
+                    <input type="email" id="target-email" required placeholder="student@example.com" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1a365d]">
                 </div>
                 <div>
-                    <label class="block text-xs font-semibold uppercase text-slate-700 mb-1">Image URL</label>
-                    <input type="url" id="prod-image" placeholder="https://example.com/image.jpg" class="w-full border rounded px-3 py-2 text-sm font-mono focus:ring-2 focus:ring-indigo-900 outline-none">
-                </div>
-                <div>
-                    <label class="block text-xs font-semibold uppercase text-slate-700 mb-1">Description *</label>
-                    <textarea id="prod-desc" rows="3" required class="w-full border rounded px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-900 outline-none"></textarea>
-                </div>
-                <button type="submit" class="w-full bg-[#1a365d] hover:bg-indigo-900 text-white font-bold py-3 rounded-lg shadow transition uppercase text-sm">Publish Product to Store</button>
-            </form>
-        </div>
-
-        <!-- TAB 2: Institute Course Configuration -->
-        <div id="tab-institute" class="bg-white text-slate-800 p-8 rounded-2xl shadow-2xl border border-slate-200 hidden">
-            <h2 class="text-lg font-extrabold text-[#1a365d] uppercase mb-4">Configure Pre-Licensing Course</h2>
-            <form id="course-form" class="space-y-4">
-                <div class="grid grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-xs font-semibold uppercase text-slate-700 mb-1">Course Code *</label>
-                        <input type="text" id="course-code" placeholder="e.g., MS-BB-101" required class="w-full border rounded px-3 py-2 text-sm font-mono focus:ring-2 focus:ring-indigo-900 outline-none">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-semibold uppercase text-slate-700 mb-1">Credit Units *</label>
-                        <input type="number" step="0.25" id="course-credits" value="3.00" required class="w-full border rounded px-3 py-2 text-sm font-mono focus:ring-2 focus:ring-indigo-900 outline-none">
-                    </div>
-                </div>
-                <div>
-                    <label class="block text-xs font-semibold uppercase text-slate-700 mb-1">Course Title *</label>
-                    <input type="text" id="course-title" placeholder="Missouri Bail Bond & Surety Recovery Agent 101" required class="w-full border rounded px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-900 outline-none">
-                </div>
-                <div>
-                    <label class="block text-xs font-semibold uppercase text-slate-700 mb-1">Description & Regulatory Standards *</label>
-                    <textarea id="course-desc" rows="3" placeholder="Aligned with Missouri RSMo Chapters..." required class="w-full border rounded px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-900 outline-none"></textarea>
-                </div>
-                <button type="submit" class="w-full bg-[#1a365d] hover:bg-indigo-900 text-white font-bold py-3 rounded-lg shadow transition uppercase text-sm">Save Course Configuration</button>
-            </form>
-        </div>
-
-        <!-- TAB 3: News & Bulletin Admin -->
-        <div id="tab-news" class="bg-white text-slate-800 p-8 rounded-2xl shadow-2xl border border-slate-200 hidden">
-            <h2 class="text-lg font-extrabold text-[#1a365d] uppercase mb-4">Upload State News Link / Document</h2>
-            <form id="news-form" class="space-y-4">
-                <div>
-                    <label class="block text-xs font-semibold uppercase text-slate-700 mb-1">Target State Corridor *</label>
-                    <select id="news-state" class="w-full border rounded px-3 py-2 text-sm bg-white focus:ring-2 focus:ring-indigo-900 outline-none">
-                        <option value="Kansas">Kansas (Top-Left)</option>
-                        <option value="Missouri">Missouri (Top-Right)</option>
-                        <option value="Oklahoma">Oklahoma (Bottom-Left)</option>
-                        <option value="Arkansas">Arkansas (Bottom-Right)</option>
+                    <label class="block text-xs font-semibold uppercase text-slate-600 mb-1">Select Privilege Level</label>
+                    <select id="target-role" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1a365d]">
+                        <option value="student">Student</option>
+                        <option value="instructor">Instructor</option>
+                        <option value="admin">Administrator</option>
                     </select>
                 </div>
-                <div>
-                    <label class="block text-xs font-semibold uppercase text-slate-700 mb-1">Bulletin / Article Title *</label>
-                    <input type="text" id="news-title" required class="w-full border rounded px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-900 outline-none">
-                </div>
-                <div class="grid grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-xs font-semibold uppercase text-slate-700 mb-1">External Link or Document URL *</label>
-                        <input type="url" id="news-url" placeholder="https://..." required class="w-full border rounded px-3 py-2 text-sm font-mono focus:ring-2 focus:ring-indigo-900 outline-none">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-semibold uppercase text-slate-700 mb-1">Article / Filing Date *</label>
-                        <input type="date" id="news-date" required class="w-full border rounded px-3 py-2 text-sm font-mono focus:ring-2 focus:ring-indigo-900 outline-none">
-                    </div>
-                </div>
-                <div>
-                    <label class="block text-xs font-semibold uppercase text-slate-700 mb-1">Thumbnail Image URL (Optional)</label>
-                    <input type="url" id="news-thumbnail" placeholder="https://.../thumbnail.jpg" class="w-full border rounded px-3 py-2 text-sm font-mono focus:ring-2 focus:ring-indigo-900 outline-none">
-                </div>
-                <div>
-                    <label class="block text-xs font-semibold uppercase text-slate-700 mb-1">Short Summary / Description *</label>
-                    <textarea id="news-desc" rows="3" required class="w-full border rounded px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-900 outline-none"></textarea>
-                </div>
-                <button type="submit" class="w-full bg-[#1a365d] hover:bg-indigo-900 text-white font-bold py-3 rounded-lg shadow transition uppercase text-sm">Publish News Bulletin</button>
+                <button type="submit" class="bg-[#1a365d] hover:bg-blue-900 text-white font-bold py-3 px-6 rounded-lg transition uppercase text-sm tracking-wider">
+                    Update User Privileges
+                </button>
             </form>
+            <p id="role-status-msg" class="text-sm mt-3 font-semibold"></p>
         </div>
 
     </div>
 
-    <footer class="text-xs text-slate-500 py-6 text-center">
-        &copy; 2026 Bond & Recovery Institute. Administrative Access Only.
+    <!-- Footer -->
+    <footer class="text-xs text-slate-400 mt-4 text-center">
+        &copy; 2026 Bond & Recovery Institute. All rights reserved.
     </footer>
 
-    <script type="module">
-        import { supabase } from './supabaseClient.js';
-
-        window.switchTab = function(tab) {
-            const storeTab = document.getElementById('tab-store');
-            const instTab = document.getElementById('tab-institute');
-            const newsTab = document.getElementById('tab-news');
+    <!-- Role Assignment Execution Script -->
+    <script>
+        document.getElementById('role-assignment-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
             
-            const btnStore = document.getElementById('btn-tab-store');
-            const btnInst = document.getElementById('btn-tab-institute');
-            const btnNews = document.getElementById('btn-tab-news');
+            const emailInput = document.getElementById('target-email').value.trim();
+            const newRole = document.getElementById('target-role').value;
+            const statusMsg = document.getElementById('role-status-msg');
 
-            storeTab.classList.add('hidden');
-            instTab.classList.add('hidden');
-            newsTab.classList.add('hidden');
+            statusMsg.textContent = "Updating user role in database...";
+            statusMsg.className = "text-sm mt-3 font-semibold text-slate-600";
 
-            btnStore.className = "bg-slate-800 text-slate-300 font-bold px-5 py-2.5 rounded-lg shadow transition text-xs uppercase tracking-wider hover:bg-slate-700";
-            btnInst.className = "bg-slate-800 text-slate-300 font-bold px-5 py-2.5 rounded-lg shadow transition text-xs uppercase tracking-wider hover:bg-slate-700";
-            btnNews.className = "bg-slate-800 text-slate-300 font-bold px-5 py-2.5 rounded-lg shadow transition text-xs uppercase tracking-wider hover:bg-slate-700";
+            // Update user role in the Supabase profiles table matching email
+            const { data, error } = await supabase
+                .from('profiles')
+                .update({ role: newRole })
+                .eq('email', emailInput)
+                .select();
 
-            if (tab === 'store') {
-                storeTab.classList.remove('hidden');
-                btnStore.className = "bg-indigo-900 text-white font-bold px-5 py-2.5 rounded-lg shadow transition text-xs uppercase tracking-wider";
-            } else if (tab === 'institute') {
-                instTab.classList.remove('hidden');
-                btnInst.className = "bg-indigo-900 text-white font-bold px-5 py-2.5 rounded-lg shadow transition text-xs uppercase tracking-wider";
-            } else if (tab === 'news') {
-                newsTab.classList.remove('hidden');
-                btnNews.className = "bg-indigo-900 text-white font-bold px-5 py-2.5 rounded-lg shadow transition text-xs uppercase tracking-wider";
+            if (error) {
+                statusMsg.textContent = "Error: " + error.message;
+                statusMsg.className = "text-sm mt-3 font-semibold text-red-600";
+            } else if (!data || data.length === 0) {
+                statusMsg.textContent = "No user found with that email address in the profiles registry.";
+                statusMsg.className = "text-sm mt-3 font-semibold text-amber-600";
+            } else {
+                statusMsg.textContent = `Success! User ${emailInput} privileges updated to '${newRole}'.`;
+                statusMsg.className = "text-sm mt-3 font-semibold text-green-600";
+                document.getElementById('target-email').value = '';
             }
-        }
-
-        // Store Product Submission
-        document.getElementById('product-form').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const { error } = await supabase.from('store_products').insert([{
-                title: document.getElementById('prod-title').value,
-                category: document.getElementById('prod-category').value,
-                price: parseFloat(document.getElementById('prod-price').value),
-                image_url: document.getElementById('prod-image').value || null,
-                description: document.getElementById('prod-desc').value
-            }]);
-            if (error) return alert('Error: ' + error.message);
-            alert('Product published successfully!');
-            document.getElementById('product-form').reset();
-        });
-
-        // Course Config Submission
-        document.getElementById('course-form').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const { error } = await supabase.from('courses').insert([{
-                course_code: document.getElementById('course-code').value,
-                title: document.getElementById('course-title').value,
-                credit_units: parseFloat(document.getElementById('course-credits').value),
-                description: document.getElementById('course-desc').value
-            }]);
-            if (error) return alert('Error: ' + error.message);
-            alert('Course saved successfully!');
-            document.getElementById('course-form').reset();
-        });
-
-        // News Bulletin Submission
-        document.getElementById('news-form').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const { error } = await supabase.from('news_articles').insert([{
-                state: document.getElementById('news-state').value,
-                title: document.getElementById('news-title').value,
-                target_url: document.getElementById('news-url').value,
-                article_date: document.getElementById('news-date').value,
-                thumbnail_url: document.getElementById('news-thumbnail').value || null,
-                description: document.getElementById('news-desc').value
-            }]);
-            if (error) return alert('Error: ' + error.message);
-            alert('News bulletin published successfully!');
-            document.getElementById('news-form').reset();
         });
     </script>
+
 </body>
 </html>
