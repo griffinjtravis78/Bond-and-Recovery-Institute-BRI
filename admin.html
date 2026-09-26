@@ -548,9 +548,16 @@
             }
         }
 
+        // Safe initialization with timeout guard to prevent blank screens
         async function initApp() {
+            let attempts = 0;
+            while (!window.supabaseClient && attempts < 20) {
+                await new Promise(resolve => setTimeout(resolve, 100));
+                attempts++;
+            }
+
             if (!window.supabaseClient) {
-                setTimeout(initApp, 100);
+                console.warn('Supabase client not detected. Running in offline/fallback mode.');
                 return;
             }
 
