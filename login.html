@@ -3,143 +3,105 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bond & Recovery Institute - Student & Admin Sign In</title>
+    <title>Student Sign In - Bond & Recovery Institute</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Supabase Client CDN -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="supabaseClient.js"></script>
-    <style>
-        /* Dropdown hover behavior */
-        .dropdown:hover .dropdown-menu {
-            display: block;
-        }
-    </style>
 </head>
-<body class="bg-slate-900 min-h-screen font-sans text-slate-100 flex flex-col items-center justify-between py-8 px-4">
+<body class="bg-slate-900 min-h-screen font-sans text-slate-100 flex flex-col justify-between py-8 px-4">
 
     <!-- Top Navigation Bar -->
-    <nav class="w-full max-w-5xl bg-white text-slate-800 shadow-lg rounded-xl px-6 py-4 mb-8 flex flex-wrap justify-between items-center border border-slate-200">
-        <!-- Brand Title / Nav Left -->
-        <div class="flex items-center gap-3">
-            <span class="font-extrabold tracking-wider text-[#1a365d] uppercase text-sm">BRI Portal</span>
-        </div>
-
-        <!-- Navigation Tabs -->
-        <div class="flex items-center gap-6 text-sm font-semibold">
-            <a href="home.html" class="text-slate-800 hover:text-amber-600 transition">Home</a>
-
-            <!-- News Dropdown -->
-            <div class="relative dropdown group py-2">
-                <button class="flex items-center gap-1 hover:text-amber-600 transition text-slate-800 focus:outline-none">
-                    News
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                </button>
-                <div class="dropdown-menu absolute hidden bg-white shadow-xl rounded-lg py-2 mt-1 w-48 border border-slate-200 z-50">
-                    <a href="news.html#arkansas" class="block px-4 py-2 text-xs text-slate-700 hover:bg-slate-100 transition">Arkansas</a>
-                    <a href="news.html#kansas" class="block px-4 py-2 text-xs text-slate-700 hover:bg-slate-100 transition">Kansas</a>
-                    <a href="news.html#missouri" class="block px-4 py-2 text-xs text-slate-700 hover:bg-slate-100 transition">Missouri</a>
-                    <a href="news.html#oklahoma" class="block px-4 py-2 text-xs text-slate-700 hover:bg-slate-100 transition">Oklahoma</a>
-                </div>
-            </div>
-
-            <a href="login.html" class="text-[#1a365d] hover:text-amber-600 transition">Sign In</a>
-            <a href="home.html#about" class="text-slate-800 hover:text-amber-600 transition">About Us</a>
-            <a href="store.html" class="text-slate-800 hover:text-amber-600 transition">Bond & Recovery Store</a>
+    <nav class="w-full max-w-md mx-auto bg-white text-slate-800 shadow-lg rounded-xl px-6 py-3 mb-6 flex justify-between items-center border border-slate-200">
+        <a href="home.html" class="font-extrabold tracking-wider text-[#1a365d] uppercase text-xs">BRI Portal</a>
+        <div class="flex items-center gap-3 text-xs font-bold uppercase">
+            <a href="home.html" class="text-slate-600 hover:text-amber-600 transition">Home</a>
+            <a href="register.html" class="text-amber-600 hover:text-amber-700 transition">Register</a>
         </div>
     </nav>
 
-    <!-- Login Card Container -->
-    <div class="w-full max-w-md bg-white text-slate-800 shadow-2xl rounded-2xl p-8 flex flex-col border border-slate-200 mb-8">
-        
+    <!-- Login Card -->
+    <main class="w-full max-w-md mx-auto bg-white text-slate-800 shadow-2xl rounded-2xl p-8 border border-slate-200">
         <div class="text-center mb-6">
-            <div class="w-16 h-16 bg-[#1a365d] rounded-full flex items-center justify-center mx-auto mb-4 shadow-md border-2 border-amber-500">
+            <div class="w-14 h-14 bg-[#1a365d] rounded-full flex items-center justify-center mx-auto mb-3 shadow border-2 border-amber-500">
                 <svg class="w-8 h-8 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
                 </svg>
             </div>
-            <h1 class="text-2xl font-extrabold tracking-tight text-[#1a365d] uppercase">Portal Sign In</h1>
-            <p class="text-xs font-semibold tracking-widest text-slate-500 uppercase mt-1">Enter your credentials to access your account</p>
+            <h1 class="text-2xl font-extrabold text-[#1a365d] uppercase tracking-wide">Student Sign In</h1>
+            <p class="text-xs text-slate-500 mt-1">Access your pre-licensing curriculum, store, and enterprise portal</p>
         </div>
 
-        <form id="login-form" class="flex flex-col gap-4">
+        <div class="space-y-4">
             <div>
-                <label class="block text-xs font-semibold uppercase text-slate-600 mb-1">Email Address</label>
-                <input type="email" id="login-email" required placeholder="user@example.com" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1a365d]">
+                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Email Address</label>
+                <input type="email" id="login-email" placeholder="agent@example.com" class="w-full bg-slate-50 border border-slate-300 rounded-lg px-4 py-3 text-xs text-slate-800 focus:ring-2 focus:ring-[#1a365d]">
             </div>
-            <div>
-                <label class="block text-xs font-semibold uppercase text-slate-600 mb-1">Password</label>
-                <input type="password" id="login-password" required placeholder="••••••••" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1a365d]">
-            </div>
-            <button type="submit" class="mt-2 bg-[#1a365d] hover:bg-blue-900 text-white font-bold py-3 px-6 rounded-lg transition uppercase text-sm tracking-wider shadow">
-                Sign In
-            </button>
-        </form>
 
-        <p id="login-status-msg" class="text-sm mt-4 font-semibold text-center"></p>
+            <div>
+                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Password</label>
+                <input type="password" id="login-password" placeholder="••••••••" class="w-full bg-slate-50 border border-slate-300 rounded-lg px-4 py-3 text-xs text-slate-800 focus:ring-2 focus:ring-[#1a365d]">
+            </div>
+
+            <button id="login-btn" class="w-full bg-[#1a365d] hover:bg-blue-900 text-white font-bold py-3 rounded-lg transition uppercase tracking-wider shadow">
+                Sign In to Portal
+            </button>
+
+            <p id="login-status" class="text-xs font-semibold text-center mt-2"></p>
+        </div>
 
         <div class="mt-6 text-center border-t border-slate-200 pt-4">
-            <p class="text-xs text-slate-500">Need an account? <a href="register.html" class="text-[#1a365d] font-bold hover:underline">Register here</a></p>
+            <p class="text-xs text-slate-500">Don't have an active account? <a href="register.html" class="text-amber-600 font-bold hover:underline uppercase">Register New Student</a></p>
         </div>
-    </div>
+    </main>
 
     <!-- Footer -->
-    <footer class="text-xs text-slate-400 mt-4 text-center">
+    <footer class="text-xs text-slate-400 mt-8 text-center">
         &copy; 2026 Bond & Recovery Institute. All rights reserved.
     </footer>
 
-    <!-- Authentication Logic Script -->
     <script>
-        document.getElementById('login-form').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            
-            const email = document.getElementById('login-email').value.trim();
-            const password = document.getElementById('login-password').value;
-            const statusMsg = document.getElementById('login-status-msg');
-
-            statusMsg.textContent = "Authenticating...";
-            statusMsg.className = "text-sm mt-4 font-semibold text-slate-600 text-center";
-
-            // 1. Authenticate with Supabase Auth using window.supabaseClient
-            const { data: authData, error: authError } = await window.supabaseClient.auth.signInWithPassword({
-                email: email,
-                password: password
-            });
-
-            if (authError) {
-                statusMsg.textContent = "Login failed: " + authError.message;
-                statusMsg.className = "text-sm mt-4 font-semibold text-red-600 text-center";
+        async function initLogin() {
+            let attempts = 0;
+            while (!window.supabaseClient && attempts < 20) {
+                await new Promise(resolve => setTimeout(resolve, 100));
+                attempts++;
+            }
+            if (!window.supabaseClient) {
+                document.getElementById('login-status').textContent = 'Error: Supabase client failed to load.';
+                document.getElementById('login-status').className = 'text-xs font-semibold text-red-600 text-center';
                 return;
             }
 
-            // 2. Fetch the user's role from the profiles table
-            const { data: profileData, error: profileError } = await window.supabaseClient
-                .from('profiles')
-                .select('role')
-                .eq('id', authData.user.id)
-                .single();
+            document.getElementById('login-btn').addEventListener('click', async () => {
+                const email = document.getElementById('login-email').value.trim();
+                const password = document.getElementById('login-password').value;
+                const statusEl = document.getElementById('login-status');
 
-            if (profileError || !profileData) {
-                statusMsg.textContent = "Error fetching permissions. Defaulting to student dashboard.";
-                statusMsg.className = "text-sm mt-4 font-semibold text-amber-600 text-center";
-                setTimeout(() => { window.location.href = 'dashboard.html'; }, 1500);
-                return;
-            }
-
-            // 3. Route based on role
-            statusMsg.textContent = "Success! Redirecting...";
-            statusMsg.className = "text-sm mt-4 font-semibold text-green-600 text-center";
-
-            setTimeout(() => {
-                if (profileData.role === 'admin' || profileData.role === 'superadmin') {
-                    window.location.href = 'admin.html';
-                } else if (profileData.role === 'instructor') {
-                    window.location.href = 'dashboard.html';
-                } else {
-                    window.location.href = 'dashboard.html';
+                if (!email || !password) {
+                    statusEl.textContent = 'Please enter both email and password.';
+                    statusEl.className = 'text-xs font-semibold text-red-600 text-center';
+                    return;
                 }
-            }, 800);
-        });
-    </script>
 
+                statusEl.textContent = 'Authenticating credentials...';
+                statusEl.className = 'text-xs font-semibold text-slate-600 text-center';
+
+                const { data, error } = await window.supabaseClient.auth.signInWithPassword({ email, password });
+
+                if (error) {
+                    statusEl.textContent = 'Sign In Failed: ' + error.message;
+                    statusEl.className = 'text-xs font-semibold text-red-600 text-center';
+                } else {
+                    statusEl.textContent = 'Authentication successful! Redirecting to dashboard...';
+                    statusEl.className = 'text-xs font-semibold text-emerald-600 text-center';
+                    setTimeout(() => {
+                        window.location.href = 'dashboard.html';
+                    }, 800);
+                }
+            });
+        }
+
+        window.addEventListener('DOMContentLoaded', initLogin);
+    </script>
 </body>
 </html>
