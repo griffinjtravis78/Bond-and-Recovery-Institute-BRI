@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student Registration - Bond & Recovery Institute</title>
+    <title>Student Registration & Profile - Bond & Recovery Institute</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="supabaseClient.js"></script>
@@ -13,7 +13,7 @@
     <div class="max-w-3xl mx-auto bg-white p-8 rounded-lg shadow-md border border-slate-200">
         <div class="text-center mb-8">
             <h1 class="text-2xl font-extrabold text-indigo-950 uppercase tracking-wide">Bond & Recovery Institute</h1>
-            <p class="text-sm text-slate-600 mt-1">Student System Registration & Profile Setup</p>
+            <p class="text-sm text-slate-600 mt-1">Student System Registration & Professional Profile Hub</p>
         </div>
 
         <form id="registration-form" class="space-y-6">
@@ -71,54 +71,63 @@
                         <option value="AZ">Arizona (AZ)</option>
                         <option value="CA">California (CA)</option>
                         <option value="CO">Colorado (CO)</option>
-                        <option value="CT">Connecticut (CT)</option>
-                        <option value="DE">Delaware (DE)</option>
                         <option value="FL">Florida (FL)</option>
-                        <option value="GA">Georgia (GA)</option>
-                        <option value="HI">Hawaii (HI)</option>
-                        <option value="ID">Idaho (ID)</option>
                         <option value="IL">Illinois (IL)</option>
                         <option value="IN">Indiana (IN)</option>
                         <option value="IA">Iowa (IA)</option>
                         <option value="KY">Kentucky (KY)</option>
                         <option value="LA">Louisiana (LA)</option>
-                        <option value="ME">Maine (ME)</option>
-                        <option value="MD">Maryland (MD)</option>
-                        <option value="MA">Massachusetts (MA)</option>
                         <option value="MI">Michigan (MI)</option>
-                        <option value="MN">Minnesota (MN)</option>
-                        <option value="MS">Mississippi (MS)</option>
-                        <option value="MT">Montana (MT)</option>
                         <option value="NE">Nebraska (NE)</option>
-                        <option value="NV">Nevada (NV)</option>
-                        <option value="NH">New Hampshire (NH)</option>
-                        <option value="NJ">New Jersey (NJ)</option>
-                        <option value="NM">New Mexico (NM)</option>
-                        <option value="NY">New York (NY)</option>
-                        <option value="NC">North Carolina (NC)</option>
-                        <option value="ND">North Dakota (ND)</option>
                         <option value="OH">Ohio (OH)</option>
-                        <option value="OR">Oregon (OR)</option>
-                        <option value="PA">Pennsylvania (PA)</option>
-                        <option value="RI">Rhode Island (RI)</option>
-                        <option value="SC">South Carolina (SC)</option>
-                        <option value="SD">South Dakota (SD)</option>
                         <option value="TN">Tennessee (TN)</option>
                         <option value="TX">Texas (TX)</option>
-                        <option value="UT">Utah (UT)</option>
-                        <option value="VT">Vermont (VT)</option>
-                        <option value="VA">Virginia (VA)</option>
-                        <option value="WA">Washington (WA)</option>
-                        <option value="WV">West Virginia (WV)</option>
                         <option value="WI">Wisconsin (WI)</option>
-                        <option value="WY">Wyoming (WY)</option>
                     </select>
                 </div>
             </div>
 
-            <div>
-                <label class="block text-xs font-semibold uppercase text-slate-700 mb-1">DL Expiration Date *</label>
-                <input type="date" id="dl-expiration" required class="w-full md:w-1/3 border border-slate-300 rounded px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-900 outline-none font-mono">
+            <!-- Optional Professional & Educational Background -->
+            <div class="border-t border-slate-200 pt-4 space-y-4">
+                <h3 class="text-sm font-bold text-indigo-950 uppercase">Professional & Educational Background (Optional)</h3>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-semibold uppercase text-slate-700 mb-1">Organization / Bond Agency</label>
+                        <input type="text" id="profile-org" placeholder="e.g., Krystal Bail Bonds" class="w-full border border-slate-300 rounded px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-900 outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold uppercase text-slate-700 mb-1">Phone Number</label>
+                        <input type="text" id="profile-phone" placeholder="(555) 000-0000" class="w-full border border-slate-300 rounded px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-900 outline-none font-mono">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold uppercase text-slate-700 mb-1">Certifications & Credentials</label>
+                    <input type="text" id="profile-certs" placeholder="e.g., Missouri Certified Recovery Agent, NRA Certified" class="w-full border border-slate-300 rounded px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-900 outline-none">
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div>
+                        <label class="block text-xs font-semibold uppercase text-slate-700 mb-1">Degree Level</label>
+                        <select id="profile-degree" class="w-full border border-slate-300 rounded px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-900 outline-none bg-white">
+                            <option value="">Select Degree</option>
+                            <option value="Associate's">Associate's Degree</option>
+                            <option value="B.S.">Bachelor of Science (B.S.)</option>
+                            <option value="B.A.">Bachelor of Arts (B.A.)</option>
+                            <option value="Master's">Master's Degree</option>
+                            <option value="Ph.D.">Doctorate (Ph.D.)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold uppercase text-slate-700 mb-1">Area of Study</label>
+                        <input type="text" id="profile-study" placeholder="e.g., Public Administration" class="w-full border border-slate-300 rounded px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-900 outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold uppercase text-slate-700 mb-1">College / Institution</label>
+                        <input type="text" id="profile-institution" placeholder="e.g., Walden University" class="w-full border border-slate-300 rounded px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-900 outline-none">
+                    </div>
+                </div>
             </div>
 
             <!-- Physical Address -->
@@ -146,55 +155,12 @@
                 </div>
             </div>
 
-            <!-- Same Address Toggle -->
-            <div class="flex items-center gap-2 py-2">
-                <input type="checkbox" id="same-address-toggle" checked class="h-4 w-4 text-indigo-900 focus:ring-indigo-900 border-slate-300 rounded">
-                <label for="same-address-toggle" class="text-xs font-semibold text-slate-700 uppercase cursor-pointer">Physical and Mailing Addresses are the Same</label>
-            </div>
-
-            <!-- Mailing Address Section -->
-            <div id="mailing-address-section" class="border-t border-slate-200 pt-4 hidden">
-                <h3 class="text-sm font-bold text-indigo-950 uppercase mb-3">Mailing Address</h3>
-                <div class="space-y-3">
-                    <div>
-                        <label class="block text-xs font-semibold uppercase text-slate-700 mb-1">Mailing Street Address</label>
-                        <input type="text" id="mail-street" class="w-full border border-slate-300 rounded px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-900 outline-none">
-                    </div>
-                    <div class="grid grid-cols-3 gap-3">
-                        <div>
-                            <label class="block text-xs font-semibold uppercase text-slate-700 mb-1">City</label>
-                            <input type="text" id="mail-city" class="w-full border border-slate-300 rounded px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-900 outline-none">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-semibold uppercase text-slate-700 mb-1">State</label>
-                            <input type="text" id="mail-state" class="w-full border border-slate-300 rounded px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-900 outline-none">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-semibold uppercase text-slate-700 mb-1">ZIP</label>
-                            <input type="text" id="mail-zip" class="w-full border border-slate-300 rounded px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-900 outline-none font-mono">
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <button type="submit" id="register-btn" class="w-full bg-indigo-900 hover:bg-indigo-800 text-white font-bold py-3 rounded shadow transition uppercase text-xs tracking-wider">Complete Registration & Generate Student ID</button>
+            <button type="submit" id="register-btn" class="w-full bg-indigo-900 hover:bg-indigo-800 text-white font-bold py-3 rounded shadow transition uppercase text-xs tracking-wider">Save Profile & Complete Registration</button>
             <p id="reg-status" class="text-xs font-semibold text-center mt-2"></p>
         </form>
     </div>
 
-    <!-- Registration Logic Script -->
     <script>
-        const toggle = document.getElementById('same-address-toggle');
-        const mailingSection = document.getElementById('mailing-address-section');
-
-        toggle.addEventListener('change', (e) => {
-            if (e.target.checked) {
-                mailingSection.classList.add('hidden');
-            } else {
-                mailingSection.classList.remove('hidden');
-            }
-        });
-
         async function initRegister() {
             let attempts = 0;
             while (!window.supabaseClient && attempts < 20) {
@@ -203,40 +169,64 @@
             }
             if (!window.supabaseClient) return;
 
+            // Pre-fill if already logged in
+            const { data: { session } } = await window.supabaseClient.auth.getSession();
+            if (session) {
+                document.getElementById('reg-email').value = session.user.email;
+                document.getElementById('reg-email').disabled = true;
+                document.getElementById('reg-password').required = false;
+                document.getElementById('reg-password').parentElement.style.display = 'none';
+
+                const { data: profile } = await window.supabaseClient.from('profiles').select('*').eq('id', session.user.id).single();
+                if (profile) {
+                    document.getElementById('first-name').value = profile.first_name || '';
+                    document.getElementById('middle-name').value = profile.middle_name || '';
+                    document.getElementById('last-name').value = profile.last_name || '';
+                    document.getElementById('dob').value = profile.date_of_birth || '';
+                    document.getElementById('dl-number').value = profile.drivers_license_number || '';
+                    document.getElementById('dl-state').value = profile.dl_state || 'MO';
+                    document.getElementById('phys-street').value = profile.physical_street || '';
+                    document.getElementById('phys-city').value = profile.physical_city || '';
+                    document.getElementById('phys-state').value = profile.physical_state || 'MO';
+                    document.getElementById('phys-zip').value = profile.physical_zip || '';
+                    document.getElementById('profile-org').value = profile.organization || '';
+                    document.getElementById('profile-phone').value = profile.phone || '';
+                    document.getElementById('profile-certs').value = profile.certifications || '';
+                    document.getElementById('profile-degree').value = profile.degree_level || '';
+                    document.getElementById('profile-study').value = profile.area_of_study || '';
+                    document.getElementById('profile-institution').value = profile.institution || '';
+                }
+            }
+
             document.getElementById('registration-form').addEventListener('submit', async (e) => {
                 e.preventDefault();
                 const statusEl = document.getElementById('reg-status');
-
                 const email = document.getElementById('reg-email').value.trim();
                 const password = document.getElementById('reg-password').value;
 
-                statusEl.textContent = 'Creating account and registering student...';
+                statusEl.textContent = 'Saving profile information...';
                 statusEl.className = 'text-xs font-semibold text-slate-600 text-center';
 
-                // 1. Sign up user via Supabase Auth
-                const { data: authData, error: authError } = await window.supabaseClient.auth.signUp({ email, password });
-                
-                if (authError) {
-                    statusEl.textContent = 'Registration Error: ' + authError.message;
-                    statusEl.className = 'text-xs font-semibold text-red-600 text-center';
-                    return;
-                }
+                let userId = session ? session.user.id : null;
 
-                const userId = authData.user ? authData.user.id : null;
                 if (!userId) {
-                    statusEl.textContent = 'Error: User ID not returned from auth.';
+                    const { data: authData, error: authError } = await window.supabaseClient.auth.signUp({ email, password });
+                    if (authError) {
+                        statusEl.textContent = 'Registration Error: ' + authError.message;
+                        statusEl.className = 'text-xs font-semibold text-red-600 text-center';
+                        return;
+                    }
+                    userId = authData.user ? authData.user.id : null;
+                }
+
+                if (!userId) {
+                    statusEl.textContent = 'Error: User ID not found.';
                     statusEl.className = 'text-xs font-semibold text-red-600 text-center';
                     return;
                 }
 
-                // Generate Student ID
                 const randomNum = Math.floor(10000 + Math.random() * 90000);
                 const studentId = `BRI-${randomNum}`;
-                const isSame = toggle.checked;
-                const physStreet = document.getElementById('phys-street').value;
-                const physCity = document.getElementById('phys-city').value;
-                const physState = document.getElementById('phys-state').value;
-                const physZip = document.getElementById('phys-zip').value;
 
                 const profileData = {
                     id: userId,
@@ -249,19 +239,18 @@
                     date_of_birth: document.getElementById('dob').value,
                     drivers_license_number: document.getElementById('dl-number').value,
                     dl_state: document.getElementById('dl-state').value,
-                    dl_expiration_date: document.getElementById('dl-expiration').value,
-                    physical_street: physStreet,
-                    physical_city: physCity,
-                    physical_state: physState,
-                    physical_zip: physZip,
-                    mailing_street: isSame ? physStreet : document.getElementById('mail-street').value,
-                    mailing_city: isSame ? physCity : document.getElementById('mail-city').value,
-                    mailing_state: isSame ? physState : document.getElementById('mail-state').value,
-                    mailing_zip: isSame ? physZip : document.getElementById('mail-zip').value,
-                    is_same_address: isSame
+                    physical_street: document.getElementById('phys-street').value,
+                    physical_city: document.getElementById('phys-city').value,
+                    physical_state: document.getElementById('phys-state').value,
+                    physical_zip: document.getElementById('phys-zip').value,
+                    organization: document.getElementById('profile-org').value || null,
+                    phone: document.getElementById('profile-phone').value || null,
+                    certifications: document.getElementById('profile-certs').value || null,
+                    degree_level: document.getElementById('profile-degree').value || null,
+                    area_of_study: document.getElementById('profile-study').value || null,
+                    institution: document.getElementById('profile-institution').value || null
                 };
 
-                // 2. Insert into profiles table
                 const { error: profileError } = await window.supabaseClient
                     .from('profiles')
                     .upsert([profileData], { onConflict: 'id' });
@@ -272,7 +261,7 @@
                     return;
                 }
 
-                statusEl.textContent = `Registration Successful! Student ID: ${studentId}. Redirecting...`;
+                statusEl.textContent = 'Profile saved successfully! Redirecting to dashboard...';
                 statusEl.className = 'text-xs font-semibold text-emerald-600 text-center';
                 
                 setTimeout(() => {
