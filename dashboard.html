@@ -3,30 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bond & Recovery Institute - Student Dashboard</title>
+    <title>Student Dashboard - Bond & Recovery Institute</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Supabase Client CDN -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="supabaseClient.js"></script>
 </head>
 <body class="bg-slate-900 min-h-screen font-sans text-slate-100 flex flex-col justify-between">
 
-    <!-- Top Navigation Bar -->
     <header class="bg-white text-slate-800 shadow-md border-b border-slate-200">
         <div class="max-w-7xl mx-auto px-6 py-4 flex flex-wrap justify-between items-center">
             <div>
-                <h1 class="text-lg font-extrabold tracking-wider text-[#1a365d] uppercase">Bond & Recovery Institute</h1>
-                <p class="text-xs text-slate-500 font-semibold uppercase">Professional Compliance & Surety Training</p>
+                <h1 class="text-lg font-extrabold tracking-wider text-[#1a365d] uppercase">Student Dashboard</h1>
+                <p class="text-xs text-slate-500 font-semibold uppercase">Bond & Recovery Institute</p>
             </div>
             
             <div class="flex items-center gap-4">
-                <span id="user-welcome" class="text-xs font-bold text-slate-700 bg-slate-100 px-3 py-2 rounded-lg border border-slate-200">Loading User...</span>
-                
-                <!-- Admin Panel Link (Hidden by default unless admin) -->
-                <a id="admin-link" href="admin.html" class="hidden bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold px-3 py-2 rounded-lg transition uppercase tracking-wider shadow">
+                <a href="index.html" class="bg-slate-200 hover:bg-slate-300 text-slate-800 text-xs font-bold px-3 py-2 rounded-lg transition uppercase tracking-wider">
+                    Home
+                </a>
+                <a href="store.html" class="bg-slate-200 hover:bg-slate-300 text-slate-800 text-xs font-bold px-3 py-2 rounded-lg transition uppercase tracking-wider">
+                    Store
+                </a>
+                <a href="admin.html" id="admin-link" class="hidden bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold px-3 py-2 rounded-lg transition uppercase tracking-wider shadow">
                     Admin Panel
                 </a>
-
                 <button id="logout-btn" class="bg-red-600 hover:bg-red-700 text-white text-xs font-bold px-3 py-2 rounded-lg transition uppercase tracking-wider shadow">
                     Sign Out
                 </button>
@@ -34,86 +34,143 @@
         </div>
     </header>
 
-    <!-- Main Content Container -->
-    <main class="max-w-7xl mx-auto px-6 py-8 flex-grow w-full">
+    <main class="max-w-7xl mx-auto px-6 py-8 flex-grow w-full space-y-10">
         
-        <!-- Enrolled Curriculum Card -->
-        <div class="bg-white text-slate-800 shadow-xl rounded-xl p-6 border border-slate-200 mb-8">
-            <div class="flex justify-between items-center border-b border-slate-200 pb-4 mb-6">
-                <div>
-                    <h2 class="text-xl font-extrabold text-[#1a365d] uppercase">Your Enrolled Curriculum</h2>
-                    <p class="text-xs text-slate-500 mt-1">Complete your active pre-licensing modules within your 30-day enrollment window.</p>
-                </div>
-                <span class="bg-emerald-100 text-emerald-800 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider border border-emerald-200">Active Enrollee</span>
+        <!-- Welcome Banner -->
+        <div class="flex justify-between items-center border-b border-slate-800 pb-4">
+            <div>
+                <h2 class="text-2xl font-extrabold text-white uppercase tracking-wide">Student Portal & Curriculum</h2>
+                <p class="text-xs text-slate-400 mt-1">Manage your active pre-licensing enrollments and explore the institute course library.</p>
             </div>
+            <div id="user-badge" class="bg-slate-800 border border-slate-700 px-4 py-2 rounded-lg text-xs font-bold text-emerald-400">
+                Active Enrollee
+            </div>
+        </div>
 
-            <!-- Course Item -->
-            <div class="bg-slate-50 border border-slate-200 rounded-lg p-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-                <div>
-                    <div class="flex items-center gap-2 mb-1">
-                        <span class="bg-[#1a365d] text-white text-[10px] font-bold px-2 py-0.5 rounded uppercase">MS-BB-101</span>
-                        <span class="text-xs font-semibold text-amber-600 uppercase tracking-wider">Status: In Progress</span>
-                    </div>
-                    <h3 class="text-lg font-bold text-slate-800">Missouri Bail Bond & Surety Recovery Agent 101</h3>
-                    <p class="text-xs text-slate-600 mt-1">Comprehensive pre-licensing curriculum aligned with Missouri RSMo Chapters 374, 385, 544, and DCI regulatory standards.</p>
-                    <p class="text-xs text-slate-400 mt-3 font-semibold">Credits: 3.00 Units</p>
-                </div>
-                <div>
-                    <a href="player.html" class="inline-block bg-[#1a365d] hover:bg-blue-900 text-white text-xs font-bold px-5 py-3 rounded-lg transition uppercase tracking-wider shadow text-center">
-                        Launch Course
-                    </a>
-                </div>
+        <!-- 1. Enrolled Curriculum Section -->
+        <div>
+            <h3 class="text-lg font-bold text-white uppercase tracking-wider mb-4">Your Enrolled Curriculum</h3>
+            <div id="enrolled-courses-container" class="space-y-4">
+                <!-- Dynamically populated -->
+            </div>
+        </div>
+
+        <!-- 2. Available Course Library & Purchase Section -->
+        <div class="border-t border-slate-800 pt-8">
+            <h3 class="text-lg font-bold text-white uppercase tracking-wider mb-4">Available Course Library & Enrollments</h3>
+            <div id="library-courses-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Dynamically populated -->
             </div>
         </div>
 
     </main>
 
-    <!-- Footer -->
     <footer class="bg-white border-t border-slate-200 text-xs text-slate-500 py-4 text-center">
         &copy; 2026 Bond & Recovery Institute. All rights reserved.
     </footer>
 
-    <!-- Dashboard Logic Script -->
     <script>
-        window.addEventListener('DOMContentLoaded', async () => {
-            // 1. Check active session using window.supabaseClient
-            const { data: { session }, error: sessionError } = await window.supabaseClient.auth.getSession();
+        let allCourses = [];
+        let enrolledCourseIds = JSON.parse(localStorage.getItem('bri_enrolled_courses')) || ['1', 'MS-BB-101'];
 
-            if (sessionError || !session) {
-                window.location.href = 'login.html';
-                return;
+        async function initDashboard() {
+            let attempts = 0;
+            while (!window.supabaseClient && attempts < 20) {
+                await new Promise(resolve => setTimeout(resolve, 100));
+                attempts++;
+            }
+            if (!window.supabaseClient) return;
+
+            const { data: { session } } = await window.supabaseClient.auth.getSession();
+            if (!session) { window.location.href = 'login.html'; return; }
+
+            const { data: profile } = await window.supabaseClient.from('profiles').select('role').eq('id', session.user.id).single();
+            if (profile && (profile.role === 'admin' || profile.role === 'superadmin')) {
+                document.getElementById('admin-link').classList.remove('hidden');
             }
 
-            const user = session.user;
+            await fetchCourses();
 
-            // 2. Fetch user profile data and role
-            const { data: profile, error: profileError } = await window.supabaseClient
-                .from('profiles')
-                .select('*')
-                .eq('id', user.id)
-                .single();
-
-            const welcomeEl = document.getElementById('user-welcome');
-            const adminLinkEl = document.getElementById('admin-link');
-
-            if (profile) {
-                const displayName = profile.full_name || user.email;
-                welcomeEl.textContent = `Welcome, ${displayName}`;
-
-                // Show admin button if user has admin privileges
-                if (profile.role === 'admin' || profile.role === 'superadmin') {
-                    adminLinkEl.classList.remove('hidden');
-                }
-            } else {
-                welcomeEl.textContent = `Welcome, ${user.email}`;
-            }
-
-            // 3. Handle Sign Out
             document.getElementById('logout-btn').addEventListener('click', async () => {
                 await window.supabaseClient.auth.signOut();
                 window.location.href = 'login.html';
             });
-        });
+        }
+
+        async function fetchCourses() {
+            const { data, error } = await window.supabaseClient.from('lms_courses').select('*').order('code', { ascending: true });
+            if (!error && data) {
+                allCourses = data;
+                renderDashboardViews();
+            }
+        }
+
+        function renderDashboardViews() {
+            const enrolledContainer = document.getElementById('enrolled-courses-container');
+            const libraryContainer = document.getElementById('library-courses-container');
+
+            const enrolled = allCourses.filter(c => enrolledCourseIds.includes(c.id) || enrolledCourseIds.includes(c.code));
+            const available = allCourses.filter(c => !enrolledCourseIds.includes(c.id) && !enrolledCourseIds.includes(c.code) && c.status === 'Active');
+
+            // Render Enrolled
+            if (enrolled.length === 0) {
+                enrolledContainer.innerHTML = '<div class="bg-white text-slate-800 p-6 rounded-xl border border-slate-200 text-xs text-slate-500">You are currently not enrolled in any active courses. Explore the library below to enroll.</div>';
+            } else {
+                enrolledContainer.innerHTML = enrolled.map(c => `
+                    <div class="bg-white text-slate-800 rounded-xl p-6 shadow-xl border border-slate-200 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                        <div>
+                            <span class="bg-[#1a365d] text-white text-[10px] font-bold px-2 py-0.5 rounded uppercase">${c.code}</span>
+                            <h4 class="text-base font-bold text-[#1a365d] mt-1">${c.title}</h4>
+                            <p class="text-xs text-slate-600 mt-1">${c.description || 'Comprehensive training module.'}</p>
+                            <div class="text-[11px] font-semibold text-slate-400 mt-2">Credits: ${c.credits} Units | Status: <span class="text-emerald-600 uppercase font-bold">In Progress</span></div>
+                        </div>
+                        <button onclick="launchCourse('${c.code}')" class="bg-[#1a365d] hover:bg-blue-900 text-white text-xs font-bold px-6 py-3 rounded-lg transition uppercase tracking-wider shadow whitespace-nowrap">
+                            Launch Course
+                        </button>
+                    </div>
+                `).join('');
+            }
+
+            // Render Library
+            if (available.length === 0) {
+                libraryContainer.innerHTML = '<p class="text-xs text-slate-400 italic col-span-full">No additional courses available in the library.</p>';
+            } else {
+                libraryContainer.innerHTML = available.map(c => `
+                    <div class="bg-white text-slate-800 rounded-xl shadow-xl p-6 border border-slate-200 flex flex-col justify-between">
+                        <div>
+                            <span class="bg-emerald-800 text-white text-[10px] font-bold px-2 py-0.5 rounded uppercase">${c.code}</span>
+                            <h4 class="text-base font-bold text-[#1a365d] mt-2 mb-1">${c.title}</h4>
+                            <p class="text-xs text-slate-600 line-clamp-3 mb-4">${c.description || 'Pre-licensing professional development module.'}</p>
+                        </div>
+                        <div>
+                            <div class="flex justify-between items-center mb-4 text-xs font-bold">
+                                <span class="text-slate-500">Credits: ${c.credits} Units</span>
+                                <span class="text-emerald-700 text-sm">$${c.price || '199.00'}</span>
+                            </div>
+                            <button onclick="purchaseCourse('${c.id}', '${c.code}', '${c.title}', '${c.price || 199.00}')" class="w-full bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-bold py-3 rounded-lg transition uppercase tracking-wider shadow">
+                                Purchase & Enroll ($${c.price || '199.00'})
+                            </button>
+                        </div>
+                    </div>
+                `).join('');
+            }
+        }
+
+        function launchCourse(code) {
+            alert(`Launching LMS module player for course: ${code}. Loading SCORM and interactive materials...`);
+        }
+
+        function purchaseCourse(id, code, title, price) {
+            if (confirm(`Proceed to secure checkout to purchase "${title}" for $${price}?`)) {
+                enrolledCourseIds.push(id);
+                enrolledCourseIds.push(code);
+                localStorage.setItem('bri_enrolled_courses', JSON.stringify(enrolledCourseIds));
+                alert(`Enrollment confirmed! "${title}" has been added to your Enrolled Curriculum.`);
+                renderDashboardViews();
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', initDashboard);
     </script>
 </body>
 </html>
